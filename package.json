@@ -1,0 +1,7 @@
+{
+	"name": "axe",
+  "description": "axe scope packages for frontend.",
+	"devDependencies": {
+		"lerna": "^2.9.0"
+	}
+}
