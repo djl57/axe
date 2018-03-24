@@ -8,7 +8,10 @@ export default function jsonp (opts, defaults) {
 
   return new Promise((resolve, reject) => {
     const callbackName = defaults.jsonpPrefix + (+new Date())
-    let response, script, src, abort = false
+    let response
+    let script
+    let src
+    let abort = false
 
     window[callbackName] = function (res) {
       delete window[callbackName]
