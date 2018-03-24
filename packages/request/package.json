@@ -1,0 +1,15 @@
+{
+  "name": "@axe/request",
+  "version": "0.0.0",
+  "description": "a micro javascript library for request data.",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
+  "keywords": [
+    "request",
+    "ajax",
+    "fetch"
+  ],
+  "author": "ansenhuang <ancheng1992@126.com>",
+  "license": "MIT",
+  "dependencies": {}
+}
