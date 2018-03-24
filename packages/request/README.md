@@ -104,6 +104,8 @@ document.getElementById('file').addEventListener('change', (e) => {
 }, false)
 ```
 
+*Tips: It will auto recognise FormData type and remove Content-Type so that browsers will inject by themselves.*
+
 ## API
 
 ### request
