@@ -1,6 +1,6 @@
 {
   "name": "@axe/touch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Define some usual gesture with touch events.",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
@@ -13,6 +13,5 @@
     "swipe"
   ],
   "author": "ansenhuang <ancheng1992@126.com>",
-  "license": "MIT",
-  "dependencies": {}
+  "license": "MIT"
 }

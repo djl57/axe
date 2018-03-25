@@ -1,6 +1,6 @@
 {
   "name": "@axe/request",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "a micro javascript library for request data.",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
