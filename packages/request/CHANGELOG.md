@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+**Note:** Version bump only for package @axe/request
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/ansenhuang/axe/compare/@axe/request@0.1.1...@axe/request@0.1.2) (2018-03-25)
 
