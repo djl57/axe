@@ -1,12 +1,10 @@
-import jsonp from './jsonp'
 import Request from './Request'
-
-const instance = new Request()
-const request = instance.request.bind(instance)
-request.defaults = instance.defaults
+import request from './instance'
+import jsonp from './jsonp'
 
 export {
   Request,
+  request,
   jsonp
 }
 
