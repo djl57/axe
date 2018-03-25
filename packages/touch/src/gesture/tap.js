@@ -69,3 +69,36 @@ export function longtap (node, a, b) {
     }
   })
 }
+
+export function doubletap (node, a, b) {
+  let opts, callback
+  let status = 0
+
+  if (typeof a === 'function') {
+    callback = a
+    opts = Object.assign({}, tapDefaults, b)
+  } else {
+    callback = b
+    opts = Object.assign({}, tapDefaults, a)
+  }
+
+  handler(node, (info) => {
+    if (
+      info.time <= opts.time &&
+      info.offsetX <= opts.offset &&
+      info.offsetY <= opts.offset
+    ) {
+      if (status === 0) {
+        status = 1
+        setTimeout(() => {
+          status = 0
+        }, opts.time)
+      } else if (status === 1) {
+        callback && callback()
+        status = 0
+      }
+    } else {
+      status = 0
+    }
+  })
+}

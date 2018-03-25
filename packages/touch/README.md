@@ -27,6 +27,11 @@ touch.longtap(document.getElementById('longtap'), () => {
   time: 500
 })
 
+// doubletap
+touch.doubletap(document.getElementById('doubletap'), () => {
+  console.info('doubletap')
+})
+
 // press
 touch.press(document.getElementById('press'), () => {
   console.log('press')
@@ -57,6 +62,12 @@ It has 3 arguments:
 * options [Object] Define default data by yourself, you needn't config as usual
   * time [Number:250] It will be trigger if touch less than time
   * offset [Number:10] It will be trigger if offset `less than` distance, unit is `px`
+
+### doubletap
+
+This method is same to tap but need twice touch quickly.
+
+It arguments is same to tap.
 
 ### longtap
 
@@ -95,6 +106,7 @@ It has 3 arguments:
   * offset [Number:100] It will be trigger if offset `more than` distance, unit is `px`
   * speed [Number:200] It will be grigger if speed is fast and needn't enough offset
   * touchmove [Function(offset)] It allow you handle moving event, and you can change element position in live
+  * prevent [Boolean:true] PreventDefault when touch start
 
 ## Build Setup
 

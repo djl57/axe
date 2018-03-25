@@ -14,7 +14,9 @@ export default function swipe (node, a, b) {
   }
 
   node.addEventListener('touchstart', (e) => {
-    e.preventDefault()
+    if (opts.prevent) {
+      e.preventDefault()
+    }
 
     sTime = e.timeStamp
     sTouch = eTouch = e.targetTouches[0]

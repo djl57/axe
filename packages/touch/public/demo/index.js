@@ -11,6 +11,11 @@ touch.longtap(document.getElementById('longtap'), () => {
   console.info('longtap')
 })
 
+// doubletap
+touch.doubletap(document.getElementById('doubletap'), () => {
+  console.info('doubletap')
+})
+
 // press
 touch.press(document.getElementById('press'), () => {
   console.info('press')
