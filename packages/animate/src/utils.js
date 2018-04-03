@@ -33,10 +33,3 @@ export function getProperty (name) {
   knownStyle[name] = name
   return name
 }
-
-export function isHTMLElement (node) {
-  if (window && window.HTMLElement) {
-    return node instanceof HTMLElement
-  }
-  return node && node.nodeType === 1 && node.nodeName
-}

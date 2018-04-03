@@ -1,35 +1,17 @@
-import { getProperty, isHTMLElement } from './utils'
+import { getProperty } from './utils'
 
 class Animate {
-  constructor (nodeOrRender) {
-    if (isHTMLElement(nodeOrRender)) {
-      this.node = nodeOrRender
-    } else if (typeof nodeOrRender === 'function') {
-      this.render = nodeOrRender
-    }
-
+  constructor (node) {
+    this.node = node
     this.duration = 0
   }
 
-  _addStyle (namespace, style) {
-    if (!style || typeof style !== 'object') return
+  _addStyle (style) {
+    if (!this.node) return
 
-    style = this._handleTransitionProperty(style)
-
-    if (this.node) {
-      Object.keys(style).forEach(key => {
-        this.node.style[getProperty(key)] = style[key]
-      })
-    } else if (this.render) {
-      let data = {}
-      let styleData = data[namespace] = {}
-
-      Object.keys(style).forEach(key => {
-        styleData[getProperty(key)] = style[key]
-      })
-
-      this.render(data)
-    }
+    Object.keys(style).forEach(key => {
+      this.node.style[getProperty(key)] = style[key]
+    })
   }
 
   _handleTransitionProperty (style) {
@@ -76,45 +58,47 @@ class Animate {
     return duration + delay
   }
 
-  init ({
-    key,
-    style,
-    callback
-  }) {
-    this._addStyle(key, style)
-    callback && callback()
+  init (style, callback) {
+    if (style && typeof style === 'object') {
+      style = this._handleTransitionProperty(style)
+
+      this._addStyle(style)
+      callback && callback(style)
+    }
 
     return this
   }
 
-  run ({
-    key,
-    style,
-    callback
-  }) {
+  run (style, callback) {
+    let duration = this._getDuraion(style)
+
     setTimeout(() => {
-      this._addStyle(key, style)
-      callback && callback()
+      if (style && typeof style === 'object') {
+        style = this._handleTransitionProperty(style)
+
+        this._addStyle(style)
+        callback && callback(style)
+      }
     }, this.duration)
 
-    this.duration += this._getDuraion(style)
+    this.duration += duration
 
     return this
   }
 
-  end ({
-    key,
-    style,
-    callback
-  }) {
+  end (style, callback) {
     // transitionend事件兼容性不好，故而使用定时器代替
     setTimeout(() => {
-      this._addStyle(key, style)
-      callback && callback()
+      if (style && typeof style === 'object') {
+        style = this._handleTransitionProperty(style)
+
+        this._addStyle(style)
+        callback && callback(style)
+      }
     }, this.duration)
   }
 }
 
-export default function animate (nodeOrRender) {
-  return new Animate(nodeOrRender)
+export default function animate (node) {
+  return new Animate(node)
 }

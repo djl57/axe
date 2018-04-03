@@ -22,58 +22,37 @@ const animationNode = document.getElementById('animation')
 
 transitionNode.addEventListener('click', () => {
   animate(transitionNode).init({
-    style: {
-      transform: 'translateX(0)'
-    },
-    callback () {
-      console.log('init')
-    }
+    transform: 'translateX(0)'
+  }, () => {
+    console.info('init')
   }).run({
-    style: {
-      transition: 'all 3s ease',
-      transform: 'translateX(600px)'
-    },
-    callback () {
-      console.log('run')
-    }
+    transition: 'all 3s ease',
+    transform: 'translateX(600px)'
+  }, () => {
+    console.info('run')
   }).run({
-    style: {
-      transition: 'all 3s ease',
-      transform: 'translateX(0)'
-    },
-    callback () {
-      console.log('run')
-    }
+    transition: 'all 3s ease',
+    transform: 'translateX(0)'
+  }, () => {
+    console.info('run')
   }).end({
-    style: {
-      transition: ''
-    },
-    callback () {
-      console.log('end')
-    }
+    transition: ''
+  }, () => {
+    console.info('end')
   })
 }, false)
 
 animationNode.addEventListener('click', () => {
-  animate(animationNode).init({
-    style: {},
-    callback () {
-      console.log('init')
-    }
+  animate(animationNode).init({}, () => {
+    console.info('init')
   }).run({
-    style: {
-      animation: 'slideOutRight 3s ease'
-    },
-    callback () {
-      console.log('run')
-    }
+    animation: 'slideOutRight 3s ease'
+  }, () => {
+    console.info('run')
   }).end({
-    style: {
-      animation: ''
-    },
-    callback () {
-      console.log('end')
-    }
+    animation: ''
+  }, () => {
+    console.info('end')
   })
 }, false)
 ```
@@ -104,64 +83,37 @@ export default class Root extends Component {
     super(props)
 
     this.state = {
-      titleStyle: {}
+      style: {}
     }
   }
 
   componentDidMount () {
-    animate(this.setState.bind(this)).init({
-      key: 'titleStyle',
-      style: {
-        width: '200px',
-        height: '200px',
-        backgroundColor: 'red',
-        transform: 'translateX(500px)'
-      },
-      callback () {
-        console.log('init')
-      }
+    animate().init({
+      width: '200px',
+      height: '200px',
+      backgroundColor: 'red',
+      transform: 'translateX(500px)'
+    }, (style) => {
+      console.info('init')
+      this.setState({ style })
     }).run({
-      key: 'titleStyle',
-      style: {
         transition: 'transform 3s ease',
         transform: 'translateX(0)'
-      },
-      callback () {
-        console.log('run 1')
-      }
-    }).run({
-      key: 'titleStyle',
-      style: {
-        transition: 'transform 1s ease',
-        transform: 'translateX(200px)'
-      },
-      callback () {
-        console.log('run 2')
-      }
-    }).run({
-      key: 'titleStyle',
-      style: {
-        transition: 'transform 2s ease',
-        transform: 'translateX(100px)'
-      },
-      callback () {
-        console.log('run 3')
-      }
+    }, (style) => {
+      console.info('run')
+      this.setState({ style })
     }).end({
-      key: 'titleStyle',
-      style: {
-        backgroundColor: 'green'
-      },
-      callback () {
-        console.log('end')
-      }
+      backgroundColor: 'green'
+    }, (style) => {
+      console.info('end')
+      this.setState({ style })
     })
   }
 
   render () {
     return (
       <div>
-        <h1 style={this.state.titleStyle}>Hello, fle-cli.</h1>
+        <h1 style={this.state.style}>Hello, fle-cli.</h1>
       </div>
     )
   }
@@ -176,9 +128,9 @@ export default class Root extends Component {
 
 参数：
 
-* nodeOrRender：HTMLElement或者触发DOM更新的方法（如`React`的`setState`，但注意要将`this`绑定在`setState`方法上）
+* node：HTMLElement或者为空（对于mvvm类框架来说，可以在回调函数中触发渲染更新）
 
-*Tips：vue可以在methods写一个类似setState的方法，挂载到animate上*
+说明：回调中的style和原始的style可能会不一样，因为我们会检索当前浏览器是否支持css属性，不支持则返回带有前缀的css属性
 
 ### animate.init
 
@@ -186,10 +138,8 @@ export default class Root extends Component {
 
 参数：
 
-* options[Object]
-  * key：仅对Render有效，表示state中的键值
-  * style：样式
-  * callback：回调函数
+* style：样式
+* callback：回调函数，参数为style，会检测css属性并追加前缀
 
 ### animate.run
 
