@@ -29,6 +29,11 @@ By default, 1rem = 50px, you can also set it by yourself before loaded.
 * window.__DIV_PART__ = 15   [It means 1rem = (750 / 15)px]
 * window.__BODY_SIZE__ = 12  [set body's font-size]
 
+methods
+
+* window.px2rem (number|number+px)
+* window.rem2px (number|number+rem)
+
 ## Build Setup
 
 ``` bash
