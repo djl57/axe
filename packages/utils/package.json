@@ -1,6 +1,6 @@
 {
   "name": "@axe/utils",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A common utils of javascript.",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
@@ -9,6 +9,5 @@
     "javascript"
   ],
   "author": "ansenhuang <ancheng1992@126.com>",
-  "license": "MIT",
-  "dependencies": {}
+  "license": "MIT"
 }
