@@ -1,6 +1,6 @@
 {
   "name": "@axe/tips",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A project created by fle-cli.",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
@@ -10,6 +10,5 @@
     "rollup"
   ],
   "author": "ansenhuang <ancheng1992@126.com>",
-  "license": "MIT",
-  "dependencies": {}
+  "license": "MIT"
 }
