@@ -1,0 +1,15 @@
+{
+  "name": "@axe/modal",
+  "version": "0.0.0",
+  "description": "A project created by fle-cli.",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
+  "keywords": [
+    "fle-cli",
+    "webpack",
+    "rollup"
+  ],
+  "author": "ansenhuang <ancheng1992@126.com>",
+  "license": "MIT",
+  "dependencies": {}
+}
