@@ -75,3 +75,15 @@ export function fillArray (start, end) {
 
   return result
 }
+
+export function randomArray (arr, count = arr.length) {
+  let newArr = []
+  let randomIndex
+
+  while (arr.length > 0 && newArr.length < count) {
+    randomIndex = Math.ceil(Math.random() * arr.length) - 1
+    newArr.push(arr.splice(randomIndex, 1)[0])
+  }
+
+  return newArr
+}

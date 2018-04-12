@@ -102,10 +102,10 @@ It has 3 arguments:
 * node [HTMLElement] The element will be addEventListener
 * callback [Function] It will be work when evnet trigger
 * options [Object] Define default data by yourself, you needn't config as usual
-  * direction [String:'horizontal'] The other value is vertical
+  * axis [String:'all'] The other value is horizontal and vertical
   * offset [Number:100] It will be trigger if offset `more than` distance, unit is `px`
   * speed [Number:200] It will be grigger if speed is fast and needn't enough offset
-  * touchmove [Function(offset)] It allow you handle moving event, and you can change element position in live
+  * touchmove [Function(offsetX, offsetY)] It allow you handle moving event, and you can change element position in live
   * prevent [Boolean:true] PreventDefault when touch start
 
 ## Build Setup

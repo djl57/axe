@@ -90,6 +90,7 @@ A common utils of javascript.
 * parseJSON (str)：字符串转为json对象
 * toArray (args, start = 0)：类数组转换为数组，可以调用数组方法
 * fillArray (start, end)：按照数字顺序填充数组，如：fillArray(1, 100)，则返回一个包含1～100的数组
+* randomArray (array, count)：将数组打乱，返回一个新数组，第二个参数可以设置新数组的长度
 
 ### tool（工具）
 

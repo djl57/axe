@@ -1,6 +1,7 @@
 import {
   swipe as swipeDefaults
 } from '../defaults'
+import { getDirection } from '../utils'
 
 export default function swipe (node, a, b) {
   let opts, callback, sTime, sTouch, eTouch
@@ -25,12 +26,7 @@ export default function swipe (node, a, b) {
   if (typeof opts.touchmove === 'function') {
     node.addEventListener('touchmove', (e) => {
       eTouch = e.targetTouches[0]
-
-      if (opts.direction === 'horizontal') {
-        opts.touchmove(eTouch.pageX - sTouch.pageX)
-      } else {
-        opts.touchmove(eTouch.pageY - sTouch.pageY)
-      }
+      opts.touchmove(eTouch.pageX - sTouch.pageX, eTouch.pageY - sTouch.pageY)
     }, false)
   }
 
@@ -38,14 +34,19 @@ export default function swipe (node, a, b) {
     eTouch = e.changedTouches[0]
 
     let time = e.timeStamp - sTime
+    let offsetX = eTouch.pageX - sTouch.pageX
+    let offsetY = eTouch.pageY - sTouch.pageY
     let offset, direction
 
-    if (opts.direction === 'horizontal') {
-      offset = eTouch.pageX - sTouch.pageX
-      direction = offset > 0 ? 'right' : 'left'
+    if (opts.axis === 'horizontal') {
+      offset = offsetX
+      direction = getDirection(offsetX, 0)
+    } else if (opts.axis === 'vertical') {
+      offset = offsetY
+      direction = getDirection(0, offsetY)
     } else {
-      offset = eTouch.pageY - sTouch.pageY
-      direction = offset > 0 ? 'down' : 'up'
+      offset = Math.abs(offsetX) > Math.abs(offsetY) ? offsetX : offsetY
+      direction = getDirection(offsetX, offsetY)
     }
 
     if (

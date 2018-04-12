@@ -26,8 +26,9 @@ const swipeNode = document.getElementById('swipe')
 touch.swipe(swipeNode, (direction) => {
   console.info('swipe ' + direction)
 }, {
-  touchmove (offset) {
-    swipeNode.style.left = offset + 'px'
-    console.info('swipe: ' + offset)
+  touchmove (offsetX, offsetY) {
+    swipeNode.style.left = offsetX + 'px'
+    swipeNode.style.top = offsetY + 'px'
+    console.info('swipe: x=' + offsetX + ', y=' + offsetY)
   }
 })

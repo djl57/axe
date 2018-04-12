@@ -14,7 +14,7 @@ export const press = {
 }
 
 export const swipe = {
-  direction: 'horizontal', // vertical
+  axis: 'all', // horizontal, vertical
   speed: 200,
   offset: 100,
   prevent: true,
