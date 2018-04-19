@@ -51,7 +51,8 @@ import {
   getValue,
   parseJSON,
   toArray,
-  fillArray
+  fillArray,
+  randomArray
 } from './value'
 
 import {
@@ -114,6 +115,7 @@ export {
   parseJSON,
   toArray,
   fillArray,
+  randomArray,
 
   // helper
   addZero,
@@ -175,6 +177,7 @@ export default {
   parseJSON,
   toArray,
   fillArray,
+  randomArray,
 
   // helper
   addZero,

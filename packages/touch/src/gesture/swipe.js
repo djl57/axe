@@ -2,16 +2,17 @@ import {
   swipe as swipeDefaults
 } from '../defaults'
 import { getDirection } from '../utils'
+import ObjectAssign from 'object-assign'
 
 export default function swipe (node, a, b) {
   let opts, callback, sTime, sTouch, eTouch
 
   if (typeof a === 'function') {
     callback = a
-    opts = Object.assign({}, swipeDefaults, b)
+    opts = ObjectAssign({}, swipeDefaults, b)
   } else {
     callback = b
-    opts = Object.assign({}, swipeDefaults, a)
+    opts = ObjectAssign({}, swipeDefaults, a)
   }
 
   node.addEventListener('touchstart', (e) => {

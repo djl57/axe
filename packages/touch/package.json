@@ -13,5 +13,8 @@
     "swipe"
   ],
   "author": "ansenhuang <ancheng1992@126.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "object-assign": "^4.1.1"
+  }
 }

@@ -1,6 +1,7 @@
 import {
   press as pressDefaults
 } from '../defaults'
+import ObjectAssign from 'object-assign'
 
 export default function press (node, a, b) {
   let opts, callback, sx, sy
@@ -8,10 +9,10 @@ export default function press (node, a, b) {
 
   if (typeof a === 'function') {
     callback = a
-    opts = Object.assign({}, pressDefaults, b)
+    opts = ObjectAssign({}, pressDefaults, b)
   } else {
     callback = b
-    opts = Object.assign({}, pressDefaults, a)
+    opts = ObjectAssign({}, pressDefaults, a)
   }
 
   node.addEventListener('touchstart', (e) => {

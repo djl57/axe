@@ -1,9 +1,10 @@
 import { isObject, isFunction, appendQuery, parseJSON } from './utils'
 import originDefaults from './defaults'
+import ObjectAssign from 'object-assign'
 
 export default function jsonp (opts, defaults) {
   if (!isObject(defaults)) {
-    defaults = Object.assign({}, originDefaults)
+    defaults = ObjectAssign({}, originDefaults)
   }
 
   return new Promise((resolve, reject) => {

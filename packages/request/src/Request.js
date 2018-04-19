@@ -1,10 +1,11 @@
 import { isObject, isFunction, isFormData, isValid, param2query, appendQuery, parseJSON } from './utils'
 import originDefaults from './defaults'
 import jsonp from './jsonp'
+import ObjectAssign from 'object-assign'
 
 export default class Request {
   constructor (props) {
-    this.defaults = Object.assign({}, originDefaults, props)
+    this.defaults = ObjectAssign({}, originDefaults, props)
   }
 
   request (opts = {}) {
@@ -27,7 +28,7 @@ export default class Request {
     }
 
     opts.method = (opts.method || 'get').toUpperCase()
-    opts.headers = Object.assign({}, defaults.headers, opts.headers)
+    opts.headers = ObjectAssign({}, defaults.headers, opts.headers)
 
     if (opts.method === 'JSONP') {
       return jsonp(opts, defaults)

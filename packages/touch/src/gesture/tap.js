@@ -2,6 +2,7 @@ import {
   tap as tapDefaults,
   longtap as longtapDefaults
 } from '../defaults'
+import ObjectAssign from 'object-assign'
 
 function handler (node, inject) {
   let st, sx, sy
@@ -31,10 +32,10 @@ export function tap (node, a, b) {
 
   if (typeof a === 'function') {
     callback = a
-    opts = Object.assign({}, tapDefaults, b)
+    opts = ObjectAssign({}, tapDefaults, b)
   } else {
     callback = b
-    opts = Object.assign({}, tapDefaults, a)
+    opts = ObjectAssign({}, tapDefaults, a)
   }
 
   handler(node, (info) => {
@@ -53,10 +54,10 @@ export function longtap (node, a, b) {
 
   if (typeof a === 'function') {
     callback = a
-    opts = Object.assign({}, longtapDefaults, b)
+    opts = ObjectAssign({}, longtapDefaults, b)
   } else {
     callback = b
-    opts = Object.assign({}, longtapDefaults, a)
+    opts = ObjectAssign({}, longtapDefaults, a)
   }
 
   handler(node, (info) => {
@@ -76,10 +77,10 @@ export function doubletap (node, a, b) {
 
   if (typeof a === 'function') {
     callback = a
-    opts = Object.assign({}, tapDefaults, b)
+    opts = ObjectAssign({}, tapDefaults, b)
   } else {
     callback = b
-    opts = Object.assign({}, tapDefaults, a)
+    opts = ObjectAssign({}, tapDefaults, a)
   }
 
   handler(node, (info) => {
