@@ -41,10 +41,14 @@ export default class Request {
 
       if (opts.method === 'POST') {
         if (!isFormData(opts.data)) {
-          if (opts.dataType === 'json') {
-            opts.headers['Content-Type'] = 'application/json; charset=utf-8'
+          if (typeof opts.data === 'string') {
+            body = opts.data
+          } else {
+            if (opts.dataType === 'json') {
+              opts.headers['Content-Type'] = 'application/json; charset=utf-8'
+            }
+            body = param2query(opts.data)
           }
-          body = param2query(opts.data)
         } else {
           opts.headers['Content-Type'] = null
           body = opts.data
