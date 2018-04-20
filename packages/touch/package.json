@@ -1,6 +1,6 @@
 {
   "name": "@axe/touch",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Define some usual gesture with touch events.",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
