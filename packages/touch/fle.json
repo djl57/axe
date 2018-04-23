@@ -2,5 +2,6 @@
   "boilerplate": "lib",
   "iife": false,
   "extract": false,
-  "port": 5000
+  "port": 5000,
+  "hot": true
 }

@@ -4,7 +4,6 @@
   "eslint": true,
   "port": 5000,
   "hot": true,
-  "https": false,
   "browsers": [
     "last 2 versions",
     "ie >= 9",
