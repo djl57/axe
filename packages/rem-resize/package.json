@@ -3,7 +3,6 @@
   "version": "0.1.1",
   "description": "A flexible rem layout for h5.",
   "main": "lib/index.js",
-  "module": "lib/index.esm.js",
   "keywords": [
     "rem",
     "flexible"

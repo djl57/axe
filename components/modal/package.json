@@ -3,7 +3,6 @@
   "version": "0.0.3",
   "description": "A project created by fle-cli.",
   "main": "lib/index.js",
-  "module": "lib/index.esm.js",
   "keywords": [
     "fle-cli",
     "webpack",

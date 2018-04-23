@@ -3,7 +3,6 @@
   "version": "0.0.3",
   "description": "A library of lazy load image when it is necessary.",
   "main": "lib/index.js",
-  "module": "lib/index.esm.js",
   "keywords": [
     "lazyLoad",
     "image"

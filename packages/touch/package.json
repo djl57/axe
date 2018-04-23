@@ -3,7 +3,6 @@
   "version": "0.0.9",
   "description": "Define some usual gesture with touch events.",
   "main": "lib/index.js",
-  "module": "lib/index.esm.js",
   "keywords": [
     "touch",
     "gesture",

@@ -3,7 +3,6 @@
   "version": "0.0.4",
   "description": "A common utils of javascript.",
   "main": "lib/index.js",
-  "module": "lib/index.esm.js",
   "keywords": [
     "util",
     "javascript"

@@ -3,7 +3,6 @@
   "version": "0.3.0",
   "description": "a micro javascript library for request data.",
   "main": "lib/index.js",
-  "module": "lib/index.esm.js",
   "keywords": [
     "request",
     "ajax",
