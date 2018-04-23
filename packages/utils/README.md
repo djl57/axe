@@ -92,12 +92,9 @@ A common utils of javascript.
 * fillArray (start, end)：按照数字顺序填充数组，如：fillArray(1, 100)，则返回一个包含1～100的数组
 * randomArray (array, count)：将数组打乱，返回一个新数组，第二个参数可以设置新数组的长度
 
-### tool（工具）
+### fn（常用函数）
 
 * addZero (n)：若数字小于两位数，追加一个0
-
-### method（常用方法）
-
 * debounce (fn, wait = 100, maxWait)：防抖，即频繁操作，只触发最后一次操作
   * fn：回调方法
   * wait：防抖时间
