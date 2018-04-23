@@ -1,6 +1,6 @@
 {
   "name": "@axe/modal",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A project created by fle-cli.",
   "main": "lib/index.js",
   "keywords": [
