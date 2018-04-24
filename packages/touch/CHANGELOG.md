@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.12"></a>
+## [0.0.12](https://github.com/ansenhuang/axe/compare/@axe/touch@0.0.11...@axe/touch@0.0.12) (2018-04-24)
+
+
+### Bug Fixes
+
+* request & touch ([9ac4352](https://github.com/ansenhuang/axe/commit/9ac4352))
+
+
+
+
 <a name="0.0.11"></a>
 ## [0.0.11](https://github.com/ansenhuang/axe/compare/@axe/touch@0.0.9...@axe/touch@0.0.11) (2018-04-23)
 

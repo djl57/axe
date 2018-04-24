@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.3"></a>
+## [0.3.3](https://github.com/ansenhuang/axe/compare/@axe/request@0.3.2...@axe/request@0.3.3) (2018-04-24)
+
+
+### Bug Fixes
+
+* request & touch ([9ac4352](https://github.com/ansenhuang/axe/commit/9ac4352))
+
+
+
+
 <a name="0.3.2"></a>
 ## [0.3.2](https://github.com/ansenhuang/axe/compare/@axe/request@0.3.0...@axe/request@0.3.2) (2018-04-23)
 
