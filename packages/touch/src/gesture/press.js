@@ -2,7 +2,7 @@ import {
   press as pressDefaults
 } from '../defaults'
 
-export default function press (node, a, b) {
+export function press (node, a, b) {
   let opts, callback, sx, sy
   let timer = null
 

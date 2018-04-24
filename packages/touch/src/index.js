@@ -1,6 +1,7 @@
+import Touch from './gesture/Touch'
 import { tap, longtap, doubletap } from './gesture/tap'
-import press from './gesture/press'
-import swipe from './gesture/swipe'
+import { press } from './gesture/press'
+import { swipe } from './gesture/swipe'
 
 export {
   tap,
@@ -10,10 +11,4 @@ export {
   swipe
 }
 
-export default {
-  tap,
-  longtap,
-  doubletap,
-  press,
-  swipe
-}
+export default Touch

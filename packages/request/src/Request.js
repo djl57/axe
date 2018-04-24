@@ -7,9 +7,7 @@ export default class Request {
     this.defaults = Object.assign({}, originDefaults, props)
   }
 
-  request (opts = {}) {
-    const defaults = this.defaults
-
+  request (opts = {}, defaults = this.defaults) {
     if (isFunction(opts.beforeRequest)) {
       opts.beforeRequest(opts)
     } else if (isFunction(defaults.beforeRequest)) {
@@ -41,13 +39,16 @@ export default class Request {
 
       if (opts.method === 'POST') {
         if (!isFormData(opts.data)) {
-          if (typeof opts.data === 'string') {
-            body = opts.data
-          } else {
+          if (isObject(opts.data)) {
             if (opts.dataType === 'json') {
               opts.headers['Content-Type'] = 'application/json; charset=utf-8'
             }
             body = param2query(opts.data)
+          } else {
+            if (opts.dataType === 'text') {
+              opts.headers['Content-Type'] = 'text/plain; charset=utf-8'
+            }
+            body = opts.data
           }
         } else {
           opts.headers['Content-Type'] = null

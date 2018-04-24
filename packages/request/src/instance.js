@@ -1,7 +1,11 @@
 import Request from './Request'
 
 const instance = new Request()
-const request = instance.request.bind(instance)
+
+function request (opt, defaults) {
+  return instance.request(opt, request.defaults)
+}
+
 request.defaults = instance.defaults
 
 export default request

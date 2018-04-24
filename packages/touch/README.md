@@ -13,38 +13,47 @@ npm install @axe/touch
 ## Usage
 
 ```js
-import touch from '@axe/touch'
+import Touch, { tap, longtap, doubletap, press, swipe } from '@'
+
+const touch = new Touch(document.getElementById('touch'))
+
+touch.tap(() => {
+  console.info('touch tap')
+}).press(() => {
+  console.info('touch press')
+})
 
 // tap
-touch.tap(document.getElementById('tap'), () => {
-  console.log('tap')
+tap(document.getElementById('tap'), () => {
+  console.info('tap')
 })
 
 // longtap
-touch.longtap(document.getElementById('longtap'), () => {
-  console.log('longtap')
+longtap(document.getElementById('longtap'), () => {
+  console.info('longtap')
 }, {
   time: 500
 })
 
 // doubletap
-touch.doubletap(document.getElementById('doubletap'), () => {
+doubletap(document.getElementById('doubletap'), () => {
   console.info('doubletap')
 })
 
 // press
-touch.press(document.getElementById('press'), () => {
-  console.log('press')
+press(document.getElementById('press'), () => {
+  console.info('press')
 })
 
 // swipe
 const swipeNode = document.getElementById('swipe')
-touch.swipe(swipeNode, (direction) => {
-  console.log('swipe ' + direction)
+swipe(swipeNode, (direction) => {
+  console.info('swipe ' + direction)
 }, {
-  touchmove (offset) {
-    swipeNode.style.left = offset + 'px'
-    console.log('swipe: ' + offset)
+  touchmove (offsetX, offsetY) {
+    swipeNode.style.left = offsetX + 'px'
+    swipeNode.style.top = offsetY + 'px'
+    console.info('swipe: x=' + offsetX + ', y=' + offsetY)
   }
 })
 ```
@@ -107,6 +116,10 @@ It has 3 arguments:
   * speed [Number:200] It will be grigger if speed is fast and needn't enough offset
   * touchmove [Function(offsetX, offsetY)] It allow you handle moving event, and you can change element position in live
   * prevent [Boolean:true] PreventDefault when touch start
+
+**NOTE**
+
+when you use Touch, the node was inject initially so that you needn't pass it again.
 
 ## Build Setup
 

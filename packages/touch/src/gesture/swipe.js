@@ -3,7 +3,7 @@ import {
 } from '../defaults'
 import { getDirection } from '../utils'
 
-export default function swipe (node, a, b) {
+export function swipe (node, a, b) {
   let opts, callback, sTime, sTouch, eTouch
 
   if (typeof a === 'function') {
