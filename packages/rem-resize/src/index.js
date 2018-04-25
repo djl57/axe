@@ -3,7 +3,7 @@ import './reset.css'
 const docEl = document.documentElement
 const metaEl = document.querySelector('meta[name="viewport"]')
 
-const maxWidth = window.__MAX_WIDTH__ || 750
+const maxWidth = window.__MAX_WIDTH__ || 1024
 const divPart = window.__DIV_PART__ || 15
 const bodySize = window.__BODY_SIZE__ || 12
 
@@ -21,12 +21,9 @@ if (metaEl) {
     dpr = parseInt(1 / scale)
   }
 } else {
-  const isIPhone = window.navigator.appVersion.match(/iphone/gi)
-
-  if (isIPhone) {
-    dpr = parseInt(window.devicePixelRatio) || 1
-    scale = 1 / dpr
-  }
+  dpr = parseInt(window.devicePixelRatio) || 1
+  dpr = dpr > 3 ? 3 : dpr
+  scale = 1 / dpr
 
   const newMetaEl = document.createElement('meta')
   newMetaEl.setAttribute('name', 'viewport')
@@ -39,7 +36,7 @@ docEl.setAttribute('data-dpr', dpr)
 
 // 窗口宽度改变时，刷新rem
 function refreshRem () {
-  let width = docEl.getBoundingClientRect().width
+  let width = docEl.clientWidth
 
   if (width / dpr > maxWidth) {
     width = maxWidth * dpr
@@ -49,23 +46,27 @@ function refreshRem () {
   docEl.style.fontSize = window.remUnit + 'px'
 }
 
+// 初始化
+refreshRem()
+
 window.addEventListener('resize', function () {
   clearTimeout(timer)
-  timer = setTimeout(refreshRem, 300)
+  timer = setTimeout(refreshRem, 50)
 }, false)
 
-window.addEventListener('pageshow', function (e) {
-  if (e.persisted) {
-    refreshRem()
-  }
-}, false)
+// 浏览器返回时，iPhone7以上手机的页面可见宽度为实际尺寸（不会乘以设备像素比）
+// 目前在安卓机的表现未可知，因此注释掉该段代码
+// 猜测原因可能是因为viewport是js动态填充的，返回时没有拿到计算后的viewport值
+// window.addEventListener('pageshow', function (e) {
+//   if (e.persisted) {
+//     refreshRem()
+//   }
+// }, false)
 
 document.addEventListener('DOMContentLoaded', function () {
   document.body.style.fontSize = bodySize * dpr + 'px'
+  document.body.style.maxWidth = maxWidth * dpr + 'px'
 }, false)
-
-// 初始化
-refreshRem()
 
 // 全局单位转换方法
 window.px2rem = function (d) {
