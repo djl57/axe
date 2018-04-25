@@ -32,7 +32,7 @@ class LazyLoadImg {
 
     window.addEventListener('scroll', throttleFn, false)
     window.addEventListener('resize', throttleFn, false)
-    window.addEventListener('orientationchange', throttleFn, false)
+    // window.addEventListener('orientationchange', throttleFn, false)
   }
 
   init () {

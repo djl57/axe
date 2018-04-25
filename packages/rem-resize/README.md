@@ -25,14 +25,15 @@ And load by cdn is a good idea.
 
 By default, 1rem = 50px, you can also set it by yourself before loaded.
 
-* window.__MAX_WIDTH__ = 750 [fixed width if screen is very large]
+* window.__MAX_WIDTH__ = 1024 [fixed width if screen is very large]
 * window.__DIV_PART__ = 15   [It means 1rem = (750 / 15)px]
 * window.__BODY_SIZE__ = 12  [set body's font-size]
 
-methods
+export
 
-* window.px2rem (number|number+px)
-* window.rem2px (number|number+rem)
+* window.remUnit -> number
+* window.px2rem (number|number+px) -> function
+* window.rem2px (number|number+rem) -> function
 
 ## Build Setup
 
