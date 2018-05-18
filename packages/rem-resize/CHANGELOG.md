@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/ansenhuang/axe/compare/@axe/rem-resize@0.1.5...@axe/rem-resize@0.1.6) (2018-05-18)
+
+
+### Bug Fixes
+
+* rem in android ([bcb5163](https://github.com/ansenhuang/axe/commit/bcb5163))
+
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/ansenhuang/axe/compare/@axe/rem-resize@0.1.4...@axe/rem-resize@0.1.5) (2018-04-25)
 
