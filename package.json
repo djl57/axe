@@ -2,7 +2,7 @@
 	"name": "axe",
 	"description": "axe scope packages for frontend.",
 	"scripts": {
-		"pub": "lerna publish --conventional-commits --message \"chore: Publish\""
+		"pub": "lerna publish --conventional-commits --message \"chore: Publish\" --scope \"axe\""
 	},
 	"devDependencies": {
 		"lerna": "^2.9.0"

@@ -21,9 +21,10 @@ if (metaEl) {
     dpr = parseInt(1 / scale)
   }
 } else {
-  dpr = parseInt(window.devicePixelRatio) || 1
-  dpr = dpr > 3 ? 3 : dpr
-  scale = 1 / dpr
+  if (window.navigator.appVersion.match(/iphone/gi)) {
+    dpr = parseInt(window.devicePixelRatio) || 1
+    scale = 1 / dpr
+  }
 
   const newMetaEl = document.createElement('meta')
   newMetaEl.setAttribute('name', 'viewport')
@@ -51,7 +52,7 @@ refreshRem()
 
 window.addEventListener('resize', function () {
   clearTimeout(timer)
-  timer = setTimeout(refreshRem, 50)
+  timer = setTimeout(refreshRem, 200)
 }, false)
 
 // 浏览器返回时，iPhone7以上手机的页面可见宽度为实际尺寸（不会乘以设备像素比）
@@ -63,10 +64,15 @@ window.addEventListener('resize', function () {
 //   }
 // }, false)
 
-document.addEventListener('DOMContentLoaded', function () {
+if (document.body) {
   document.body.style.fontSize = bodySize * dpr + 'px'
   document.body.style.maxWidth = maxWidth * dpr + 'px'
-}, false)
+} else {
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.style.fontSize = bodySize * dpr + 'px'
+    document.body.style.maxWidth = maxWidth * dpr + 'px'
+  }, false)
+}
 
 // 全局单位转换方法
 window.px2rem = function (d) {
