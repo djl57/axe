@@ -1,4 +1,4 @@
-import animate from '@'
+import animate from '@/common'
 import './style.css'
 
 const transitionNode = document.getElementById('transition')
