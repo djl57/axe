@@ -1,18 +1,22 @@
 {
-  "iife": true,
-  "extract": true,
+  "business": "rem-resize",
   "eslint": true,
+  "publicPath": "/",
+  "splitCommon": true,
+  "vendors": {},
+  "remUnit": 50,
   "port": 5000,
-  "hot": true,
+  "historyApiFallback": true,
+  "proxy": {},
   "browsers": [
-    "last 2 versions",
+    "last 4 versions",
     "ie >= 9",
-    "ios >= 7",
-    "android >= 4"
+    "iOS >= 7",
+    "Android >= 4"
   ],
-  "boilerplate": "lib",
-  "cdn": [
-    "https://easyread.nosdn.127.net/fle/a0df1d4009c7a2ec5fee/1524643708985/lib/index.js",
-    "https://easyread.nosdn.127.net/fle/a0df1d4009c7a2ec5fee/1524643708985/lib/style.css"
-  ]
+  "externals": {},
+  "compileType": "iife",
+  "react": false,
+  "vue": false,
+  "boilerplate": "lib"
 }
