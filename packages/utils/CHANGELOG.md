@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.8"></a>
+## [0.0.8](https://github.com/ansenhuang/axe/compare/@axe/utils@0.0.7...@axe/utils@0.0.8) (2018-05-22)
+
+
+
+
+**Note:** Version bump only for package @axe/utils
+
 <a name="0.0.7"></a>
 ## [0.0.7](https://github.com/ansenhuang/axe/compare/@axe/utils@0.0.6...@axe/utils@0.0.7) (2018-04-24)
 
