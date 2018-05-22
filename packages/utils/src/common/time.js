@@ -1,5 +1,5 @@
 import { isString, isNumber, isDate } from './is'
-import { addZero } from './helper'
+import { addZero } from './fn'
 
 export function formatDate (date = new Date(), fmt = 'yyyy-MM-dd hh:mm:ss') {
   let o = {

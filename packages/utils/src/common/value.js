@@ -1,4 +1,4 @@
-import { isValid, isObject, isString } from './is'
+import { isObject, isString } from './is'
 
 /**
  * 获取嵌套的值
@@ -8,17 +8,16 @@ import { isValid, isObject, isString } from './is'
  * @returns {any}
  */
 export function getValue (data, chain, dft) {
-  if (!isValid(data)) return dft
+  let d = data
+  let ss = chain.split('.')
+  let s = ss.shift()
 
-  let attrs = chain.split('.')
-
-  for (let i = 0, l = attrs.length; i < l; i++) {
-    data = data[attrs[i]]
-
-    if (!isValid(data)) return dft
+  while (s && d != null) {
+    d = d[s]
+    s = ss.shift()
   }
 
-  return data
+  return (!s && typeof d !== 'undefined') ? d : dft
 }
 
 /**
