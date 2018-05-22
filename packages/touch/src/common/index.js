@@ -1,4 +1,4 @@
-import Touch from './gesture/Touch'
+import Touch from './Touch'
 import { tap, longtap, doubletap } from './gesture/tap'
 import { press } from './gesture/press'
 import { swipe } from './gesture/swipe'

@@ -1,6 +1,6 @@
-import { tap, longtap, doubletap } from './tap'
-import { press } from './press'
-import { swipe } from './swipe'
+import { tap, longtap, doubletap } from './gesture/tap'
+import { press } from './gesture/press'
+import { swipe } from './gesture/swipe'
 
 export default class Touch {
   constructor (node) {

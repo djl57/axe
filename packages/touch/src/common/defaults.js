@@ -17,6 +17,6 @@ export const swipe = {
   axis: 'all', // horizontal, vertical
   speed: 200,
   offset: 100,
-  prevent: true,
+  prevent: true
   // touchmove: (offset) => {}
 }

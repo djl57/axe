@@ -1,4 +1,4 @@
-import Touch, { tap, longtap, doubletap, press, swipe } from '@'
+import Touch, { tap, longtap, doubletap, press, swipe } from '@/common'
 import './style.css'
 
 const touch = new Touch(document.getElementById('touch'))

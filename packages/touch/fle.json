@@ -1,7 +1,22 @@
 {
-  "boilerplate": "lib",
-  "iife": false,
-  "extract": false,
+  "business": "touch",
+  "eslint": true,
+  "publicPath": "/",
+  "splitCommon": true,
+  "vendors": {},
+  "remUnit": 50,
   "port": 5000,
-  "hot": true
+  "historyApiFallback": true,
+  "proxy": {},
+  "browsers": [
+    "last 4 versions",
+    "ie >= 9",
+    "iOS >= 7",
+    "Android >= 4"
+  ],
+  "externals": {},
+  "compileType": "babel",
+  "react": false,
+  "vue": false,
+  "boilerplate": "lib"
 }
