@@ -1,5 +1,4 @@
-import modal from '@'
-import './style.css'
+import modal from '@/common'
 
 document.getElementById('alert').addEventListener('click', () => {
   modal.show({
