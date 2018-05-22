@@ -40,8 +40,8 @@ request({
     id: 1,
     name: 'name'
   }
-}).then(res => {
-  console.info(res)
+}).then(data => {
+  console.info(data)
 }, res => {
   console.info(res)
 }).catch(err => {
@@ -59,8 +59,8 @@ request({
   // timeout: 10000,
   // dataType: 'json',
   // credentials: true
-}).then(res => {
-  console.info(res)
+}).then(data => {
+  console.info(data)
 }, res => {
   console.info(res)
 }).catch(err => {
@@ -76,8 +76,8 @@ request({
     count: 10,
     q: '爱情'
   }
-}).then(res => {
-  console.info(res)
+}).then(data => {
+  console.info(data)
 }, res => {
   console.info(res)
 }).catch(err => {
@@ -94,8 +94,8 @@ document.getElementById('file').addEventListener('change', (e) => {
     method: 'post',
     url: '/upload',
     data: formData
-  }).then(res => {
-    console.info(res)
+  }).then(data => {
+    console.info(data)
   }, res => {
     console.info(res)
   }).catch(err => {
@@ -120,8 +120,9 @@ document.getElementById('file').addEventListener('change', (e) => {
 - params (object|string): param of query in url
 - data (object): send data for post
 - dataType (string)
-  - text [default]
+  - form [default]
   - json: payload request
+  - text: send string
 - credentials (boolean) whether take cookie when cross domain
 - timeout (number) how much time should spend at a request, default is infinite
 - beforeRequest (function) run method before send request, it can change request options
@@ -135,7 +136,7 @@ document.getElementById('file').addEventListener('change', (e) => {
   - timeout
 - status (number) only `200 <= n < 300` is success
 - statusText (string) code message
-- response (any) data from server
+- response (any) data from server, it will be return directly when success
 
 ### global
 

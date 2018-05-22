@@ -1,5 +1,5 @@
-import request from '@'
-// import './style.css'
+import request from '@/common'
+import './style.css'
 
 /* defaults */
 // request.defaults.baseURL = 'http://localhost:5000'
@@ -19,9 +19,9 @@ document.getElementById('request_get').addEventListener('click', () => {
       id: 1,
       name: 'name'
     }
-  }).then(res => {
+  }).then(data => {
     console.info('--------------success----------------')
-    console.info(res)
+    console.info(data)
     console.info('------------------------------')
   }, res => {
     console.info('--------------fail----------------')
@@ -42,12 +42,12 @@ document.getElementById('request_post').addEventListener('click', () => {
     data: {
       hh: 'fdsa',
       fdsa: 'fjdlsajl'
-    },
+    }
     // dataType: 'json',
     // credentials: true
-  }).then(res => {
+  }).then(data => {
     console.info('--------------success----------------')
-    console.info(res)
+    console.info(data)
     console.info('------------------------------')
   }, res => {
     console.info('--------------fail----------------')
@@ -71,9 +71,9 @@ document.getElementById('request_jsonp').addEventListener('click', () => {
       count: 10,
       q: '爱情'
     }
-  }).then(res => {
+  }).then(data => {
     console.info('--------------success----------------')
-    console.info(res)
+    console.info(data)
     console.info('------------------------------')
   }, res => {
     console.info('--------------fail----------------')
@@ -96,9 +96,9 @@ document.getElementById('request_file').addEventListener('change', (e) => {
     method: 'post',
     url: '/upload',
     data: formData
-  }).then(res => {
+  }).then(data => {
     console.info('--------------success----------------')
-    console.info(res)
+    console.info(data)
     console.info('------------------------------')
   }, res => {
     console.info('--------------fail----------------')

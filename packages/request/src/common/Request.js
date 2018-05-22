@@ -86,7 +86,7 @@ export default class Request {
         }
 
         if (res.status >= 200 && res.status < 300) {
-          resolve(res)
+          resolve(res.response)
         } else {
           reject(res)
         }
