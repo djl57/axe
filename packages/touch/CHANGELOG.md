@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.13"></a>
+## [0.0.13](https://github.com/ansenhuang/axe/compare/@axe/touch@0.0.12...@axe/touch@0.0.13) (2018-05-22)
+
+
+
+
+**Note:** Version bump only for package @axe/touch
+
 <a name="0.0.12"></a>
 ## [0.0.12](https://github.com/ansenhuang/axe/compare/@axe/touch@0.0.11...@axe/touch@0.0.12) (2018-04-24)
 

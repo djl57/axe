@@ -1,6 +1,6 @@
 {
   "name": "@axe/touch",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Define some usual gesture with touch events.",
   "main": "lib/index.js",
   "keywords": [
