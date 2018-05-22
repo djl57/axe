@@ -1,6 +1,6 @@
 {
   "name": "@axe/fastclick",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Polyfill to remove click delays on browsers with touch UIs.",
   "main": "lib/index.js",
   "keywords": [

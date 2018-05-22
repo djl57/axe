@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.7"></a>
+## [0.1.7](https://github.com/ansenhuang/axe/compare/@axe/rem-resize@0.1.6...@axe/rem-resize@0.1.7) (2018-05-22)
+
+
+
+
+**Note:** Version bump only for package @axe/rem-resize
+
 <a name="0.1.6"></a>
 ## [0.1.6](https://github.com/ansenhuang/axe/compare/@axe/rem-resize@0.1.5...@axe/rem-resize@0.1.6) (2018-05-18)
 
