@@ -7,22 +7,18 @@ const clientHeight = docEl.clientHeight
 class LazyLoadImg {
   constructor ({
     el,
+    scrollEl = window,
     lazyOffsetTop = 0,
     maxInterval = 1000,
     placeholderImg,
-    scrollEl = window,
     onImgLoad
   }) {
-    if (typeof el !== 'string') {
-      this.node = el
-    } else {
-      this.node = document.querySelector(el)
-    }
+    this.node = typeof el !== 'string' ? el : document.querySelector(el)
+    this.scrollEl = typeof scrollEl !== 'string' ? scrollEl : document.querySelector(scrollEl)
 
     this.lazyOffsetTop = lazyOffsetTop
     this.maxInterval = maxInterval
     this.placeholderImg = placeholderImg
-    this.scrollEl = scrollEl
     this.onImgLoad = onImgLoad
 
     this.init()
