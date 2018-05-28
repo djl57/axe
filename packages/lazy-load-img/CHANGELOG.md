@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.10"></a>
+## [0.0.10](https://github.com/ansenhuang/axe/compare/@axe/lazy-load-img@0.0.9...@axe/lazy-load-img@0.0.10) (2018-05-28)
+
+
+### Bug Fixes
+
+* lazy-load-img scrollEl ([69f58b2](https://github.com/ansenhuang/axe/commit/69f58b2))
+
+
+
+
 <a name="0.0.9"></a>
 ## [0.0.9](https://github.com/ansenhuang/axe/compare/@axe/lazy-load-img@0.0.8...@axe/lazy-load-img@0.0.9) (2018-05-28)
 
