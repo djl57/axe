@@ -10,6 +10,7 @@ class LazyLoadImg {
     lazyOffsetTop = 0,
     maxInterval = 1000,
     placeholderImg,
+    scrollEl = window,
     onImgLoad
   }) {
     if (typeof el !== 'string') {
@@ -21,6 +22,7 @@ class LazyLoadImg {
     this.lazyOffsetTop = lazyOffsetTop
     this.maxInterval = maxInterval
     this.placeholderImg = placeholderImg
+    this.scrollEl = scrollEl
     this.onImgLoad = onImgLoad
 
     this.init()
@@ -32,9 +34,9 @@ class LazyLoadImg {
       this.update()
     }, 100, this.maxInterval)
 
-    window.addEventListener('scroll', throttleFn, false)
     window.addEventListener('resize', throttleFn, false)
     // window.addEventListener('orientationchange', throttleFn, false)
+    this.scrollEl.addEventListener('scroll', throttleFn, false)
   }
 
   init () {

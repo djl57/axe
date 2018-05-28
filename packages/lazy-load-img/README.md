@@ -51,6 +51,7 @@ const lazy = lazyLoadImg({
 options
 
 * el: [HTMLElement|string] -> '#id', '.class'
+* scrollEl: [HTMLElement|string] -> '#id', '.class'
 * lazyOffsetTop = 0: [number] load img when scrollTop less than view area
 * maxInterval = 1000: [number] we have throttle scroll function, when you are scrolling until maxInterval, it will be trigger
 * placeholderImg: [string] ensure placeholderImg already loaded before load real img
