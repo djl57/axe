@@ -9,6 +9,7 @@ class LazyLoadImg {
     el,
     lazyOffsetTop = 0,
     maxInterval = 1000,
+    placeholderImg,
     onImgLoad
   }) {
     if (typeof el !== 'string') {
@@ -19,6 +20,7 @@ class LazyLoadImg {
 
     this.lazyOffsetTop = lazyOffsetTop
     this.maxInterval = maxInterval
+    this.placeholderImg = placeholderImg
     this.onImgLoad = onImgLoad
 
     this.init()
@@ -50,10 +52,21 @@ class LazyLoadImg {
       }
     }
 
-    this.update()
+    if (!this.placeholderImg) {
+      this.update()
+    } else {
+      // 确保占位图已下载完成，以免影响后续对图片的位置影响
+      let img = new Image()
+      img.src = this.placeholderImg
+      img.addEventListener('load', () => {
+        this.update()
+      }, false)
+    }
   }
 
   update () {
+    if (!this.imgList.length) return
+
     let scrollTop = docEl.scrollTop || bodyEl.scrollTop || this.node.scrollTop
 
     this.imgList = this.imgList.filter(img => {
