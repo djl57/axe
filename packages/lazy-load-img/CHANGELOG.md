@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/ansenhuang/axe/compare/@axe/lazy-load-img@0.1.1...@axe/lazy-load-img@0.1.2) (2018-05-30)
+
+
+### Bug Fixes
+
+* part clientHeight ([bbddf4d](https://github.com/ansenhuang/axe/commit/bbddf4d))
+
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/ansenhuang/axe/compare/@axe/lazy-load-img@0.0.12...@axe/lazy-load-img@0.1.1) (2018-05-30)
 
