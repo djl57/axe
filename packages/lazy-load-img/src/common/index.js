@@ -1,13 +1,9 @@
 import { throttle } from './utils'
 
-const docEl = document.documentElement
-const bodyEl = document.body
-const clientHeight = docEl.clientHeight
-
 class LazyLoadImg {
   constructor ({
     el,
-    scrollEl = docEl,
+    scrollEl = document.documentElement,
     lazyOffsetTop = 0,
     maxInterval = 1000,
     placeholderImg,
@@ -66,6 +62,7 @@ class LazyLoadImg {
     if (!this.imgList.length) return
 
     let scrollTop = this.scrollEl.scrollTop
+    let clientHeight = this.scrollEl.clientHeight
 
     this.imgList = this.imgList.filter(img => {
       let isNeedLoad = img.offsetTop < scrollTop + clientHeight + this.lazyOffsetTop
