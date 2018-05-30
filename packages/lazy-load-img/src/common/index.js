@@ -7,14 +7,14 @@ const clientHeight = docEl.clientHeight
 class LazyLoadImg {
   constructor ({
     el,
-    scrollEl = window,
+    scrollEl = docEl,
     lazyOffsetTop = 0,
     maxInterval = 1000,
     placeholderImg,
     onImgLoad
   }) {
-    this.node = typeof el !== 'string' ? el : document.querySelector(el)
     this.scrollEl = typeof scrollEl !== 'string' ? scrollEl : document.querySelector(scrollEl)
+    this.node = typeof el !== 'string' ? el : (scrollEl && scrollEl.querySelector(el))
 
     this.lazyOffsetTop = lazyOffsetTop
     this.maxInterval = maxInterval
@@ -65,7 +65,7 @@ class LazyLoadImg {
   update () {
     if (!this.imgList.length) return
 
-    let scrollTop = docEl.scrollTop || bodyEl.scrollTop || this.node.scrollTop
+    let scrollTop = this.scrollEl.scrollTop
 
     this.imgList = this.imgList.filter(img => {
       let isNeedLoad = img.offsetTop < scrollTop + clientHeight + this.lazyOffsetTop
