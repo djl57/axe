@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/ansenhuang/axe/compare/@axe/lazy-load-img@0.0.12...@axe/lazy-load-img@0.1.1) (2018-05-30)
+
+
+
+
+**Note:** Version bump only for package @axe/lazy-load-img
+
 <a name="0.0.12"></a>
 ## [0.0.12](https://github.com/ansenhuang/axe/compare/@axe/lazy-load-img@0.0.11...@axe/lazy-load-img@0.0.12) (2018-05-30)
 
