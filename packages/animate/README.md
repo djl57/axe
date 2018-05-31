@@ -15,13 +15,15 @@ npm install @axe/animate
 ### HTMLElement
 
 ```js
-import animate from '@axe/animate'
+import Animate from '@axe/animate'
 
 const transitionNode = document.getElementById('transition')
 const animationNode = document.getElementById('animation')
+const transitionAnimate = new Animate(transitionNode)
+const animationAnimate = new Animate(animationNode)
 
 transitionNode.addEventListener('click', () => {
-  animate(transitionNode).init({
+  transitionAnimate.init({
     transform: 'translateX(0)'
   }, () => {
     console.info('init')
@@ -43,7 +45,7 @@ transitionNode.addEventListener('click', () => {
 }, false)
 
 animationNode.addEventListener('click', () => {
-  animate(animationNode).init({}, () => {
+  animationAnimate.init({}, () => {
     console.info('init')
   }).run({
     animation: 'slideOutRight 3s ease'
@@ -72,59 +74,11 @@ animationNode.addEventListener('click', () => {
 }
 ```
 
-### Render
-
-```js
-import React, { Component } from 'react'
-import animate from '@axe/animate'
-
-export default class Root extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      style: {}
-    }
-  }
-
-  componentDidMount () {
-    animate().init({
-      width: '200px',
-      height: '200px',
-      backgroundColor: 'red',
-      transform: 'translateX(500px)'
-    }, (style) => {
-      console.info('init')
-      this.setState({ style })
-    }).run({
-        transition: 'transform 3s ease',
-        transform: 'translateX(0)'
-    }, (style) => {
-      console.info('run')
-      this.setState({ style })
-    }).end({
-      backgroundColor: 'green'
-    }, (style) => {
-      console.info('end')
-      this.setState({ style })
-    })
-  }
-
-  render () {
-    return (
-      <div>
-        <h1 style={this.state.style}>Hello, fle-cli.</h1>
-      </div>
-    )
-  }
-}
-```
-
 ## API
 
-### animate
+### Animate
 
-创建动画实例（不需要new关键词）
+创建动画实例
 
 参数：
 

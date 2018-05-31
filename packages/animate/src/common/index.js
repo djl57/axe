@@ -1,6 +1,6 @@
 import { getProperty } from './utils'
 
-class Animate {
+export default class Animate {
   constructor (node) {
     this.node = node
     this.duration = 0
@@ -97,8 +97,4 @@ class Animate {
       }
     }, this.duration)
   }
-}
-
-export default function animate (node) {
-  return new Animate(node)
 }

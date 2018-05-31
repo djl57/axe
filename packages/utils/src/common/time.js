@@ -1,5 +1,4 @@
 import { isString, isNumber, isDate } from './is'
-import { addZero } from './fn'
 
 export function formatDate (date = new Date(), fmt = 'yyyy-MM-dd hh:mm:ss') {
   let o = {
@@ -13,7 +12,7 @@ export function formatDate (date = new Date(), fmt = 'yyyy-MM-dd hh:mm:ss') {
   fmt = fmt.replace('yyyy', date.getFullYear())
 
   Object.keys(o).forEach(k => {
-    fmt = fmt.replace(k, addZero(o[k]))
+    fmt = fmt.replace(k, o[k] > 9 ? o[k] : '0' + o[k])
   })
 
   return fmt

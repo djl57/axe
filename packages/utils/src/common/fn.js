@@ -1,13 +1,3 @@
-export function addZero (d) {
-  d = '' + d
-
-  if (d.length === 1) {
-    return '0' + d
-  }
-
-  return d
-}
-
 /**
  * 防抖
  * @param {function} fn
@@ -16,12 +6,12 @@ export function addZero (d) {
  */
 export function debounce (fn, wait = 100, maxWait) {
   let timer = null
-  let startTime = new Date()
+  let startTime = Date.now()
   let currTime
 
   return function () {
     clearTimeout(timer)
-    currTime = new Date()
+    currTime = Date.now()
 
     if (maxWait && (currTime - startTime >= maxWait)) {
       fn.apply(this, arguments)
@@ -40,20 +30,32 @@ export function debounce (fn, wait = 100, maxWait) {
  * 截流函数
  * @param {function} fn
  * @param {number} wait = 100 延迟触发的时间
- * @param {boolean} trailing 结束时是否触发一次
+ * @param {boolean} trailing = true 是否启用延迟触发
  */
 export function throttle (fn, wait = 100, trailing) {
   let timer = null
+  let startTime = 0
+  let currTime, remainTime
 
   return function () {
-    if (timer) return
+    currTime = Date.now()
+    remainTime = wait - (currTime - startTime)
 
-    fn.apply(this, arguments)
+    if (remainTime <= 0) {
+      if (timer) {
+        clearTimeout(timer)
+        timer = null
+      }
 
-    timer = setTimeout(() => {
-      trailing && fn.apply(this, arguments)
-      timer = null
-    }, wait)
+      startTime = currTime
+      fn.apply(this, arguments)
+    } else if (!timer && trailing !== false) {
+      timer = setTimeout(() => {
+        timer = null
+        startTime = Date.now()
+        fn.apply(this, arguments)
+      }, remainTime)
+    }
   }
 }
 

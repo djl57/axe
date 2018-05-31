@@ -1,58 +1,62 @@
 import { throttle } from './utils'
 
-class LazyLoadImg {
+export default class LazyLoadImg {
   constructor ({
-    el,
-    scrollEl = document.documentElement,
+    el, // 查找图片的根节点
+    scrollEl = document.documentElement, // 滚动的容器
     lazyOffsetTop = 0,
-    maxInterval = 1000,
     placeholderImg,
-    onImgLoad
+    onImgLoad,
+    cutTime = 100
   }) {
     this.scrollEl = typeof scrollEl !== 'string' ? scrollEl : document.querySelector(scrollEl)
-    this.node = typeof el !== 'string' ? el : (scrollEl && scrollEl.querySelector(el))
+    this.el = typeof el !== 'string' ? el : (scrollEl && scrollEl.querySelector(el))
 
     this.lazyOffsetTop = lazyOffsetTop
-    this.maxInterval = maxInterval
     this.placeholderImg = placeholderImg
     this.onImgLoad = onImgLoad
+    this.cutTime = cutTime
+
+    // 需要懒加载的图片
+    this.imgList = []
+    this.loadedImg = {}
 
     this.init()
     this._initEvent()
   }
 
   _initEvent () {
-    const throttleFn = throttle(() => {
+    let realScrollEl = this.scrollEl === document.documentElement ? window : this.scrollEl
+    let fn = throttle(() => {
       this.update()
-    }, 100, this.maxInterval)
+    }, this.cutTime)
 
-    window.addEventListener('resize', throttleFn, false)
-    // window.addEventListener('orientationchange', throttleFn, false)
-    this.scrollEl.addEventListener('scroll', throttleFn, false)
+    window.addEventListener('resize', fn, false)
+    realScrollEl.addEventListener('scroll', fn, false)
   }
 
   init () {
-    if (!this.node) return
+    if (!this.el) return
 
-    this.imgList = []
-
-    let imgList = this.node.getElementsByTagName('img')
+    this.imgList = [] // 置空先前存在的图片
+    let imgList = this.el.getElementsByTagName('img')
 
     if (!imgList.length) return
 
     for (let i = 0, l = imgList.length; i < l; i++) {
-      if (imgList[i].getAttribute('data-src')) {
+      if (imgList[i].getAttribute('lazy-src')) {
         this.imgList.push(imgList[i])
       }
     }
 
-    if (!this.placeholderImg) {
+    if (!this.placeholderImg || this.loadedImg[this.placeholderImg]) {
       this.update()
     } else {
       // 确保占位图已下载完成，以免影响后续对图片的位置影响
       let img = new Image()
       img.src = this.placeholderImg
       img.addEventListener('load', () => {
+        this.loadedImg[img.src] = true
         this.update()
       }, false)
     }
@@ -61,26 +65,33 @@ class LazyLoadImg {
   update () {
     if (!this.imgList.length) return
 
+    let remainImgList = []
     let scrollTop = this.scrollEl.scrollTop
     let clientHeight = this.scrollEl.clientHeight
 
-    this.imgList = this.imgList.filter(img => {
+    this.imgList.forEach(img => {
       let isNeedLoad = img.offsetTop < scrollTop + clientHeight + this.lazyOffsetTop
+      let lazySrc = img.getAttribute('lazy-src')
 
       if (isNeedLoad) {
-        let loadImg = new Image()
-        loadImg.src = img.getAttribute('data-src')
-        loadImg.addEventListener('load', () => {
-          img.src = loadImg.src
-          this.onImgLoad && this.onImgLoad(img, loadImg.width, loadImg.height)
-        }, false)
+        if (!this.loadedImg[lazySrc]) {
+          let loadImg = new Image()
+          loadImg.src = lazySrc
+          loadImg.addEventListener('load', () => {
+            img.src = lazySrc
+            this.loadedImg[lazySrc] = true
+            this.onImgLoad && this.onImgLoad(img, loadImg.width, loadImg.height)
+          }, false)
+        } else {
+          // 已经加载过的图片直接赋值
+          img.src = lazySrc
+        }
+      } else {
+        remainImgList.push(img)
       }
-
-      return !isNeedLoad
     })
-  }
-}
 
-export default function lazyLoadImg (node) {
-  return new LazyLoadImg(node)
+    // 剩下的图片
+    this.imgList = remainImgList
+  }
 }

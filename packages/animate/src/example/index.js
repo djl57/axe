@@ -1,11 +1,13 @@
-import animate from '@/common'
+import Animate from '@/common'
 import './style.css'
 
 const transitionNode = document.getElementById('transition')
 const animationNode = document.getElementById('animation')
+const transitionAnimate = new Animate(transitionNode)
+const animationAnimate = new Animate(animationNode)
 
 transitionNode.addEventListener('click', () => {
-  animate(transitionNode).init({
+  transitionAnimate.init({
     transform: 'translateX(0)'
   }, () => {
     console.info('init')
@@ -27,7 +29,7 @@ transitionNode.addEventListener('click', () => {
 }, false)
 
 animationNode.addEventListener('click', () => {
-  animate(animationNode).init({}, () => {
+  animationAnimate.init({}, () => {
     console.info('init')
   }).run({
     animation: 'slideOutRight 3s ease'

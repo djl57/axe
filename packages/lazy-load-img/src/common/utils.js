@@ -2,24 +2,31 @@
  * 截流函数
  * @param {function} fn
  * @param {number} wait = 100 延迟触发的时间
- * @param {number} maxWait 超过限制时间则主动触发一次
+ * @param {boolean} trailing = true 是否启用延迟触发
  */
-export function throttle (fn, wait = 100, maxWait) {
-  let startTime = new Date()
-  let timer, currTime
+export function throttle (fn, wait = 100, trailing) {
+  let timer = null
+  let startTime = 0
+  let currTime, remainTime
 
   return function () {
-    clearTimeout(timer)
-    currTime = new Date()
+    currTime = Date.now()
+    remainTime = wait - (currTime - startTime)
 
-    if (!maxWait || (currTime - startTime < maxWait)) {
-      timer = setTimeout(() => {
-        fn.apply(this, arguments)
-        startTime = currTime
-      }, wait)
-    } else {
-      fn.apply(this, arguments)
+    if (remainTime <= 0) {
+      if (timer) {
+        clearTimeout(timer)
+        timer = null
+      }
+
       startTime = currTime
+      fn.apply(this, arguments)
+    } else if (!timer && trailing !== false) {
+      timer = setTimeout(() => {
+        timer = null
+        startTime = Date.now()
+        fn.apply(this, arguments)
+      }, remainTime)
     }
   }
 }
