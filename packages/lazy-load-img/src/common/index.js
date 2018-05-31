@@ -44,7 +44,7 @@ export default class LazyLoadImg {
     if (!imgList.length) return
 
     for (let i = 0, l = imgList.length; i < l; i++) {
-      if (imgList[i].getAttribute('lazy-src')) {
+      if (imgList[i].getAttribute('data-src')) {
         this.imgList.push(imgList[i])
       }
     }
@@ -71,7 +71,7 @@ export default class LazyLoadImg {
 
     this.imgList.forEach(img => {
       let isNeedLoad = img.offsetTop < scrollTop + clientHeight + this.lazyOffsetTop
-      let lazySrc = img.getAttribute('lazy-src')
+      let lazySrc = img.getAttribute('data-src')
 
       if (isNeedLoad) {
         if (!this.loadedImg[lazySrc]) {
