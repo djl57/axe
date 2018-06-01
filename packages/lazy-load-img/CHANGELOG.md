@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.5"></a>
+## [0.1.5](https://github.com/ansenhuang/axe/compare/@axe/lazy-load-img@0.1.4...@axe/lazy-load-img@0.1.5) (2018-06-01)
+
+
+### Bug Fixes
+
+* lazy-load-img ([1c9f645](https://github.com/ansenhuang/axe/commit/1c9f645))
+* replace scrollTop with getBoundingClientRect ([ab2da6b](https://github.com/ansenhuang/axe/commit/ab2da6b))
+
+
+
+
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/ansenhuang/axe/compare/@axe/lazy-load-img@0.1.3...@axe/lazy-load-img@0.1.4) (2018-05-31)
 
