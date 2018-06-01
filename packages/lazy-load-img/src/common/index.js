@@ -72,7 +72,7 @@ export default class LazyLoadImg {
       let rect = img.getBoundingClientRect()
       let lazySrc = img.getAttribute('data-src')
 
-      if ((rect.top < clientHeight + this.lazyOffsetTop) && (rect.bottom + this.lazyOffsetTop > 0)) {
+      if ((rect.top <= clientHeight + this.lazyOffsetTop) && (rect.bottom + this.lazyOffsetTop >= 0)) {
         if (!this.loadedImg[lazySrc]) {
           let loadImg = new Image()
           loadImg.src = lazySrc
