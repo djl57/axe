@@ -29,7 +29,7 @@ export default class LoadMore {
   }
 
   isToBottom () {
-    return this.el.scrollTop + this.el.clientHeight >= this.el.scrollHeight - this.distance
+    return this.el.getBoundingClientRect().bottom < this.el.clientHeight + this.distance
   }
 
   lock () {

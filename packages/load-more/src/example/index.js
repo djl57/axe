@@ -18,13 +18,13 @@ function appendHtml (n = 50) {
     index += n
     loadMore.unlock()
     rootEl.appendChild(fragEl)
-  }, 1500)
+  }, 1000)
 }
 
 appendHtml()
 
 const loadMore = new LoadMore({
-  el: document.documentElement,
+  // el: document.body,
   distance: 10,
   cutTime: 100,
   onScrollBottom () {

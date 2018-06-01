@@ -66,14 +66,13 @@ export default class LazyLoadImg {
     if (!this.imgList.length) return
 
     let remainImgList = []
-    let scrollTop = this.scrollEl.scrollTop
     let clientHeight = this.scrollEl.clientHeight
 
     this.imgList.forEach(img => {
-      let isNeedLoad = img.offsetTop < scrollTop + clientHeight + this.lazyOffsetTop
+      let rect = img.getBoundingClientRect()
       let lazySrc = img.getAttribute('data-src')
 
-      if (isNeedLoad) {
+      if ((rect.top < clientHeight + this.lazyOffsetTop) && (rect.bottom + this.lazyOffsetTop > 0)) {
         if (!this.loadedImg[lazySrc]) {
           let loadImg = new Image()
           loadImg.src = lazySrc
