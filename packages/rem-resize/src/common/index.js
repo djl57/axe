@@ -28,7 +28,7 @@ if (metaEl) {
 
   const newMetaEl = document.createElement('meta')
   newMetaEl.setAttribute('name', 'viewport')
-  newMetaEl.setAttribute('content', `initial-scale=${scale}, maximum-scale=${scale}, minimum-scale=${scale}, user-scalable=no`)
+  newMetaEl.setAttribute('content', `width=device-width, initial-scale=${scale}, maximum-scale=${scale}, minimum-scale=${scale}, user-scalable=no`)
   docEl.firstElementChild.appendChild(newMetaEl)
 }
 
