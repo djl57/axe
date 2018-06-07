@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.5"></a>
+## [0.0.5](https://github.com/ansenhuang/axe/compare/@axe/load-more@0.0.3...@axe/load-more@0.0.5) (2018-06-07)
+
+
+
+
+**Note:** Version bump only for package @axe/load-more
+
 <a name="0.0.3"></a>
 ## [0.0.3](https://github.com/ansenhuang/axe/compare/@axe/load-more@0.0.2...@axe/load-more@0.0.3) (2018-06-01)
 
