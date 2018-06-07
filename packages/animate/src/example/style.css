@@ -5,8 +5,7 @@ body {
   padding: 0;
 }
 
-#transition,
-#animation {
+#animate {
   width: 200px;
   height: 200px;
   text-align: center;

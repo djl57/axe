@@ -17,44 +17,34 @@ npm install @axe/animate
 ```js
 import Animate from '@axe/animate'
 
-const transitionNode = document.getElementById('transition')
-const animationNode = document.getElementById('animation')
-const transitionAnimate = new Animate(transitionNode)
-const animationAnimate = new Animate(animationNode)
+const el = document.getElementById('animate')
+const animate = new Animate(el)
 
-transitionNode.addEventListener('click', () => {
-  transitionAnimate.init({
-    transform: 'translateX(0)'
-  }, () => {
-    console.info('init')
-  }).run({
-    transition: 'all 3s ease',
-    transform: 'translateX(600px)'
-  }, () => {
-    console.info('run')
-  }).run({
-    transition: 'all 3s ease',
-    transform: 'translateX(0)'
-  }, () => {
-    console.info('run')
-  }).end({
-    transition: ''
-  }, () => {
-    console.info('end')
-  })
-}, false)
+animate.addStyle({
+  transition: 'transform 1s, background-color 3s'
+})
 
-animationNode.addEventListener('click', () => {
-  animationAnimate.init({}, () => {
-    console.info('init')
-  }).run({
+animate.start({
+  transform: 'translateX(600px)',
+  backgroundColor: 'red'
+}, () => {
+  console.info('transition start')
+}).end({
+  // display: 'none'
+  transform: 'translateX(0)'
+}, () => {
+  console.info('transition end')
+})
+
+el.addEventListener('click', () => {
+  animate.start({
     animation: 'slideOutRight 3s ease'
   }, () => {
-    console.info('run')
+    console.info('animation start')
   }).end({
     animation: ''
   }, () => {
-    console.info('end')
+    console.info('animation end')
   })
 }, false)
 ```
@@ -82,26 +72,25 @@ animationNode.addEventListener('click', () => {
 
 参数：
 
-* node：HTMLElement或者为空（对于mvvm类框架来说，可以在回调函数中触发渲染更新）
+* el：HTMLElement或者为空（对于mvvm类框架来说，可以在回调函数中触发渲染更新）
 
-说明：回调中的style和原始的style可能会不一样，因为我们会检索当前浏览器是否支持css属性，不支持则返回带有前缀的css属性
+### animate.addStyle
 
-### animate.init
-
-定义初始化样式
+自定义始化样式
 
 参数：
 
-* style：样式
-* callback：回调函数，参数为style，会检测css属性并追加前缀
+* style：[Object] 样式
 
-### animate.run
+### animate.start
 
-开始执行动画，参数同上
+* style：[Object] 样式
+* callback：[Function] 回调
 
 ### animate.end
 
-动画结束，参数同上
+* style：[Object] 样式
+* callback：[Function] 回调
 
 ## Build Setup
 

@@ -1,43 +1,33 @@
 import Animate from '@/common'
 import './style.css'
 
-const transitionNode = document.getElementById('transition')
-const animationNode = document.getElementById('animation')
-const transitionAnimate = new Animate(transitionNode)
-const animationAnimate = new Animate(animationNode)
+const el = document.getElementById('animate')
+const animate = new Animate(el)
 
-transitionNode.addEventListener('click', () => {
-  transitionAnimate.init({
-    transform: 'translateX(0)'
-  }, () => {
-    console.info('init')
-  }).run({
-    transition: 'all 3s ease',
-    transform: 'translateX(600px)'
-  }, () => {
-    console.info('run')
-  }).run({
-    transition: 'all 3s ease',
-    transform: 'translateX(0)'
-  }, () => {
-    console.info('run')
-  }).end({
-    transition: ''
-  }, () => {
-    console.info('end')
-  })
-}, false)
+animate.addStyle({
+  transition: 'transform 1s, background-color 3s'
+})
 
-animationNode.addEventListener('click', () => {
-  animationAnimate.init({}, () => {
-    console.info('init')
-  }).run({
+animate.start({
+  transform: 'translateX(600px)',
+  backgroundColor: 'red'
+}, () => {
+  console.info('transition start')
+}).end({
+  // display: 'none'
+  transform: 'translateX(0)'
+}, () => {
+  console.info('transition end')
+})
+
+el.addEventListener('click', () => {
+  animate.start({
     animation: 'slideOutRight 3s ease'
   }, () => {
-    console.info('run')
+    console.info('animation start')
   }).end({
     animation: ''
   }, () => {
-    console.info('end')
+    console.info('animation end')
   })
 }, false)

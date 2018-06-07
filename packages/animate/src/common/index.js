@@ -1,100 +1,56 @@
-import { getProperty } from './utils'
+import { transitionEvent, animationEvent, getStyle } from './utils'
 
 export default class Animate {
-  constructor (node) {
-    this.node = node
-    this.duration = 0
+  constructor (el) {
+    this.el = typeof el !== 'string' ? el : document.querySelector(el)
+    this.countEnd = 0 // 多个属性过渡时的计数器
+    this.styleEnd = null // 过渡结束后重置样式
+    this.callbackEnd = null // 过渡结束后的回调函数
+
+    if (this.el) {
+      // 过渡结束监听
+      this.el.addEventListener(transitionEvent, (e) => {
+        let count = e.target.style.transitionDuration.split(',').length
+
+        if (++this.countEnd === count) {
+          this.addStyle(this.styleEnd)
+          this.callbackEnd && this.callbackEnd()
+
+          this.countEnd = 0
+          this.styleEnd = null
+          this.callbackEnd = null
+        }
+      }, false)
+
+      // 动画结束监听
+      this.el.addEventListener(animationEvent, () => {
+        this.addStyle(this.styleEnd)
+        this.callbackEnd && this.callbackEnd()
+
+        this.styleEnd = null
+        this.callbackEnd = null
+      }, false)
+    }
   }
 
-  _addStyle (style) {
-    if (!this.node) return
+  addStyle (style) {
+    if (!this.el || !style || typeof style !== 'object') return
 
     Object.keys(style).forEach(key => {
-      this.node.style[getProperty(key)] = style[key]
+      let o = getStyle(key, style[key])
+      this.el.style[o.name] = o.value
     })
   }
 
-  _handleTransitionProperty (style) {
-    if (style['transition']) {
-      let tmp = style['transition'].split(' ')
-      tmp[0] = getProperty(tmp[0])
-      style['transition'] = tmp.join(' ')
-    } else if (style['transitionProperty']) {
-      style['transitionProperty'] = getProperty(style['transitionProperty'])
-    }
-
-    return style
-  }
-
-  _getDuraion (style) {
-    if (!style) return 0
-
-    let duration = 0
-    let delay = 0
-
-    if (style['transition']) {
-      duration = style['transition'].split(' ')[1]
-    } else if (style['animation']) {
-      let arr = style['animation'].split(' ')
-      duration = arr[1]
-      delay = arr[3] || 0
-    } else if (style['transitionDuration']) {
-      duration = style['transitionDuration']
-    } else if (style['animationDuration']) {
-      duration = style['animationDuration']
-    }
-
-    if (style['animationDelay']) {
-      delay = style['animationDelay']
-    }
-
-    if (duration !== 0) {
-      duration = parseFloat(duration) * (duration.indexOf('ms') === -1 ? 1000 : 1)
-    }
-    if (delay !== 0) {
-      delay = parseFloat(delay) * (delay.indexOf('ms') === -1 ? 1000 : 1)
-    }
-
-    return duration + delay
-  }
-
-  init (style, callback) {
-    if (style && typeof style === 'object') {
-      style = this._handleTransitionProperty(style)
-
-      this._addStyle(style)
-      callback && callback(style)
-    }
+  start (style, cb) {
+    this.addStyle(style)
+    cb && cb()
 
     return this
   }
 
-  run (style, callback) {
-    let duration = this._getDuraion(style)
-
-    setTimeout(() => {
-      if (style && typeof style === 'object') {
-        style = this._handleTransitionProperty(style)
-
-        this._addStyle(style)
-        callback && callback(style)
-      }
-    }, this.duration)
-
-    this.duration += duration
-
-    return this
-  }
-
-  end (style, callback) {
-    // transitionend事件兼容性不好，故而使用定时器代替
-    setTimeout(() => {
-      if (style && typeof style === 'object') {
-        style = this._handleTransitionProperty(style)
-
-        this._addStyle(style)
-        callback && callback(style)
-      }
-    }, this.duration)
+  end (style, cb) {
+    this.styleEnd = style
+    this.callbackEnd = cb
   }
 }
