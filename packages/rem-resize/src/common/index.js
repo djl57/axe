@@ -1,7 +1,6 @@
 import './reset.css'
 
 const docEl = document.documentElement
-const bodyEl = document.body
 const metaEl = document.querySelector('meta[name="viewport"]')
 
 const maxWidth = window.__MAX_WIDTH__ || 1024
@@ -36,6 +35,16 @@ if (metaEl) {
 // 设置根节点dpr
 docEl.setAttribute('data-dpr', dpr)
 
+function bodyLoaded (cb) {
+  if (document.body) {
+    cb && cb()
+  } else {
+    document.addEventListener('DOMContentLoaded', function () {
+      cb && cb()
+    }, false)
+  }
+}
+
 // 窗口宽度改变时，刷新rem
 function refreshRem () {
   let width = docEl.clientWidth
@@ -48,23 +57,30 @@ function refreshRem () {
   window.remUnit = width / divPart
   docEl.style.fontSize = window.remUnit + 'px'
 
-  // 测试rem的准确性，如果和预期不一样，则进行缩放
-  let noEl = document.createElement('div')
-  noEl.style.width = '1rem'
-  noEl.style.height = '0'
-  bodyEl.appendChild(noEl)
+  bodyLoaded(() => {
+    // 测试rem的准确性，如果和预期不一样，则进行缩放
+    let noEl = document.createElement('div')
+    noEl.style.width = '1rem'
+    noEl.style.height = '0'
+    document.body.appendChild(noEl)
 
-  let rate = noEl.clientWidth / window.remUnit
+    let rate = noEl.clientWidth / window.remUnit
 
-  if (Math.abs(rate - 1) >= 0.01) {
-    docEl.style.fontSize = window.remUnit / rate
-  }
+    if (Math.abs(rate - 1) >= 0.01) {
+      docEl.style.fontSize = (window.remUnit / rate) + 'px'
+    }
 
-  bodyEl.removeChild(noEl)
+    document.body.removeChild(noEl)
+  })
 }
 
 // 初始化
 refreshRem()
+
+bodyLoaded(() => {
+  document.body.style.fontSize = bodySize * dpr + 'px'
+  document.body.style.maxWidth = maxWidth * dpr + 'px'
+})
 
 window.addEventListener('resize', function () {
   clearTimeout(timer)
@@ -79,16 +95,6 @@ window.addEventListener('resize', function () {
 //     refreshRem()
 //   }
 // }, false)
-
-if (bodyEl) {
-  bodyEl.style.fontSize = bodySize * dpr + 'px'
-  bodyEl.style.maxWidth = maxWidth * dpr + 'px'
-} else {
-  document.addEventListener('DOMContentLoaded', function () {
-    bodyEl.style.fontSize = bodySize * dpr + 'px'
-    bodyEl.style.maxWidth = maxWidth * dpr + 'px'
-  }, false)
-}
 
 // 全局单位转换方法
 window.px2rem = function (d) {
