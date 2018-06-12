@@ -1,6 +1,7 @@
 import './reset.css'
 
 const docEl = document.documentElement
+const bodyEl = document.body
 const metaEl = document.querySelector('meta[name="viewport"]')
 
 const maxWidth = window.__MAX_WIDTH__ || 1024
@@ -43,8 +44,23 @@ function refreshRem () {
     width = maxWidth * dpr
   }
 
+  // 设置根节点font-size
   window.remUnit = width / divPart
   docEl.style.fontSize = window.remUnit + 'px'
+
+  // 测试rem的准确性，如果和预期不一样，则进行缩放
+  let noEl = document.createElement('div')
+  noEl.style.width = '1rem'
+  noEl.style.height = '0'
+  bodyEl.appendChild(noEl)
+
+  let rate = noEl.clientWidth / window.remUnit
+
+  if (Math.abs(rate - 1) >= 0.01) {
+    docEl.style.fontSize = window.remUnit / rate
+  }
+
+  bodyEl.removeChild(noEl)
 }
 
 // 初始化
@@ -64,13 +80,13 @@ window.addEventListener('resize', function () {
 //   }
 // }, false)
 
-if (document.body) {
-  document.body.style.fontSize = bodySize * dpr + 'px'
-  document.body.style.maxWidth = maxWidth * dpr + 'px'
+if (bodyEl) {
+  bodyEl.style.fontSize = bodySize * dpr + 'px'
+  bodyEl.style.maxWidth = maxWidth * dpr + 'px'
 } else {
   document.addEventListener('DOMContentLoaded', function () {
-    document.body.style.fontSize = bodySize * dpr + 'px'
-    document.body.style.maxWidth = maxWidth * dpr + 'px'
+    bodyEl.style.fontSize = bodySize * dpr + 'px'
+    bodyEl.style.maxWidth = maxWidth * dpr + 'px'
   }, false)
 }
 
