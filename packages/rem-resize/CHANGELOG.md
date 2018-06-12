@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/ansenhuang/axe/compare/@axe/rem-resize@0.1.9...@axe/rem-resize@0.2.0) (2018-06-12)
+
+
+### Features
+
+* scale font-size ([2919e90](https://github.com/ansenhuang/axe/commit/2919e90))
+
+
+
+
 <a name="0.1.9"></a>
 ## [0.1.9](https://github.com/ansenhuang/axe/compare/@axe/rem-resize@0.1.8...@axe/rem-resize@0.1.9) (2018-06-07)
 
