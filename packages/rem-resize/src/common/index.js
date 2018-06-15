@@ -3,7 +3,7 @@ import './reset.css'
 const docEl = document.documentElement
 const metaEl = document.querySelector('meta[name="viewport"]')
 
-const maxWidth = window.__MAX_WIDTH__ || 1024
+const maxWidth = window.__MAX_WIDTH__ || 750
 const divPart = window.__DIV_PART__ || 15
 const bodySize = window.__BODY_SIZE__ || 12
 
