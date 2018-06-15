@@ -36,15 +36,17 @@ class Modal {
     const els = this.els
 
     els.layer.addEventListener('click', () => {
-      els.modal.style.display = 'none'
+      this.hide()
       this.callback && this.callback('close')
     }, false)
+
     els.cancel.addEventListener('click', () => {
-      els.modal.style.display = 'none'
+      this.hide()
       this.callback && this.callback('cancel')
     }, false)
+
     els.confirm.addEventListener('click', () => {
-      els.modal.style.display = 'none'
+      this.hide()
       this.callback && this.callback('confirm')
     }, false)
   }
@@ -67,6 +69,13 @@ class Modal {
 
   show (options, callback) {
     const els = this.els
+
+    if (options.fixBody) {
+      this.bodyOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden' // 解决webview中fixed定位会跟随页面滚动的问题
+    } else {
+      this.bodyOverflow = null
+    }
 
     if (options.zIndex) {
       els.modal.style.zIndex = options.zIndex
@@ -99,6 +108,10 @@ class Modal {
   }
 
   hide () {
+    if (this.bodyOverflow !== null) {
+      document.body.style.overflow = this.bodyOverflow
+    }
+
     this.els.modal.style.display = 'none'
   }
 }
