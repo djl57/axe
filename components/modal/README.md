@@ -15,6 +15,7 @@
 * confirmColor: 确定按钮文字颜色
 * cancelText: 取消按钮文字，若不设置则只显示确定按钮
 * cancelColor: 取消按钮文字颜色
+* fixBody: 是否将body样式设置为overflow=hidden，防止页面滚动
 
 **callback**
 

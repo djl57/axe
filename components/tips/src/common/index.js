@@ -7,6 +7,7 @@ class Tips {
       tips: document.createElement('div'),
       content: document.createElement('p')
     }
+    this.timer = null
 
     this._initClassName()
     this._initRender()
@@ -32,14 +33,16 @@ class Tips {
   show (options, callback) {
     const els = this.els
 
+    clearTimeout(this.timer)
+
     if (options.zIndex) {
       els.tips.style.zIndex = options.zIndex
     }
 
     els.content.textContent = options.content || ''
 
-    setTimeout(() => {
-      els.tips.style.display = 'none'
+    this.timer = setTimeout(() => {
+      this.hide()
       callback && callback()
     }, options.duration || 1500)
 
