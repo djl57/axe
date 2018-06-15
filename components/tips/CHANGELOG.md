@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.0.8"></a>
+## [0.0.8](https://github.com/ansenhuang/axe/compare/@axe/tips@0.0.7...@axe/tips@0.0.8) (2018-06-15)
+
+
+### Bug Fixes
+
+* tips ([79de151](https://github.com/ansenhuang/axe/commit/79de151))
+
+
+
+
 <a name="0.0.7"></a>
 ## [0.0.7](https://github.com/ansenhuang/axe/compare/@axe/tips@0.0.6...@axe/tips@0.0.7) (2018-05-22)
 
