@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.3"></a>
+## [0.2.3](https://github.com/ansenhuang/axe/compare/@axe/rem-resize@0.2.2...@axe/rem-resize@0.2.3) (2018-06-15)
+
+
+### Bug Fixes
+
+* document.body ([ee17b69](https://github.com/ansenhuang/axe/commit/ee17b69))
+* maxWidth=750 ([3f115e9](https://github.com/ansenhuang/axe/commit/3f115e9))
+
+
+
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/ansenhuang/axe/compare/@axe/rem-resize@0.2.0...@axe/rem-resize@0.2.2) (2018-06-12)
 
