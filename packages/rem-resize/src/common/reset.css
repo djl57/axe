@@ -2,7 +2,6 @@ html {
   font-size: 50px;
   box-sizing: border-box;
   height: 100%;
-  overflow: auto;
   -webkit-tap-highlight-color: transparent;
   -webkit-overflow-scrolling: touch;
   text-size-adjust: 100%;
@@ -17,7 +16,6 @@ body {
   background-color: #fff;
   height: 100%;
   margin: 0 auto;
-  overflow: auto;
 }
 
 *,
