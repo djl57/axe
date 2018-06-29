@@ -1,15 +1,18 @@
 import './reset.css'
 
-const docEl = document.documentElement
-const metaEl = document.querySelector('meta[name="viewport"]')
-
 const maxWidth = window.__MAX_WIDTH__ || 750
 const divPart = window.__DIV_PART__ || 15
 const bodySize = window.__BODY_SIZE__ || 12
 
+const docEl = document.documentElement
+const metaEl = document.querySelector('meta[name="viewport"]')
+const testEl = document.createElement('div')
+
+testEl.style.width = '0'
+testEl.style.height = '0'
+
 let scale = 1
 let dpr = 1
-let timer = null
 
 if (metaEl) {
   console.warn('根据已有的meta标签来设置缩放比例')
@@ -17,14 +20,12 @@ if (metaEl) {
   const match = metaEl.getAttribute('content').match(/initial-scale=([\d.]+)/)
 
   if (match) {
-    scale = parseFloat(match[1])
-    dpr = parseInt(1 / scale)
+    scale = match[1]
+    dpr = 1 / scale
   }
 } else {
-  if (window.navigator.appVersion.match(/iphone/gi)) {
-    dpr = parseInt(window.devicePixelRatio) || 1
-    scale = 1 / dpr
-  }
+  dpr = window.devicePixelRatio || 1
+  scale = 1 / dpr
 
   const newMetaEl = document.createElement('meta')
   newMetaEl.setAttribute('name', 'viewport')
@@ -59,18 +60,14 @@ function refreshRem () {
 
   bodyLoaded(() => {
     // 测试rem的准确性，如果和预期不一样，则进行缩放
-    let noEl = document.createElement('div')
-    noEl.style.width = '1rem'
-    noEl.style.height = '0'
-    document.body.appendChild(noEl)
+    testEl.style.width = '1rem'
+    document.body.appendChild(testEl)
 
-    let rate = noEl.clientWidth / window.remUnit
-
-    if (Math.abs(rate - 1) >= 0.01) {
-      docEl.style.fontSize = (window.remUnit / rate) + 'px'
+    if (Math.abs(testEl.clientWidth - window.remUnit) >= 1) {
+      docEl.style.fontSize = (window.remUnit * window.remUnit / testEl.clientWidth) + 'px'
     }
 
-    document.body.removeChild(noEl)
+    document.body.removeChild(testEl)
   })
 }
 
@@ -82,10 +79,7 @@ bodyLoaded(() => {
   document.body.style.maxWidth = maxWidth * dpr + 'px'
 })
 
-window.addEventListener('resize', function () {
-  clearTimeout(timer)
-  timer = setTimeout(refreshRem, 200)
-}, false)
+window.addEventListener('resize', refreshRem, false)
 
 // 浏览器返回时，iPhone7以上手机的页面可见宽度为实际尺寸（不会乘以设备像素比）
 // 目前在安卓机的表现未可知，因此注释掉该段代码
