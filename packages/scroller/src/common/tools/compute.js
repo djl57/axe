@@ -1,0 +1,34 @@
+export const ease = {
+  // easeOutQuint
+  swipe: {
+    style: 'cubic-bezier(0.23, 1, 0.32, 1)',
+    fn (t) {
+      return 1 + (--t * t * t * t * t)
+    }
+  },
+  // easeOutQuard
+  swipeBounce: {
+    style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    fn (t) {
+      return t * (2 - t)
+    }
+  },
+  // easeOutQuart
+  bounce: {
+    style: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+    fn (t) {
+      return 1 - (--t * t * t * t)
+    }
+  }
+}
+
+export function getMatrixTranslateY (matrix) {
+  let matched = matrix.match(/\((.+)\)/)
+
+  if (matched && matched[1]) {
+    let arr = matched[1].split(', ')
+    return +(arr[13] || arr[5])
+  }
+
+  return 0
+}
