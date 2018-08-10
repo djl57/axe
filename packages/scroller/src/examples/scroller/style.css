@@ -1,3 +1,36 @@
+#app {
+  position: relative;
+}
+
+.top {
+  position: absolute;
+  top: -100rpx;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  height: 100rpx;
+  font-size: 36rpx;
+  color: #fff;
+  text-align: center;
+  line-height: 100rpx;
+  // background-color: red;
+}
+
+
+.bottom {
+  position: absolute;
+  bottom: -100rpx;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  height: 100rpx;
+  font-size: 36rpx;
+  color: #fff;
+  text-align: center;
+  line-height: 100rpx;
+  // background-color: blue;
+}
+
 .input {
   display: block;
   width: 700rpx;

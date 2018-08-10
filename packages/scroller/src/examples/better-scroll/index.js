@@ -13,8 +13,19 @@ for (let page = 0; page < 3; page++) {
   appEl.appendChild(getPageEl(page))
 }
 
+let boxEls = document.querySelectorAll('.box')
+
+for (let index = 0; index < boxEls.length; index++) {
+  let el = boxEls[index]
+  el.addEventListener('click', () => {
+    console.info(index)
+  }, false)
+}
+
 window.bscroll = new BScroll(rootEl, {
-  scrollbar: true
+  scrollbar: true,
+  probeType: 3,
+  click: true
 })
 
 // 图片未加载完成时，不会算上其高度，因此图片渲染完成后，滚动的高度比实际小

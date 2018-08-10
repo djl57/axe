@@ -34,6 +34,8 @@ export function eventMixin (BScroll) {
   }
 
   BScroll.prototype.trigger = function (type) {
+    // console.log(type)
+
     let events = this._events[type]
     if (!events) {
       return

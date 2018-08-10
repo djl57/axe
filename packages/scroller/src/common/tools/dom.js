@@ -50,7 +50,7 @@ export const styleNames = {
 }
 
 // 是否可以支持gpu渲染
-export const hasPerspective = prefixStyle('perspective') in elementStyle
+// export const hasPerspective = prefixStyle('perspective') in elementStyle
 
 // 排除需要使用浏览器默认行为的节点
 export function preventDefaultException (el, exceptions) {
@@ -63,21 +63,16 @@ export function preventDefaultException (el, exceptions) {
   return false
 }
 
-// export function offset (el) {
-//   let left = 0
-//   let top = 0
+export function offsetTop (el) {
+  let top = 0
 
-//   while (el) {
-//     left -= el.offsetLeft
-//     top -= el.offsetTop
-//     el = el.offsetParent
-//   }
+  while (el) {
+    top -= el.offsetTop
+    el = el.offsetParent
+  }
 
-//   return {
-//     left,
-//     top
-//   }
-// }
+  return top
+}
 
 export function scrollFromBody () {
   return {
@@ -95,3 +90,22 @@ export function scrollFromBody () {
 //     top: -(rect.top + scroll.top)
 //   }
 // }
+
+export function createEvent (e, eventName, bubbles = true, cancelable = true) {
+  const ev = document.createEvent('Event')
+  ev.initEvent(eventName, bubbles, cancelable)
+
+  ev.pageX = e.pageX
+  ev.pageY = e.pageY
+
+  // forwardedTouchEvent set to true in case of the conflict with fastclick
+  ev.forwardedTouchEvent = true
+  ev._constructed = true
+
+  return ev
+}
+
+export function dispatchEvent (e, eventName = 'click') {
+  const ev = createEvent(e, eventName)
+  e.target.dispatchEvent(ev)
+}

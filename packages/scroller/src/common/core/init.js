@@ -1,5 +1,5 @@
+import { ease } from '../tools/const'
 import { styleNames, transitionend } from '../tools/dom'
-import { ease } from '../tools/compute'
 
 export default {
   // 初始化位置和事件
@@ -13,7 +13,7 @@ export default {
   _initStyle () {
     this._transition({
       'Property': styleNames['transform'],
-      'TimingFunction': ease.bounce.style,
+      'TimingFunction': ease.bounce,
       'Duration': '0ms'
     })
 
@@ -27,7 +27,7 @@ export default {
 
     // click
     if (this.options.click) {
-      this.wrapEl.addEventListener('click', this._click.bind(this), { passive: false, capture: false })
+      this.wrapEl.addEventListener('click', this._click.bind(this), { passive: false, capture: true })
     }
 
     // touch
