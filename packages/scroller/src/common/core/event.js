@@ -1,10 +1,10 @@
 import { isAndroid } from '../tools/const'
 import { preventDefaultException, scrollFromBody } from '../tools/dom'
-import { getNow } from '../tools/util'
+import { getNow, isFunc } from '../tools/util'
 
 export default {
   _touchstart (e) {
-    if (this.isDisabled) {
+    if (this.isDisabled || !this.domLoaded) {
       return
     }
 
@@ -35,7 +35,7 @@ export default {
   },
 
   _touchmove (e) {
-    if (this.isDisabled || !this.isInTouch) {
+    if (this.isDisabled || !this.isInTouch || !this.domLoaded) {
       return
     }
 
@@ -69,15 +69,18 @@ export default {
       if (this.options.bounce.top) {
         newY = Math.min(bounceY, this.minScrollY + this.options.bounceLimitDistance)
 
-        if (newY - this.minScrollY > this.options.pulltopLimitDistance) {
-          if (!this.pulltopstarted) {
-            this.pulltopstarted = true
-            this.trigger('pulltopstart')
-          }
-        } else {
-          if (this.pulltopstarted) {
-            this.pulltopstarted = false
-            this.trigger('pulltopcancel')
+        // 下拉刷新
+        if (!this.pullingtop) {
+          if (newY - this.minScrollY > this.options.pulltopLimitDistance) {
+            if (!this.pulltopstarted) {
+              this.pulltopstarted = true
+              this.trigger('pulltopstart')
+            }
+          } else {
+            if (this.pulltopstarted) {
+              this.pulltopstarted = false
+              this.trigger('pulltopcancel')
+            }
           }
         }
       } else {
@@ -87,15 +90,18 @@ export default {
       if (this.options.bounce.bottom) {
         newY = Math.min(bounceY, this.maxScrollY + this.options.bounceLimitDistance)
 
-        if (newY - this.maxScrollY < -this.options.pullbottomLimitDistance) {
-          if (!this.pullbottomstarted) {
-            this.pullbottomstarted = true
-            this.trigger('pullbottomstart')
-          }
-        } else {
-          if (this.pullbottomstarted) {
-            this.pullbottomstarted = false
-            this.trigger('pullbottomcancel')
+        // 上拉加载
+        if (!this.pullingbottom) {
+          if (newY - this.maxScrollY < -this.options.pullbottomLimitDistance) {
+            if (!this.pullbottomstarted) {
+              this.pullbottomstarted = true
+              this.trigger('pullbottomstart')
+            }
+          } else {
+            if (this.pullbottomstarted) {
+              this.pullbottomstarted = false
+              this.trigger('pullbottomcancel')
+            }
           }
         }
       } else {
@@ -140,7 +146,7 @@ export default {
   },
 
   _touchend (e) {
-    if (this.isDisabled || !this.isInTouch) {
+    if (this.isDisabled || !this.isInTouch || !this.domLoaded) {
       return
     }
 
@@ -219,7 +225,7 @@ export default {
   },
 
   _transitionend (e) {
-    if (e.target !== this.scrollEl || !this.isInTransition) {
+    if (e.target !== this.scrollEl || !this.isInTransition || !this.domLoaded) {
       return
     }
 
@@ -233,13 +239,24 @@ export default {
       (this.y < this.maxScrollY && !this.pullingbottom)
     ) {
       this.resetScroll()
+    } else if (!this.pullingtop && !this.pullingbottom) {
+      if (isFunc(this.pullHideFn)) {
+        this.pullHideFn()
+        this.pullHideFn = null
+      }
+
+      this.trigger('scrollend', { y: this.y })
     } else if (
-      (!this.pullingtop && !this.pullingbottom) ||
       (this.pullingtop && this.options.pulltopLimitDistance === 0) ||
       (this.pullingbottom && this.options.pullbottomLimitDistance === 0)
     ) {
       this.trigger('scrollend', { y: this.y })
     }
+  },
+
+  _load (e) {
+    this.domLoaded = true
+    this.refresh()
   },
 
   _resize (e) {
@@ -260,6 +277,11 @@ export default {
   },
 
   _click (e) {
-
+    if (!this.isDisabled && !e._constructed) {
+      if (!preventDefaultException(e.target, this.options.preventDefaultException)) {
+        e.preventDefault()
+        e.stopPropagation()
+      }
+    }
   }
 }

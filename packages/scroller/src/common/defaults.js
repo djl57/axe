@@ -4,9 +4,10 @@ export default {
   startY: 0,
 
   gpu: true,
-  touchOnWindow: true,
-  resizeTime: 100,
   click: true,
+  resizeTime: 100,
+  touchToWrapper: false,
+  loadRefresh: true,
 
   preventDefault: true,
   preventDefaultException: {

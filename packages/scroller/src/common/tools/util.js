@@ -24,3 +24,27 @@ export function getNow () {
 export function isUndef (v) {
   return typeof v === 'undefined'
 }
+
+// 是否为函数
+export function isFunc (fn) {
+  return typeof fn === 'function'
+}
+
+// 是否为数组
+export function isArray (a) {
+  if (Array.isArray) {
+    return Array.isArray(a)
+  }
+
+  return Object.prototype.toString.call(a) === '[object Array]'
+}
+
+// 是否为字符串
+export function isString (s) {
+  return typeof s === 'string'
+}
+
+// 是否为数字
+export function isNumber (n) {
+  return typeof n === 'number'
+}

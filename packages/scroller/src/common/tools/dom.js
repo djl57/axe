@@ -63,6 +63,14 @@ export function preventDefaultException (el, exceptions) {
   return false
 }
 
+export function addEvent (el, type, fn, options) {
+  el.addEventListener(type, fn, options)
+}
+
+export function removeEvent (el, type, fn, options) {
+  el.removeEventListener(type, fn, options)
+}
+
 export function offsetTop (el) {
   let top = 0
 
@@ -91,12 +99,27 @@ export function scrollFromBody () {
 //   }
 // }
 
-export function createEvent (e, eventName, bubbles = true, cancelable = true) {
-  const ev = document.createEvent('Event')
-  ev.initEvent(eventName, bubbles, cancelable)
+// 创建自定义事件监听
+export function createEvent (e, eventName = 'click') {
+  let ev
+  const bubbles = true
+  const cancelable = true
 
-  ev.pageX = e.pageX
-  ev.pageY = e.pageY
+  if (!isUndef(window.MouseEvent)) {
+    try {
+      ev = new window.MouseEvent(eventName, {
+        bubbles,
+        cancelable
+      })
+      ev._mouseEvent = true // 标识mouseEvent
+    } catch (err) {
+      ev = document.createEvent('Event')
+      ev.initEvent(eventName, bubbles, cancelable)
+    }
+  } else {
+    ev = document.createEvent('Event')
+    ev.initEvent(eventName, bubbles, cancelable)
+  }
 
   // forwardedTouchEvent set to true in case of the conflict with fastclick
   ev.forwardedTouchEvent = true
@@ -105,7 +128,12 @@ export function createEvent (e, eventName, bubbles = true, cancelable = true) {
   return ev
 }
 
-export function dispatchEvent (e, eventName = 'click') {
-  const ev = createEvent(e, eventName)
+// 主动触发事件
+export function dispatchEvent (e, ev) {
+  if (!ev._mouseEvent) {
+    ev.pageX = e.pageX
+    ev.pageY = e.pageY
+  }
+
   e.target.dispatchEvent(ev)
 }

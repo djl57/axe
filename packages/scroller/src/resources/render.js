@@ -17,7 +17,7 @@ export function getPageEl (page, pageSize = 10) {
       <div class="box">
         <h3 class="title">${item.cnTitle || '无题'}</h3>
         <p class="subTitle">${item.title}</p>
-        <!-- <img class="img" src="https://goss.veer.com/${item.oss1600Watermark}" alt="" /> -->
+        <img class="img" src="https://goss.veer.com/${item.oss1600Watermark}" alt="" />
         <div class="block">${i}</div>
       </div>
     `

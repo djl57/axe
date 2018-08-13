@@ -71,7 +71,8 @@ export default function Scroller (el, options) {
   this.distanceY = 0 // 记录touch过程中移动的距离
   this.movingDistanceY = 0 // 滑动过程中的距离
 
-  this.listeners = {}
+  this.listeners = {} // 事件监听
+  this.events = {} // 自定义事件
 
   this.isDisabled = false // 是否禁止滚动
   this.isInTouch = false // 是否处于touch行为中，false表示终止touch事件
@@ -86,6 +87,9 @@ export default function Scroller (el, options) {
   this.pullbottomstarted = false // 是否触发pullbottomstart
   this.pullingtop = false // 是否处于顶部下拉加载中
   this.pullingbottom = false // 是否处于底部上拉加载中
+  this.pullHideFn = null // 收起后触发
+
+  this.domLoaded = false // window.onload后为true，此时可以得到节点的真实高度
 
   // 调用注入的方法
   this._init()

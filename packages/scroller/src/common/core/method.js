@@ -1,7 +1,9 @@
 import { ease } from '../tools/const'
 import { getMatrixTranslateY } from '../tools/compute'
-import { styleNames, offsetTop, preventDefaultException, dispatchEvent } from '../tools/dom'
-import { requestAF, cancelAF } from '../tools/util'
+import { styleNames, offsetTop, preventDefaultException, createEvent, dispatchEvent, removeEvent } from '../tools/dom'
+import { requestAF, cancelAF, isString, isNumber, isArray } from '../tools/util'
+
+const LOADED_IMGS = {}
 
 export default {
   _translateY (y) {
@@ -41,7 +43,7 @@ export default {
   },
 
   _checkPulltop () {
-    if (this.listeners['pulltop']) {
+    if (this.listeners['pulltop'] && !this.pullingtop) {
       let pullTopDistance = this.minScrollY + this.options.pulltopLimitDistance
 
       if (this.y > pullTopDistance) {
@@ -58,7 +60,7 @@ export default {
   },
 
   _checkPullbottom () {
-    if (this.listeners['pullbottom']) {
+    if (this.listeners['pullbottom'] && !this.pullingbottom) {
       let pullBottomDistance = this.maxScrollY - this.options.pullbottomLimitDistance
 
       if (this.y < pullBottomDistance) {
@@ -75,15 +77,22 @@ export default {
   },
 
   _checkClick (e) {
+    if (!this.options.click) {
+      return false
+    }
+
     // 如果处于惯性滚动中，这时突然触摸上去，中断惯性滚动，此时不应该触发click事件
-    let preventClick = this.stopFromTransition
+    // 或者处于上拉、下拉加载中，阻止click触发
+    let preventClick = this.stopFromTransition || this.pullingtop || this.pullingbottom
 
     this.stopFromTransition = false
 
-    if (!this.isMoved && !preventClick) {
-      if (this.options.click && !preventDefaultException(e.target, this.options.preventDefaultException)) {
-        dispatchEvent(e, 'click')
+    if (!this.isMoved && !preventClick && !preventDefaultException(e.target, this.options.preventDefaultException)) {
+      if (!this.events['click']) {
+        this.events['click'] = createEvent(e, 'click')
       }
+
+      dispatchEvent(e, this.events['click'])
 
       return true
     }
@@ -129,6 +138,33 @@ export default {
     }
   },
 
+  enable () {
+    this.isDisabled = false
+  },
+
+  disable () {
+    this.isDisabled = true
+  },
+
+  destroy () {
+    this.stop()
+    this._handleEvents(removeEvent)
+  },
+
+  on (eventName, fn) {
+    this.listeners[eventName] = fn.bind(this)
+  },
+
+  off (eventName) {
+    this.listeners[eventName] = null
+  },
+
+  trigger (eventName, info) {
+    if (this.listeners[eventName]) {
+      this.listeners[eventName](info)
+    }
+  },
+
   refresh () {
     let relativeY = this.scrollEl.offsetTop
 
@@ -150,27 +186,74 @@ export default {
     }
   },
 
-  enable () {
-    this.isDisabled = false
-  },
+  // 图片未加载完成时，不会算上其高度，因此图片渲染完成后，滚动的高度比实际小
+  refreshAfterImgLoaded (imgs) {
+    let i
+    let children
+    let image
+    let src
+    let imgEls = []
+    let loadCount = 0
 
-  disable () {
-    this.isDisabled = true
-  },
+    if (isString(imgs)) {
+      imgEls = this.scrollEl.querySelectorAll(imgs)
+    } else if (isArray(imgs)) {
+      imgs.forEach(img => {
+        if (isString(img)) {
+          children = this.scrollEl.querySelectorAll(img)
+          for (i = 0; i < children.length; i++) {
+            imgEls.push(children[i])
+          }
+        } else {
+          imgEls.push(img)
+        }
+      })
+    } else if (imgs && imgs.length > 0) {
+      imgEls = imgs
+    }
 
-  on (eventName, fn) {
-    this.listeners[eventName] = fn
-  },
+    if (imgEls.length > 0) {
+      for (i = 0; i < imgEls.length; i++) {
+        src = imgEls[i].getAttribute('src')
 
-  trigger (eventName, info) {
-    if (this.listeners[eventName]) {
-      this.listeners[eventName](info)
+        if (!LOADED_IMGS[src]) {
+          image = new Image()
+          image.onload = image.onerror = () => {
+            loadCount++
+            LOADED_IMGS[src] = true // 已下载的图片缓存下来
+
+            if (loadCount >= imgEls.length) {
+              this.refresh()
+            }
+          }
+          image.src = src
+        } else {
+          loadCount++
+
+          if (loadCount >= imgEls.length) {
+            this.refresh()
+          }
+        }
+      }
+    } else {
+      this.refresh()
     }
   },
 
   setScroll (min, max) {
-    this.minScrollY = min - this.relativeY
-    this.maxScrollY = max - this.relativeY
+    if (isNumber(min)) {
+      this.minScrollY = min - this.relativeY
+    }
+
+    if (isNumber(max)) {
+      this.maxScrollY = max - this.relativeY
+    }
+
+    if (this.maxScrollY >= this.minScrollY) {
+      this.maxScrollY = this.minScrollY
+    }
+
+    this.resetScroll()
   },
 
   setScrollByElement (el) {
@@ -178,8 +261,7 @@ export default {
       el = this.scrollEl.querySelector(el)
     }
 
-    this.minScrollY = -el.offsetTop - this.relativeY
-    this.maxScrollY = -(el.offsetTop + el.offsetHeight - this.wrapEl.offsetHeight) - this.relativeY
+    this.setScroll(-el.offsetTop, -(el.offsetTop + el.offsetHeight - this.wrapEl.offsetHeight))
   },
 
   resetScroll (duration = this.options.bounceDuration, style = 'bounce') {
@@ -203,7 +285,7 @@ export default {
 
     if (duration > 0) {
       this._transition({
-        'TimingFunction': ease[style],
+        'TimingFunction': ease[style] || ease['swipe'],
         'Duration': duration + 'ms'
       })
 
@@ -215,14 +297,14 @@ export default {
     this._translateY(y)
   },
 
-  scrollToElement (el, valign, duration, style) {
+  scrollToElement (el, duration, valign, style) {
     if (typeof el === 'string') {
       el = this.scrollEl.querySelector(el)
     }
 
     let top = offsetTop(el) - this.wrapOffsetTop
 
-    if (valign === 'center') {
+    if (valign === 'middle') {
       top -= Math.round(el.offsetHeight / 2 - this.wrapEl.offsetHeight / 2)
     } else if (valign === 'bottom') {
       top -= (el.offsetHeight - this.wrapEl.offsetHeight)
@@ -235,19 +317,26 @@ export default {
     this.scrollTo(this.y + distance, duration, style)
   },
 
-  pulltopDone (shouldResetScroll = true) {
-    this.pullingtop = false
+  _pullDone (options) {
+    if (options.needLoadImgs) {
+      this.refreshAfterImgLoaded(options.needLoadImgs)
+    } else if (options.refresh !== false) {
+      this.refresh()
+    }
 
-    if (shouldResetScroll) {
+    if (options.reset !== false) {
+      this.pullHideFn = options.onHide
       this.resetScroll()
     }
   },
 
-  pullbottomDone (shouldResetScroll = true) {
-    this.pullingbottom = false
+  pulltopDone (options = {}) {
+    this.pullingtop = false
+    this._pullDone(options)
+  },
 
-    if (shouldResetScroll) {
-      this.resetScroll()
-    }
+  pullbottomDone (options = {}) {
+    this.pullingbottom = false
+    this._pullDone(options)
   }
 }

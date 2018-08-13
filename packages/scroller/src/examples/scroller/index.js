@@ -27,12 +27,13 @@ boxEls[0].innerHTML += '<input type="checkbox" style="width:60px;height:60px;" /
 
 for (let index = 0; index < boxEls.length; index++) {
   let el = boxEls[index]
-  el.addEventListener('click', () => {
+  el.addEventListener('click', function (e) {
     console.info(index)
   }, false)
 }
 
 const scroller = window.scroller = new Scroller(rootEl, {
+  // startY: -20000,
   // bounce: false
   // bounceLimitDistance: 200
   pulltopLimitDistance: window.rem2px(2),
@@ -51,20 +52,17 @@ const scroller = window.scroller = new Scroller(rootEl, {
 //   console.info('touchend', info)
 // })
 
-scroller.on('scrollstart', info => {
-  console.info('scrollstart', info)
-})
+// scroller.on('scrollstart', info => {
+//   console.info('scrollstart', info)
+// })
 
-scroller.on('scroll', info => {
-  console.info('scroll', info)
-})
+// scroller.on('scroll', info => {
+//   console.info('scroll', info)
+// })
 
-scroller.on('scrollend', info => {
-  console.info('scrollend', info)
-
-  appEl.querySelector('.top').textContent = '下拉加载'
-  appEl.querySelector('.bottom').textContent = '上拉加载'
-})
+// scroller.on('scrollend', info => {
+//   console.info('scrollend', info)
+// })
 
 scroller.on('pulltopstart', () => {
   console.info('pulltopstart')
@@ -82,7 +80,11 @@ scroller.on('pulltop', () => {
 
   setTimeout(() => {
     appEl.querySelector('.top').textContent = '加载完毕'
-    scroller.pulltopDone(true)
+    scroller.pulltopDone({
+      onHide () {
+        appEl.querySelector('.top').textContent = '下拉加载'
+      }
+    })
   }, 2000)
 })
 
@@ -101,29 +103,18 @@ scroller.on('pullbottom', () => {
   appEl.querySelector('.bottom').textContent = '加载中'
 
   setTimeout(() => {
+    appEl.appendChild(getPageEl(4))
     appEl.querySelector('.bottom').textContent = '加载完毕'
-    scroller.pullbottomDone(false)
+
+    scroller.pullbottomDone({
+      needLoadImgs: '.img',
+      onHide () {
+        appEl.querySelector('.bottom').textContent = '上拉加载'
+      }
+    })
   }, 2000)
 })
 
-// 图片未加载完成时，不会算上其高度，因此图片渲染完成后，滚动的高度比实际小
-const imgEls = appEl.querySelectorAll('img')
-let loadedImgNum = 0
-
-function loadedImg () {
-  loadedImgNum++
-
-  if (loadedImgNum === imgEls.length) {
-    window.scroller.refresh()
-  }
-}
-
-if (imgEls.length > 0) {
-  for (let i = 0; i < imgEls.length; i++) {
-    imgEls[i].onload = imgEls[i].onerror = loadedImg
-  }
-} else {
-  window.onload = () => {
-    window.scroller.refresh()
-  }
-}
+// rootEl.addEventListener('click', (e) => {
+//   console.log(990)
+// }, false)
