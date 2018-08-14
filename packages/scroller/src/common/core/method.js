@@ -28,12 +28,7 @@ export default {
       return
     }
 
-    let currentY = this.getLiveY()
-
-    if (Math.abs(currentY - this.previousY) > this.options.scrollLimitDistance) {
-      this.previousY = currentY
-      this.trigger('scroll', { y: currentY })
-    }
+    this.trigger('scroll', { y: this.getLiveY() })
 
     this.animationTimer = requestAF(() => {
       if (this.isInTransition) {
@@ -83,7 +78,7 @@ export default {
 
     // 如果处于惯性滚动中，这时突然触摸上去，中断惯性滚动，此时不应该触发click事件
     // 或者处于上拉、下拉加载中，阻止click触发
-    let preventClick = this.stopFromTransition || this.pullingtop || this.pullingbottom
+    let preventClick = this.stopFromTransition || this.pulling
 
     this.stopFromTransition = false
 
@@ -152,16 +147,35 @@ export default {
   },
 
   on (eventName, fn) {
-    this.listeners[eventName] = fn.bind(this)
+    if (this.listeners[eventName]) {
+      this.listeners[eventName].push(fn)
+    } else {
+      this.listeners[eventName] = [fn]
+    }
   },
 
-  off (eventName) {
-    this.listeners[eventName] = null
+  off (eventName, fn) {
+    if (!fn) {
+      this.listeners[eventName] = null
+      return
+    }
+
+    if (this.listeners[eventName]) {
+      let index = this.listeners[eventName].findIndex(item => item === fn)
+
+      if (index !== -1) {
+        this.listeners[eventName].splice(index, 1)
+      }
+
+      if (this.listeners[eventName].length === 0) {
+        this.listeners[eventName] = null
+      }
+    }
   },
 
   trigger (eventName, info) {
     if (this.listeners[eventName]) {
-      this.listeners[eventName](info)
+      this.listeners[eventName].forEach(fn => fn(info))
     }
   },
 
@@ -184,6 +198,14 @@ export default {
     if (this.maxScrollY >= this.minScrollY) {
       this.maxScrollY = this.minScrollY
     }
+
+    this.resetScroll()
+
+    // 上拉下拉开启
+    this.pullingtop = false
+    this.pullingbottom = false
+
+    this.trigger('refresh')
   },
 
   // 图片未加载完成时，不会算上其高度，因此图片渲染完成后，滚动的高度比实际小
@@ -322,21 +344,22 @@ export default {
       this.refreshAfterImgLoaded(options.needLoadImgs)
     } else if (options.refresh !== false) {
       this.refresh()
+    } else {
+      this.pullingtop = false
+      this.pullingbottom = false
     }
 
     if (options.reset !== false) {
-      this.pullHideFn = options.onHide
+      this.onPullHide = options.onHide
       this.resetScroll()
     }
   },
 
   pulltopDone (options = {}) {
-    this.pullingtop = false
     this._pullDone(options)
   },
 
   pullbottomDone (options = {}) {
-    this.pullingbottom = false
     this._pullDone(options)
   }
 }

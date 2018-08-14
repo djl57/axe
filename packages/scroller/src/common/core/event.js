@@ -110,18 +110,14 @@ export default {
     }
 
     this._translateY(newY)
+    this.trigger('touchmove', { y: this.y })
 
     if (!this.isMoved) {
       this.isMoved = true
       this.trigger('scrollstart', { y: this.y })
     } else {
-      if (Math.abs(this.y - this.previousY) > this.options.scrollLimitDistance) {
-        this.previousY = this.y
-        this.trigger('scroll', { y: this.y })
-      }
+      this.trigger('scroll', { y: this.y })
     }
-
-    this.trigger('touchmove', { y: this.y })
 
     // 惯性滚动数据记录
     if (now - this.startTime > this.options.momentumLimitTime) {
@@ -240,16 +236,13 @@ export default {
     ) {
       this.resetScroll()
     } else if (!this.pullingtop && !this.pullingbottom) {
-      if (isFunc(this.pullHideFn)) {
-        this.pullHideFn()
-        this.pullHideFn = null
+      if (isFunc(this.onPullHide)) {
+        this.onPullHide()
+        this.onPullHide = null
       }
 
       this.trigger('scrollend', { y: this.y })
-    } else if (
-      (this.pullingtop && this.options.pulltopLimitDistance === 0) ||
-      (this.pullingbottom && this.options.pullbottomLimitDistance === 0)
-    ) {
+    } else {
       this.trigger('scrollend', { y: this.y })
     }
   },

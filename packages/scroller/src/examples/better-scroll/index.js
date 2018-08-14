@@ -6,6 +6,8 @@ const rootEl = document.getElementById('root')
 const appEl = document.getElementById('app')
 
 rootEl.style.height = '100%'
+// rootEl.style.overflow = 'hidden'
+// rootEl.style.position = 'relative'
 
 appEl.innerHTML += '<input class="input" type="text" />'
 

@@ -45,8 +45,9 @@ export const styleNames = {
   // 'transformOrigin': prefixStyle('transformOrigin'),
   'transitionProperty': prefixStyle('transitionProperty'),
   'transitionTimingFunction': prefixStyle('transitionTimingFunction'),
-  'transitionDuration': prefixStyle('transitionDuration')
-  // 'transitionDelay': prefixStyle('transitionDelay')
+  'transitionDuration': prefixStyle('transitionDuration'),
+  // 'transitionDelay': prefixStyle('transitionDelay'),
+  'cssTransform': vendor === 'standard' ? 'transform' : `-${vendor.toLowerCase()}-transform`
 }
 
 // 是否可以支持gpu渲染

@@ -5,6 +5,7 @@ import { offsetTop } from './tools/dom'
 import init from './core/init'
 import event from './core/event'
 import method from './core/method'
+import scrollbar from './core/scrollbar'
 
 export default function Scroller (el, options) {
   // 容器节点，由于限制显示的高度
@@ -87,13 +88,15 @@ export default function Scroller (el, options) {
   this.pullbottomstarted = false // 是否触发pullbottomstart
   this.pullingtop = false // 是否处于顶部下拉加载中
   this.pullingbottom = false // 是否处于底部上拉加载中
-  this.pullHideFn = null // 收起后触发
+  this.onPullHide = null // 收起后触发
 
   this.domLoaded = false // window.onload后为true，此时可以得到节点的真实高度
+
+  this.scrollbar = null // scrollbar实例
 
   // 调用注入的方法
   this._init()
 }
 
 // 注入实例方法
-Object.assign(Scroller.prototype, init, event, method)
+Object.assign(Scroller.prototype, init, event, method, scrollbar)

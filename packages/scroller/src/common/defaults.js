@@ -29,7 +29,6 @@ export default {
   bounceLimitDistance: 1000,
 
   scrollbar: true,
-  scrollLimitDistance: 50,
 
   pulltopLimitDistance: 100,
   pullbottomLimitDistance: 100

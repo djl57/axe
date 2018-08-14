@@ -2,12 +2,17 @@ import Scroller from '@/common'
 import { getPageEl } from '@/resources/render'
 import './style.css'
 
+// document.body.innerHTML = [
+// ].join('') + document.body.innerHTML
+
 const rootEl = document.getElementById('root')
 const appEl = document.getElementById('app')
 
 rootEl.style.height = '100%'
+rootEl.style.overflow = 'hidden'
 
 appEl.innerHTML += [
+  // '<div style="position:relative;top:-50px;z-index:-1;width:100%;height:600px;"><img class="cover" src="https://goss.veer.com/creative/vcg/veer/1600water/veer-300432261.jpg" alt=""/></div>'
   '<input class="input" type="text" />',
   '<a href="/aa">这是超链接</a>'
 ].join('')
@@ -23,7 +28,7 @@ appEl.innerHTML += [
 
 let boxEls = document.querySelectorAll('.box')
 
-boxEls[0].innerHTML += '<input type="checkbox" style="width:60px;height:60px;" />'
+// boxEls[0].innerHTML += '<input type="checkbox" style="width:60px;height:60px;" />'
 
 for (let index = 0; index < boxEls.length; index++) {
   let el = boxEls[index]
@@ -33,36 +38,50 @@ for (let index = 0; index < boxEls.length; index++) {
 }
 
 const scroller = window.scroller = new Scroller(rootEl, {
-  // startY: -20000,
-  // bounce: false
-  // bounceLimitDistance: 200
+  // startY: -200,
+  // bounce: false,
+  // bounceLimitDistance: 200,
   pulltopLimitDistance: window.rem2px(2),
   pullbottomLimitDistance: window.rem2px(2)
 })
 
-// scroller.on('touchstart', info => {
-//   console.info('touchstart', info)
-// })
+scroller.on('touchstart', info => {
+  console.info('touchstart', info)
+})
 
-// scroller.on('touchmove', info => {
-//   console.info('touchmove', info)
-// })
+scroller.on('touchmove', info => {
+  console.info('touchmove', info)
+})
 
-// scroller.on('touchend', info => {
-//   console.info('touchend', info)
-// })
+scroller.on('touchend', info => {
+  console.info('touchend', info)
+})
 
-// scroller.on('scrollstart', info => {
-//   console.info('scrollstart', info)
-// })
+scroller.on('scrollstart', info => {
+  console.info('scrollstart', info)
+})
 
-// scroller.on('scroll', info => {
-//   console.info('scroll', info)
-// })
+// let itemEl = document.querySelector('.cover')
+// let height = 500
 
-// scroller.on('scrollend', info => {
-//   console.info('scrollend', info)
-// })
+scroller.on('scroll', info => {
+  console.info('scroll', info)
+
+  // if (info.y > 0) {
+  //   let deltaScale = 1 / itemEl.offsetHeight * info.y * 2
+
+  //   // itemEl.parentElement.style.height = (500 + info.y) + 'px'
+  //   // itemEl.parentElement.style.transform = `translateY(${-info.y}px)`
+  //   itemEl.style.transform = `scale(${1 + deltaScale})`
+  // }
+})
+
+scroller.on('scrollend', info => {
+  console.info('scrollend', info)
+
+  // itemEl.parentElement.style.height = 500 + 'px'
+  // itemEl.style.transform = `scale(1)`
+})
 
 scroller.on('pulltopstart', () => {
   console.info('pulltopstart')

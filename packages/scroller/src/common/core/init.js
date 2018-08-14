@@ -6,6 +6,7 @@ export default {
   _init () {
     this._initStyle() // 样式
     this._initEvents(addEvent) // 绑定事件
+    this._initScrollbar() // 滚动指示器
 
     if (!this.options.loadRefresh) {
       this.domLoaded = true
@@ -15,13 +16,12 @@ export default {
 
   _initStyle () {
     this._transition({
-      'Property': styleNames['transform'],
+      'Property': styleNames['cssTransform'],
       'TimingFunction': ease.bounce,
       'Duration': '0ms'
     })
 
     this._translateY(this.options.startY) // 初始化滚动位置
-    this.resetScroll()
   },
 
   _initEvents () {
@@ -60,5 +60,13 @@ export default {
 
     // transitionend
     eventOperate(this.scrollEl, transitionend, this._transitionendBind, { passive: false, capture: false })
+  },
+
+  _initScrollbar () {
+    if (!this.options.scrollbar) {
+      return
+    }
+
+    this.wrapEl.appendChild(this._createScrollbar())
   }
 }
