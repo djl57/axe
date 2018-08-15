@@ -31,6 +31,12 @@ function loadedImg () {
   }
 }
 
-for (let i = 0; i < imgEls.length; i++) {
-  imgEls[i].onload = imgEls[i].onerror = loadedImg
+if (imgEls.length > 0) {
+  for (let i = 0; i < imgEls.length; i++) {
+    imgEls[i].onload = imgEls[i].onerror = loadedImg
+  }
+} else {
+  window.onload = () => {
+    window.fmover[0].refreshSize()
+  }
 }

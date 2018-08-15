@@ -11,13 +11,13 @@ const appEl = document.getElementById('app')
 rootEl.style.height = '100%'
 rootEl.style.overflow = 'hidden'
 
-appEl.innerHTML += [
-  // '<div style="position:relative;top:-50px;z-index:-1;width:100%;height:600px;"><img class="cover" src="https://goss.veer.com/creative/vcg/veer/1600water/veer-300432261.jpg" alt=""/></div>'
-  '<input class="input" type="text" />',
-  '<a href="/aa">这是超链接</a>'
-].join('')
+// appEl.innerHTML += [
+//   // '<div style="position:relative;top:-50px;z-index:-1;width:100%;height:600px;"><img class="cover" src="https://goss.veer.com/creative/vcg/veer/1600water/veer-300432261.jpg" alt=""/></div>'
+//   '<input class="input" type="text" />',
+//   '<a href="/aa">这是超链接</a>'
+// ].join('')
 
-for (let page = 0; page < 1; page++) {
+for (let page = 0; page < 3; page++) {
   appEl.appendChild(getPageEl(page))
 }
 

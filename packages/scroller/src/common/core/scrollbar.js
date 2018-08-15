@@ -92,6 +92,14 @@ export default {
     const scrollbarEl = document.createElement('div')
     const indicatorEl = document.createElement('div')
 
+    const metaEl = document.querySelector('meta[name="viewport"]')
+    let dpr = 1
+
+    if (metaEl) {
+      let match = metaEl.getAttribute('content').match(/initial-scale=([\d.]+)/)
+      dpr = parseInt(1 / ((match && match[1]) || 1))
+    }
+
     scrollbarEl.className = '_axe-scrollbar'
     indicatorEl.className = '_axe-indicator'
 
@@ -99,9 +107,9 @@ export default {
       'position: absolute',
       'top: 2px',
       'bottom: 2px',
-      'right: 4px',
-      'z-index: 10001',
-      'width: 8px',
+      `right: ${2 * dpr}px`,
+      `width: ${2 * dpr}px`,
+      'z-index: 10000001',
       'opacity: 0',
       'overflow: hidden',
       'pointer-events: none'
@@ -115,8 +123,8 @@ export default {
       // 'box-sizing: border-box',
       // 'position: absolute',
       'width: 100%',
-      'border: 1px solid rgba(255, 255, 255, 0.9)',
-      'border-radius: 3px',
+      // 'border: 1px solid rgba(255, 255, 255, 0.9)',
+      'border-radius: 10px',
       'background-color: rgba(0, 0, 0, 0.5)'
     ].join('; ')
 

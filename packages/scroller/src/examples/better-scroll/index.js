@@ -1,4 +1,4 @@
-import BScroll from '@/common/better-scroll'
+import BScroll from 'better-scroll'
 import { getPageEl } from '@/resources/render'
 import './style.css'
 
@@ -8,8 +8,6 @@ const appEl = document.getElementById('app')
 rootEl.style.height = '100%'
 // rootEl.style.overflow = 'hidden'
 // rootEl.style.position = 'relative'
-
-appEl.innerHTML += '<input class="input" type="text" />'
 
 for (let page = 0; page < 3; page++) {
   appEl.appendChild(getPageEl(page))
