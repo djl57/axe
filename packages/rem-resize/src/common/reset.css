@@ -6,6 +6,7 @@ html {
   -webkit-overflow-scrolling: touch;
   text-size-adjust: 100%;
   touch-action: manipulation;
+  user-select: none;
 }
 
 body {
