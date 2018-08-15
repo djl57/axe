@@ -307,7 +307,7 @@ export default {
 
     if (duration > 0) {
       this._transition({
-        'TimingFunction': ease[style] || ease['swipe'],
+        'TimingFunction': ease[style] || style,
         'Duration': duration + 'ms'
       })
 
