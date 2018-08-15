@@ -1,6 +1,6 @@
 {
   "name": "@axe/scroller",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Scroll simulation solution on mobile device.",
   "main": "lib/index.js",
   "keywords": [
@@ -10,7 +10,6 @@
   ],
   "author": "ansenhuang <ancheng1992@126.com>",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "better-scroll": "^1.12.6",
     "finger-mover": "^1.3.3",
