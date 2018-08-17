@@ -13,48 +13,43 @@ npm install @axe/touch
 ## Usage
 
 ```js
-import Touch, { tap, longtap, doubletap, press, swipe } from '@'
-
-const touch = new Touch(document.getElementById('touch'))
-
-touch.tap(() => {
-  console.info('touch tap')
-}).press(() => {
-  console.info('touch press')
-})
+import { Tap, Press, Swipe } from '@axe/touch'
 
 // tap
-tap(document.getElementById('tap'), () => {
+const tap = new Tap('#tap')
+tap.addEvent(() => {
   console.info('tap')
 })
 
 // longtap
-longtap(document.getElementById('longtap'), () => {
+const longtap = new Tap('#longtap')
+longtap.addEvent(() => {
   console.info('longtap')
-}, {
-  time: 500
-})
+}, 'longtap')
 
 // doubletap
-doubletap(document.getElementById('doubletap'), () => {
+const doubletap = new Tap('#doubletap')
+doubletap.addEvent(() => {
   console.info('doubletap')
-})
+}, 'doubletap')
 
 // press
-press(document.getElementById('press'), () => {
+const press = new Press('#press')
+press.addEvent(() => {
   console.info('press')
 })
 
 // swipe
 const swipeNode = document.getElementById('swipe')
-swipe(swipeNode, (direction) => {
+
+const swipe = new Swipe('#swipe')
+swipe.onMove((offsetX, offsetY) => {
+  swipeNode.style.left = offsetX + 'px'
+  swipeNode.style.top = offsetY + 'px'
+  console.info('swipe: x=' + offsetX + ', y=' + offsetY)
+})
+swipe.addEvent((direction) => {
   console.info('swipe ' + direction)
-}, {
-  touchmove (offsetX, offsetY) {
-    swipeNode.style.left = offsetX + 'px'
-    swipeNode.style.top = offsetY + 'px'
-    console.info('swipe: x=' + offsetX + ', y=' + offsetY)
-  }
 })
 ```
 
@@ -67,28 +62,16 @@ This method is same to click but without delay for browser.
 It has 3 arguments:
 
 * node [HTMLElement] The element will be addEventListener
-* callback [Function] It will be work when evnet trigger
 * options [Object] Define default data by yourself, you needn't config as usual
   * time [Number:250] It will be trigger if touch less than time
   * offset [Number:10] It will be trigger if offset `less than` distance, unit is `px`
 
-### doubletap
+event
 
-This method is same to tap but need twice touch quickly.
-
-It arguments is same to tap.
-
-### longtap
-
-This method is same to tap but need long touch, `trigger when touchend`.
-
-It has 3 arguments:
-
-* node [HTMLElement] The element will be addEventListener
-* callback [Function] It will be work when evnet trigger
-* options [Object] Define default data by yourself, you needn't config as usual
-  * time [Number:350] It will be trigger if touch `more than` time
-  * offset [Number:10] It will be trigger if offset less than distance, unit is `px`
+* addEvent(fn, type = 'tap')
+  * type: tap, doubletap, longtap
+* removeEvent(fn, type = 'tap')
+* dispatchEvent(type = 'tap')
 
 ### press
 
