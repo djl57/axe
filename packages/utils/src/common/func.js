@@ -1,3 +1,30 @@
+export const requestAF = window.requestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame ||
+  window.oRequestAnimationFrame ||
+  (cb => setTimeout(cb, 1000 / 60))
+
+export const cancelAF = window.cancelAnimationFrame ||
+  window.webkitCancelAnimationFrame ||
+  window.mozCancelAnimationFrame ||
+  window.oCancelAnimationFrame ||
+  (id => clearTimeout(id))
+
+// fn返回值为true，则循环执行animation
+export function loopAF (fn, runAtStart) {
+  if (!runAtStart) {
+    requestAF(() => {
+      if (fn()) {
+        loopAF(fn)
+      }
+    })
+  } else {
+    if (fn()) {
+      loopAF(fn)
+    }
+  }
+}
+
 /**
  * 防抖
  * @param {function} fn
@@ -59,7 +86,7 @@ export function throttle (fn, wait = 100, trailing) {
   }
 }
 
-// 复制
+// 复制，兼容性不太好，建议在chrome中使用
 export function copy (text) {
   let el = document.createElement('input')
   el.value = text

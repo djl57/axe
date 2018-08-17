@@ -1,18 +1,20 @@
 import { isObject } from './is'
 
 // url编码
-export function encodeURL (url) {
+export function encodeUrl (url) {
   if (window.encodeURIComponent) {
     return window.encodeURIComponent(url)
   }
+
   return url
 }
 
 // url解码
-export function decodeURL (url) {
+export function decodeUrl (url) {
   if (window.decodeURIComponent) {
     return window.decodeURIComponent(url)
   }
+
   return url
 }
 
@@ -23,30 +25,29 @@ export function decodeURL (url) {
  * @param {boolean} 配置项 decode: 是否需要将值解码，默认需要解码
  * @returns {string}
  */
-export function getQuery (name, url = window.location.search, decode = true) {
+export function getQueryString (name, url = window.location.search, decode = false) {
   url = url.split('#')[0]
   url = url.substring(url.indexOf('?') + 1)
 
-  let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
-  let matched = url.match(reg)
+  let matched = url.match(new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i'))
   let value = '' + (matched && matched[2])
 
   if (value !== 'null' && value !== 'undefined') {
-    return decode ? decodeURI(value) : value
+    return !decode ? value : decodeUrl(value)
   }
 
   return ''
 }
 
 // 对象转换为querystring
-export function toQuery (params, encode = true) {
-  if (!isObject(params)) return ''
+export function toQueryString (params, encode = false) {
+  if (!isObject(params)) {
+    return params
+  }
 
-  let query = Object.keys(params).map(name => {
-    return name + '=' + params[name]
+  return Object.keys(params).map(name => {
+    return name + '=' + (!encode ? params[name] : encodeUrl(params[name]))
   }).join('&')
-
-  return encode ? encodeURI(query) : query
 }
 
 /**
@@ -56,16 +57,16 @@ export function toQuery (params, encode = true) {
  * @param {boolean} decode: 是否需要将值解码，默认需要解码
  * @returns {object}
  */
-export function parseQuery (url = window.location.search, decode = true) {
+export function parseQueryString (url = window.location.search, decode = false) {
   url = url.split('#')[0]
   url = url.substring(url.indexOf('?') + 1)
-  url = decodeURI(url)
 
   let params = {}
+  let arr
 
   url.split('&').forEach(kv => {
-    let kvs = kv.split('=')
-    params[kvs[0]] = kvs[1]
+    arr = kv.split('=')
+    params[arr[0]] = !decode ? arr[1] : decodeUrl(arr[1])
   })
 
   return params
@@ -78,17 +79,17 @@ export function parseQuery (url = window.location.search, decode = true) {
  * @param {boolean} encode: 是否需要将值编码，默认需要编码
  * @returns {string}
  */
-export function appendQuery (url, params, encode = true) {
+export function formatUrl (url, params, encode = false) {
   let urls = url.split('#')
   let sign = urls[0].indexOf('?') === -1 ? '?' : '&'
-  let query = toQuery(params, encode)
+  let query = toQueryString(params, encode)
 
   return urls[0] + (query ? sign + query : '') + (urls[1] || '')
 }
 
 // 将字符串url转换为对象格式（和浏览器的location一样）
-export function parseURL (url) {
-  const a = document.createElement('a')
+export function parseUrl (url) {
+  let a = document.createElement('a')
   a.href = url || ''
 
   return {
@@ -106,14 +107,18 @@ export function parseURL (url) {
 
 // 页面跳转
 // type: self, blank, replace
-export function redirect (url, params, type) {
-  url = appendQuery(url, params)
+export function redirect (url, params, options = {}) {
+  url = formatUrl(url, params, options.encode)
 
-  if (type === 'replace') {
-    window.location.replace(url)
-  } else if (type === 'blank') {
-    window.open(url)
-  } else {
+  if (!options.type) {
     window.location.href = url
+  } else {
+    if (options.type === 'replace') {
+      window.location.replace(url)
+    } else if (options.type === 'blank') {
+      window.open(url)
+    } else {
+      window.location.href = url
+    }
   }
 }

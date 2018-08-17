@@ -1,4 +1,4 @@
-import { isObject, isString } from './is'
+import { isObject, isString, isUndef } from './is'
 
 /**
  * 获取嵌套的值
@@ -7,7 +7,7 @@ import { isObject, isString } from './is'
  * @param {any} [dft=undefined]
  * @returns {any}
  */
-export function getValue (data, chain, dft) {
+export function getDeepData (data, chain, dft) {
   let d = data
   let ss = chain.split('.')
   let s = ss.shift()
@@ -17,7 +17,7 @@ export function getValue (data, chain, dft) {
     s = ss.shift()
   }
 
-  return (!s && typeof d !== 'undefined') ? d : dft
+  return (!s && !isUndef(d)) ? d : dft
 }
 
 /**
@@ -30,7 +30,6 @@ export function parseJSON (val) {
     try {
       val = JSON.parse(val)
     } catch (err) {
-      console.warn(err)
       val = null
     }
 

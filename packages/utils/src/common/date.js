@@ -1,26 +1,28 @@
 import { isString, isNumber, isDate } from './is'
 
 export function formatDate (date = new Date(), fmt = 'yyyy-MM-dd hh:mm:ss') {
-  let o = {
-    MM: date.getMonth() + 1,
-    dd: date.getDate(),
-    hh: date.getHours(),
-    mm: date.getMinutes(),
-    ss: date.getSeconds()
-  }
-
-  fmt = fmt.replace('yyyy', date.getFullYear())
-
-  Object.keys(o).forEach(k => {
-    fmt = fmt.replace(k, o[k] > 9 ? o[k] : '0' + o[k])
-  })
+  const M = date.getMonth() + 1
+  const d = date.getDate()
+  const h = date.getHours()
+  const m = date.getMinutes()
+  const s = date.getSeconds()
 
   return fmt
+    .replace('yyyy', date.getFullYear())
+    .replace('MM', M > 9 ? M : '0' + M)
+    .replace('dd', d > 9 ? d : '0' + d)
+    .replace('hh', h > 9 ? h : '0' + h)
+    .replace('mm', m > 9 ? m : '0' + m)
+    .replace('ss', s > 9 ? s : '0' + s)
 }
 
 // t: 字符串或时间戳
 export function parseDate (t) {
   if (isString(t)) {
+    if (+t > 0) {
+      return new Date(+t)
+    }
+
     return new Date(t.replace(/-/g, '/'))
   }
 
@@ -28,11 +30,15 @@ export function parseDate (t) {
     return new Date(t)
   }
 
+  if (isDate(t)) {
+    return t
+  }
+
   return new Date()
 }
 
 // 多久以前
-export function timeAgoText (d) {
+export function getDateTextAgo (d) {
   if (!isDate(d)) {
     d = parseDate(d)
   }
@@ -43,7 +49,7 @@ export function timeAgoText (d) {
   let hours, days
 
   if (tdiff < 60) {
-    return tdiff + '秒前'
+    return '刚刚'
   }
 
   diff /= 60
@@ -55,7 +61,10 @@ export function timeAgoText (d) {
 
   diff /= 60
   tdiff = Math.floor(diff)
-  hours = addZero(d.getHours()) + ':' + addZero(d.getMinutes())
+
+  let hh = d.getHours()
+  let mm = d.getMinutes()
+  hours = (hh > 9 ? hh : '0' + hh) + ':' + (mm > 9 ? mm : '0' + mm)
 
   if (tdiff <= now.getHours()) {
     return '今天 ' + hours

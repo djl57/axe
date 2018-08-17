@@ -1,3 +1,9 @@
+// 获取真实的类型
+export function getRealType (t) {
+  let str = Object.prototype.toString.call(t)
+  return str.substring(8, str.length - 1)
+}
+
 /**
  * 是否为对象
  * @param {any} t
@@ -17,7 +23,8 @@ export function isArray (t) {
   if (Array.isArray) {
     return Array.isArray(t)
   }
-  return Object.prototype.toString.call(t) === '[object Array]'
+
+  return getRealType(t) === 'Array'
 }
 
 /**
@@ -57,6 +64,29 @@ export function isString (t) {
 }
 
 /**
+ * 判断值是否定义
+ * @param {any} t
+ * @returns {boolean}
+ */
+export function isUndef (t) {
+  return typeof t === 'undefined'
+}
+
+// 判断是否为dom元素
+export function isElement (node) {
+  if (window.HTMLElement) {
+    return node instanceof window.HTMLElement
+  }
+
+  return node && node.nodeType === 1 && isString(node.nodeName)
+}
+
+// 判断是否为日期对象
+export function isDate (d) {
+  return d instanceof Date
+}
+
+/**
  * 判断是否为FormData
  * @param {any} t
  * @returns {boolean}
@@ -67,21 +97,12 @@ export function isFormData (data) {
 
 /**
  * 判断值是否有效
- * undefined、null，都表示无效
+ * undefined、null, 空字符串，都表示无效
  * @param {any} t
  * @returns {boolean}
  */
 export function isValid (t) {
-  return t != null
-}
-
-/**
- * 判断值是否定义
- * @param {any} t
- * @returns {boolean}
- */
-export function isDefined (t) {
-  return typeof t !== 'undefined'
+  return t != null && t !== ''
 }
 
 /**
@@ -90,7 +111,7 @@ export function isDefined (t) {
  * @returns {boolean}
  */
 export function isPrimitive (t) {
-  return typeof t === 'string' || typeof t === 'number'
+  return isString(t) || isNumber(t)
 }
 
 /**
@@ -108,24 +129,10 @@ export function isEmpty (t) {
     return Object.keys(t).length === 0
   }
 
-  return true
+  return !isValid(t)
 }
 
 // 判断是否为相同类型
 export function isSameType (t1, t2) {
-  return Object.prototype.toString.call(t1) === Object.prototype.toString.call(t2)
-}
-
-// 判断是否为dom元素
-export function isElement (node) {
-  if (window.HTMLElement) {
-    return node instanceof window.HTMLElement
-  }
-
-  return node && node.nodeType === 1 && isString(node.nodeName)
-}
-
-// 判断是否为日期对象
-export function isDate (d) {
-  return d instanceof Date
+  return getRealType(t1) === getRealType(t2)
 }
