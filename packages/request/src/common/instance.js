@@ -2,7 +2,7 @@ import Request from './Request'
 
 const instance = new Request()
 
-function request (opt, defaults) {
+function request (opt) {
   return instance.request(opt, request.defaults)
 }
 
