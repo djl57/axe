@@ -20,48 +20,17 @@ import Animate from '@axe/animate'
 const el = document.getElementById('animate')
 const animate = new Animate(el)
 
-animate.addStyle({
-  transition: 'transform 1s, background-color 3s'
-})
+animate.style({
+  transition: 'transform 1s',
+  transform: 'translateX(600px)'
+}).done(() => {
+  animate.style({
+    transition: '',
+    transform: 'translateX(0)'
+  })
 
-animate.start({
-  transform: 'translateX(600px)',
-  backgroundColor: 'red'
-}, () => {
-  console.info('transition start')
-}).end({
-  // display: 'none'
-  transform: 'translateX(0)'
-}, () => {
   console.info('transition end')
 })
-
-el.addEventListener('click', () => {
-  animate.start({
-    animation: 'slideOutRight 3s ease'
-  }, () => {
-    console.info('animation start')
-  }).end({
-    animation: ''
-  }, () => {
-    console.info('animation end')
-  })
-}, false)
-```
-
-```css
-@keyframes slideOutRight {
-  from {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    visibility: hidden;
-    -webkit-transform: translate3d(100%, 0, 0);
-    transform: translate3d(100%, 0, 0);
-  }
-}
 ```
 
 ## API
@@ -72,25 +41,20 @@ el.addEventListener('click', () => {
 
 参数：
 
-* el：HTMLElement或者为空（对于mvvm类框架来说，可以在回调函数中触发渲染更新）
+* el：HTMLElement或者字符串选择器
 
-### animate.addStyle
+### animate.style
 
-自定义始化样式
+自定义样式，会自动判断是否需要增加css前缀
 
 参数：
 
 * style：[Object] 样式
 
-### animate.start
 
-* style：[Object] 样式
-* callback：[Function] 回调
+### animate.done
 
-### animate.end
-
-* style：[Object] 样式
-* callback：[Function] 回调
+* callback：[Function] 在transition或animation结束时触发
 
 ## Build Setup
 

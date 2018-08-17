@@ -1,56 +1,52 @@
-import { transitionEvent, animationEvent, getStyle } from './utils'
+import { getStyleName, cssTransform, transitionend, animationend } from './utils'
 
 export default class Animate {
   constructor (el) {
     this.el = typeof el !== 'string' ? el : document.querySelector(el)
-    this.countEnd = 0 // 多个属性过渡时的计数器
-    this.styleEnd = null // 过渡结束后重置样式
+
+    if (!this.el) {
+      console.error('[@axe/animate] The element is not exist.')
+    }
+
+    this.inlineStyle = this.el.style
+    // this.computedStyle = window.getComputedStyle(this.el, null)
+
     this.callbackEnd = null // 过渡结束后的回调函数
 
-    if (this.el) {
-      // 过渡结束监听
-      this.el.addEventListener(transitionEvent, (e) => {
-        let count = e.target.style.transitionDuration.split(',').length
+    // 过渡结束监听
+    this.el.addEventListener(transitionend, () => {
+      this.callbackEnd && this.callbackEnd()
+      this.callbackEnd = null
+    }, false)
 
-        if (++this.countEnd === count) {
-          this.addStyle(this.styleEnd)
-          this.callbackEnd && this.callbackEnd()
+    // 动画结束监听
+    this.el.addEventListener(animationend, () => {
+      this.callbackEnd && this.callbackEnd()
+      this.callbackEnd = null
+    }, false)
+  }
 
-          this.countEnd = 0
-          this.styleEnd = null
-          this.callbackEnd = null
-        }
-      }, false)
+  style (css) {
+    if (!css || typeof css !== 'object') return
 
-      // 动画结束监听
-      this.el.addEventListener(animationEvent, () => {
-        this.addStyle(this.styleEnd)
-        this.callbackEnd && this.callbackEnd()
+    let key, value
 
-        this.styleEnd = null
-        this.callbackEnd = null
-      }, false)
+    for (key in css) {
+      value = css[key] || ''
+
+      if (value.indexOf('transform') !== -1) {
+        value = value.replace('transform', cssTransform)
+      }
+
+      this.inlineStyle[getStyleName(key)] = value
     }
-  }
-
-  addStyle (style) {
-    if (!this.el || !style || typeof style !== 'object') return
-
-    Object.keys(style).forEach(key => {
-      let o = getStyle(key, style[key])
-      this.el.style[o.name] = o.value
-    })
-  }
-
-  start (style, cb) {
-    this.addStyle(style)
-    cb && cb()
 
     return this
   }
 
-  end (style, cb) {
-    this.styleEnd = style
-    this.callbackEnd = cb
+  done (fn) {
+    this.callbackEnd = fn
+
+    return this
   }
 }

@@ -1,71 +1,66 @@
-const fakeStyle = document.createElement('fakeelement').style
-const prefixs = ['webkit', 'moz', 'ms', 'o']
-
+const style = document.createElement('div').style
+const prefixes = {
+  'webkit': 'Webkit',
+  'moz': 'Moz',
+  'o': 'O',
+  'ms': 'ms'
+}
 const transitions = {
   'webkit': 'webkitTransitionEnd',
   'moz': 'transitionend',
-  'ms': 'transitionend',
-  'o': 'oTransitionEnd'
+  'o': 'oTransitionEnd',
+  'ms': 'MSTransitionend'
 }
-
 const animations = {
   'webkit': 'webkitAnimationEnd',
   'moz': 'animationend',
-  'ms': 'animationend',
-  'o': 'oAnimationEnd'
+  'o': 'oAnimationEnd',
+  'ms': 'MSAnimationend'
 }
 
-const transitionPrefix = getPrefix('transition')
-const animationPrefix = getPrefix('animation')
-const transformPrefix = getPrefix('transform')
+const cache = {} // 缓存数据
 
-export const transitionEvent = !transitionPrefix ? 'transitionend' : transitions[transitionPrefix]
-export const animationEvent = !animationPrefix ? 'animationend' : animations[animationPrefix]
-
-export function getPrefix (name) {
-  if (name in fakeStyle) {
-    return ''
+// 判断是否需要前缀并获取style名称
+export function getStyleName (name) {
+  if (name.indexOf('-') !== -1) {
+    name = name.replace(/-[a-z]/g, s => s[1].toUpperCase())
   }
 
-  // 首字母大写
-  let upperName = name[0].toUpperCase() + name.substr(1)
-  let i = 0
-  let l = prefixs.length
-  let realName
+  if (cache[name]) {
+    return cache[name].style
+  }
 
-  // 前缀判断
-  for (i = 0; i < l; i++) {
-    realName = prefixs[i] + upperName
+  let prefix = ''
+  let styleName = name
 
-    if (realName in fakeStyle) {
-      return prefixs[i]
+  if (!(styleName in style)) {
+    let key, prefixName
+    let upperName = name[0].toUpperCase() + name.substr(1)
+
+    for (key in prefixes) {
+      prefixName = prefixes[key] + upperName
+
+      if (prefixName in style) {
+        prefix = key
+        styleName = prefixName
+        break
+      }
     }
   }
 
-  // 都不支持则返回空
-  return ''
-}
-
-export function getProperty (name, prefix) {
-  if (!prefix) {
-    return name
+  cache[name] = {
+    prefix,
+    style: styleName
   }
 
-  return prefix + name[0].toUpperCase() + name.substr(1)
+  return styleName
 }
 
-export function getStyle (name, value) {
-  if (name.indexOf('transform') !== -1) {
-    name = getProperty(name, transformPrefix)
-  } else if (name.indexOf('animation') !== -1) {
-    name = getProperty(name, animationPrefix)
-  } else if (name.indexOf('transition') !== -1) {
-    name = getProperty(name, transitionPrefix)
+getStyleName('transform')
+getStyleName('transition')
+getStyleName('animation')
 
-    if (transformPrefix && value.indexOf('transform') !== -1) {
-      value = value.replace('transform', `-${transformPrefix}-transform`)
-    }
-  }
+export const cssTransform = !cache['transform'].prefix ? 'transform' : '-' + cache['transform'].prefix + '-transform'
 
-  return { name, value }
-}
+export const transitionend = !cache['transition'].prefix ? 'transitionend' : transitions[cache['transition'].prefix]
+export const animationend = !cache['animation'].prefix ? 'animationend' : animations[cache['animation'].prefix]

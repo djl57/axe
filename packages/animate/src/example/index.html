@@ -18,7 +18,9 @@
 </head>
 <body>
   <div id="root">
-    <div id="animate">animate</div>
+    <div id="transition">transition</div>
+    <div id="animation">animation</div>
+    <div id="requestAF">requestAF</div>
   </div>
   <% for (var k = 0; k < htmlWebpackPlugin.options.js.length; k++) { %>
     <script type="text/javascript" src="<%= htmlWebpackPlugin.options.js[k] %>"></script>
