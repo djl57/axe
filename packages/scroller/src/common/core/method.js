@@ -156,7 +156,6 @@ export default {
 
   off (eventName, fn) {
     if (!fn) {
-      this.listeners[eventName] = null
       return
     }
 

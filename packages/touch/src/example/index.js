@@ -1,42 +1,39 @@
-import Touch, { tap, longtap, doubletap, press, swipe } from '@/common'
+import { Tap, Press, Swipe } from '@/common'
 import './style.css'
 
-const touch = new Touch(document.getElementById('touch'))
-
-touch.tap(() => {
-  console.info('touch tap')
-}).press(() => {
-  console.info('touch press')
-})
-
 // tap
-tap(document.getElementById('tap'), () => {
+const tap = new Tap('#tap')
+tap.addEvent(() => {
   console.info('tap')
 })
 
 // longtap
-longtap(document.getElementById('longtap'), () => {
+const longtap = new Tap('#longtap')
+longtap.addEvent(() => {
   console.info('longtap')
-})
+}, 'longtap')
 
 // doubletap
-doubletap(document.getElementById('doubletap'), () => {
+const doubletap = new Tap('#doubletap')
+doubletap.addEvent(() => {
   console.info('doubletap')
-})
+}, 'doubletap')
 
 // press
-press(document.getElementById('press'), () => {
+const press = new Press('#press')
+press.addEvent(() => {
   console.info('press')
 })
 
 // swipe
 const swipeNode = document.getElementById('swipe')
-swipe(swipeNode, (direction) => {
+
+const swipe = new Swipe('#swipe')
+swipe.onMove((offsetX, offsetY) => {
+  swipeNode.style.left = offsetX + 'px'
+  swipeNode.style.top = offsetY + 'px'
+  console.info('swipe: x=' + offsetX + ', y=' + offsetY)
+})
+swipe.addEvent((direction) => {
   console.info('swipe ' + direction)
-}, {
-  touchmove (offsetX, offsetY) {
-    swipeNode.style.left = offsetX + 'px'
-    swipeNode.style.top = offsetY + 'px'
-    console.info('swipe: x=' + offsetX + ', y=' + offsetY)
-  }
 })

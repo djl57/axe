@@ -1,104 +1,96 @@
-import {
-  tap as tapDefaults,
-  longtap as longtapDefaults
-} from '../defaults'
-
-function handler (node, inject) {
-  let st, sx, sy
-
-  node.addEventListener('touchstart', (e) => {
-    e.preventDefault()
-
-    const touch = e.targetTouches[0]
-    st = e.timeStamp
-    sx = touch.pageX
-    sy = touch.pageY
-  }, false)
-
-  node.addEventListener('touchend', (e) => {
-    const touch = e.changedTouches[0]
-
-    inject({
-      time: e.timeStamp - st,
-      offsetX: Math.abs(touch.pageX - sx),
-      offsetY: Math.abs(touch.pageY - sy)
-    })
-  }, false)
+const tapDefaults = {
+  tapTime: 250,
+  longtapTime: 350,
+  offset: 10,
+  preventDefault: true
 }
 
-export function tap (node, a, b) {
-  let opts, callback
+export default class Tap {
+  constructor (node, options) {
+    this.node = typeof node === 'string' ? document.querySelector(node) : node
+    this.options = Object.assign({}, tapDefaults, options)
 
-  if (typeof a === 'function') {
-    callback = a
-    opts = Object.assign({}, tapDefaults, b)
-  } else {
-    callback = b
-    opts = Object.assign({}, tapDefaults, a)
-  }
-
-  handler(node, (info) => {
-    if (
-      info.time <= opts.time &&
-      info.offsetX <= opts.offset &&
-      info.offsetY <= opts.offset
-    ) {
-      callback && callback()
+    this.tapStatus = 0
+    this.listeners = {
+      tap: [],
+      longtap: [],
+      doubletap: []
     }
-  })
-}
 
-export function longtap (node, a, b) {
-  let opts, callback
-
-  if (typeof a === 'function') {
-    callback = a
-    opts = Object.assign({}, longtapDefaults, b)
-  } else {
-    callback = b
-    opts = Object.assign({}, longtapDefaults, a)
+    this._init()
   }
 
-  handler(node, (info) => {
-    if (
-      info.time > opts.time &&
-      info.offsetX <= opts.offset &&
-      info.offsetY <= opts.offset
-    ) {
-      callback && callback()
-    }
-  })
-}
-
-export function doubletap (node, a, b) {
-  let opts, callback
-  let status = 0
-
-  if (typeof a === 'function') {
-    callback = a
-    opts = Object.assign({}, tapDefaults, b)
-  } else {
-    callback = b
-    opts = Object.assign({}, tapDefaults, a)
-  }
-
-  handler(node, (info) => {
-    if (
-      info.time <= opts.time &&
-      info.offsetX <= opts.offset &&
-      info.offsetY <= opts.offset
-    ) {
-      if (status === 0) {
-        status = 1
-        setTimeout(() => {
-          status = 0
-        }, opts.time)
-      } else if (status === 1) {
-        callback && callback()
-        status = 0
+  _init () {
+    this.node.addEventListener('touchstart', (e) => {
+      if (this.options.preventDefault) {
+        e.preventDefault()
       }
-    } else {
-      status = 0
+
+      let point = e.targetTouches[0]
+      this.st = e.timeStamp
+      this.sx = point.pageX
+      this.sy = point.pageY
+    }, false)
+
+    this.node.addEventListener('touchend', (e) => {
+      let point = e.changedTouches[0]
+
+      let time = e.timeStamp - this.st
+      let offsetX = Math.abs(point.pageX - this.sx)
+      let offsetY = Math.abs(point.pageY - this.sy)
+
+      if (
+        time <= this.options.tapTime &&
+          offsetX <= this.options.offset &&
+          offsetY <= this.options.offset
+      ) {
+        this.dispatchEvent('tap')
+
+        if (this.listeners['doubletap'].length > 0) {
+          if (this.tapStatus === 0) {
+            this.tapStatus = 1
+
+            setTimeout(() => {
+              this.tapStatus = 0
+            }, this.options.tapTime)
+          } else if (this.tapStatus === 1) {
+            this.dispatchEvent('doubletap')
+            this.tapStatus = 0
+          }
+        }
+      } else {
+        this.tapStatus = 0
+      }
+
+      if (
+        time > this.options.longtapTime &&
+          offsetX <= this.options.offset &&
+          offsetY <= this.options.offset
+      ) {
+        this.dispatchEvent('longtap')
+      }
+    }, false)
+  }
+
+  addEvent (fn, type = 'tap') {
+    if (this.listeners[type]) {
+      this.listeners[type].push(fn)
     }
-  })
+  }
+
+  removeEvent (fn, type = 'tap') {
+    if (this.listeners[type] && this.listeners[type].length > 0) {
+      let index = this.listeners[type].findIndex(item => item === fn)
+
+      if (index !== -1) {
+        this.listeners[type].splice(index, 1)
+      }
+    }
+  }
+
+  dispatchEvent (type = 'tap') {
+    if (this.listeners[type] && this.listeners[type].length > 0) {
+      this.listeners[type].forEach(fn => fn())
+    }
+  }
 }

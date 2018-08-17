@@ -1,43 +1,64 @@
-import {
-  press as pressDefaults
-} from '../defaults'
+const pressDefaults = {
+  time: 350,
+  offset: 10,
+  preventDefault: true
+}
 
-export function press (node, a, b) {
-  let opts, callback, sx, sy
-  let timer = null
+export default class Press {
+  constructor (node, options) {
+    this.node = typeof node === 'string' ? document.querySelector(node) : node
+    this.options = Object.assign({}, pressDefaults, options)
 
-  if (typeof a === 'function') {
-    callback = a
-    opts = Object.assign({}, pressDefaults, b)
-  } else {
-    callback = b
-    opts = Object.assign({}, pressDefaults, a)
+    this.timer = null
+    this.listeners = []
+
+    this._init()
   }
 
-  node.addEventListener('touchstart', (e) => {
-    e.preventDefault()
+  _init () {
+    this.node.addEventListener('touchstart', (e) => {
+      if (this.options.preventDefault) {
+        e.preventDefault()
+      }
 
-    const touch = e.targetTouches[0]
-    sx = touch.pageX
-    sy = touch.pageY
+      let point = e.targetTouches[0]
+      this.sx = point.pageX
+      this.sy = point.pageY
 
-    timer = setTimeout(() => {
-      callback && callback()
-    }, opts.time)
-  }, false)
+      this.timer = setTimeout(() => {
+        this.dispatchEvent()
+      }, this.options.time)
+    }, false)
 
-  node.addEventListener('touchmove', (e) => {
-    const touch = e.targetTouches[0]
+    this.node.addEventListener('touchmove', (e) => {
+      let point = e.targetTouches[0]
 
-    if (
-      Math.abs(touch.pageX - sx) > opts.offset ||
-      Math.abs(touch.pageY - sy) > opts.offset
-    ) {
-      clearTimeout(timer)
+      if (
+        Math.abs(point.pageX - this.sx) > this.options.offset ||
+        Math.abs(point.pageY - this.sy) > this.options.offset
+      ) {
+        clearTimeout(this.timer)
+      }
+    }, false)
+
+    this.node.addEventListener('touchend', () => {
+      clearTimeout(this.timer)
+    }, false)
+  }
+
+  addEvent (fn) {
+    this.listeners.push(fn)
+  }
+
+  removeEvent (fn) {
+    let index = this.listeners.findIndex(item => item === fn)
+
+    if (index !== -1) {
+      this.listeners.splice(index, 1)
     }
-  }, false)
+  }
 
-  node.addEventListener('touchend', () => {
-    clearTimeout(timer)
-  }, false)
+  dispatchEvent (info) {
+    this.listeners.forEach(fn => fn(info))
+  }
 }

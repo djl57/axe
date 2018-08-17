@@ -1,59 +1,106 @@
-import {
-  swipe as swipeDefaults
-} from '../defaults'
 import { getDirection } from '../utils'
 
-export function swipe (node, a, b) {
-  let opts, callback, sTime, sTouch, eTouch
+const swipeDefaults = {
+  axis: 'all', // x, y
+  time: 300,
+  speed: 200,
+  offset: 100,
+  preventDefault: true
+}
 
-  if (typeof a === 'function') {
-    callback = a
-    opts = Object.assign({}, swipeDefaults, b)
-  } else {
-    callback = b
-    opts = Object.assign({}, swipeDefaults, a)
+export default class Swipe {
+  constructor (node, options) {
+    this.node = typeof node === 'string' ? document.querySelector(node) : node
+    this.options = Object.assign({}, swipeDefaults, options)
+
+    this.moveEvents = []
+    this.listeners = []
+
+    this._init()
   }
 
-  node.addEventListener('touchstart', (e) => {
-    if (opts.prevent) {
-      e.preventDefault()
-    }
+  _init () {
+    this.node.addEventListener('touchstart', (e) => {
+      if (this.options.preventDefault) {
+        e.preventDefault()
+      }
 
-    sTime = e.timeStamp
-    sTouch = eTouch = e.targetTouches[0]
-  }, false)
+      this.sTime = e.timeStamp
+      this.sTouch = this.eTouch = e.targetTouches[0]
+    }, false)
 
-  if (typeof opts.touchmove === 'function') {
-    node.addEventListener('touchmove', (e) => {
-      eTouch = e.targetTouches[0]
-      opts.touchmove(eTouch.pageX - sTouch.pageX, eTouch.pageY - sTouch.pageY)
+    this.node.addEventListener('touchmove', (e) => {
+      let point = e.targetTouches[0]
+
+      if (this.moveEvents.length > 0) {
+        this.moveEvents.forEach(fn => fn(point.pageX - this.sTouch.pageX, point.pageY - this.sTouch.pageY))
+      }
+
+      if (e.timeStamp - this.sTime > this.options.time) {
+        this.sTime = e.timeStamp
+        this.eTouch = point
+      }
+    }, false)
+
+    this.node.addEventListener('touchend', (e) => {
+      let point = e.changedTouches[0]
+
+      let time = e.timeStamp - this.sTime
+      let offsetX = point.pageX - this.eTouch.pageX
+      let offsetY = point.pageY - this.eTouch.pageY
+      let offsetXAll = point.pageX - this.sTouch.pageX
+      let offsetYAll = point.pageY - this.sTouch.pageY
+      let offset, offsetAll, direction
+
+      if (this.options.axis === 'x') {
+        offset = offsetX
+        offsetAll = offsetXAll
+        direction = getDirection(offsetXAll, 0)
+      } else if (this.options.axis === 'y') {
+        offset = offsetY
+        offsetAll = offsetYAll
+        direction = getDirection(0, offsetYAll)
+      } else {
+        if (Math.abs(offsetXAll) > Math.abs(offsetYAll)) {
+          offset = offsetX
+          offsetAll = offsetXAll
+        } else {
+          offset = offsetY
+          offsetAll = offsetYAll
+        }
+        direction = getDirection(offsetXAll, offsetYAll)
+      }
+
+      if (
+        Math.abs(offsetAll) >= this.options.offset ||
+        Math.abs(offset) / time * 1000 >= this.options.speed
+      ) {
+        this.dispatchEvent(direction)
+      }
     }, false)
   }
 
-  node.addEventListener('touchend', (e) => {
-    eTouch = e.changedTouches[0]
+  onMove (fn) {
+    this.moveEvents.push(fn)
+  }
 
-    let time = e.timeStamp - sTime
-    let offsetX = eTouch.pageX - sTouch.pageX
-    let offsetY = eTouch.pageY - sTouch.pageY
-    let offset, direction
+  addEvent (fn) {
+    this.listeners.push(fn)
+  }
 
-    if (opts.axis === 'horizontal') {
-      offset = offsetX
-      direction = getDirection(offsetX, 0)
-    } else if (opts.axis === 'vertical') {
-      offset = offsetY
-      direction = getDirection(0, offsetY)
-    } else {
-      offset = Math.abs(offsetX) > Math.abs(offsetY) ? offsetX : offsetY
-      direction = getDirection(offsetX, offsetY)
+  removeEvent (fn) {
+    if (this.listeners.length > 0) {
+      let index = this.listeners.findIndex(item => item === fn)
+
+      if (index !== -1) {
+        this.listeners.splice(index, 1)
+      }
     }
+  }
 
-    if (
-      Math.abs(offset) >= opts.offset ||
-      Math.abs(offset) / time * 1000 >= opts.speed
-    ) {
-      callback && callback(direction)
+  dispatchEvent (info) {
+    if (this.listeners.length > 0) {
+      this.listeners.forEach(fn => fn(info))
     }
-  }, false)
+  }
 }
