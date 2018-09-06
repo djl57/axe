@@ -1,6 +1,6 @@
 {
   "name": "@axe/scroller",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Scroll simulation solution on mobile device.",
   "main": "lib/index.js",
   "keywords": [
