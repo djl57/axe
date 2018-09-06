@@ -1,4 +1,5 @@
 import tips from '@/common'
+import './style.css'
 
 document.getElementById('tips').addEventListener('click', () => {
   tips.show({
