@@ -35,6 +35,11 @@ class Modal {
   _initEventListener () {
     const els = this.els
 
+    // 阻止弹窗底部内容滚动
+    els.modal.addEventListener('touchmove', e => {
+      e.preventDefault()
+    }, false)
+
     els.layer.addEventListener('click', () => {
       this.hide()
       this.callback && this.callback('close')
@@ -70,13 +75,6 @@ class Modal {
   show (options, callback) {
     const els = this.els
 
-    if (options.fixBody) {
-      this.bodyOverflow = document.body.style.overflow
-      document.body.style.overflow = 'hidden' // 解决webview中fixed定位会跟随页面滚动的问题
-    } else {
-      this.bodyOverflow = null
-    }
-
     if (options.zIndex) {
       els.modal.style.zIndex = options.zIndex
     }
@@ -108,10 +106,6 @@ class Modal {
   }
 
   hide () {
-    if (this.bodyOverflow !== null) {
-      document.body.style.overflow = this.bodyOverflow
-    }
-
     this.els.modal.style.display = 'none'
   }
 }

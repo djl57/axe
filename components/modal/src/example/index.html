@@ -17,8 +17,13 @@
 </head>
 <body>
   <div id="root">
-    <button id="alert">alert</button>
-    <button id="confirm">confirm</button>
+    <button class="button" id="alert">alert</button>
+    <button class="button" id="confirm">confirm</button>
+    <div>
+      <% for (var n = 0; n < 100; n++) { %>
+        <p class="text"><%= n %>. This is content</p>
+      <% } %>
+    </div>
   </div>
   <% for (var k = 0; k < htmlWebpackPlugin.options.js.length; k++) { %>
     <script type="text/javascript" src="<%= htmlWebpackPlugin.options.js[k] %>"></script>
