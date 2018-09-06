@@ -1,6 +1,6 @@
 {
   "name": "@axe/utils",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A common utils of javascript.",
   "main": "lib/index.js",
   "keywords": [
