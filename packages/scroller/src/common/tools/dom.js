@@ -1,57 +1,85 @@
 import { isUndef } from './util'
 
-const elementStyle = document.createElement('div').style
-const transformNames = {
-  'standard': 'transform',
-  'webkit': 'webkitTransform',
-  'Moz': 'MozTransform',
-  'O': 'OTransform',
-  'ms': 'msTransform'
+const style = document.createElement('div').style
+const vendors = {
+  webkit: 'Webkit',
+  moz: 'Moz',
+  o: 'O',
+  ms: 'ms'
 }
-const transitionEnds = {
-  'standard': 'transitionend',
-  'webkit': 'webkitTransitionEnd',
-  'Moz': 'transitionend',
-  'O': 'oTransitionEnd',
-  'ms': 'MSTransitionEnd'
+const eventVendors = {
+  webkit: 'webkit',
+  moz: '',
+  o: 'o',
+  ms: 'MS'
 }
 
-// 浏览器前缀
-const vendor = (() => {
-  for (let key in transformNames) {
-    if (!isUndef(elementStyle[transformNames[key]])) {
+function getVendorName (name) {
+  if (name in style) {
+    return ''
+  }
+
+  let upperName = name[0].toUpperCase() + name.substr(1)
+
+  for (let key in vendors) {
+    if ((vendors[key] + upperName) in style) {
       return key
     }
   }
 
-  return 'standard'
-})()
+  return ''
+}
 
-// 判断并获取css3属性
-export function prefixStyle (style) {
-  if (vendor === 'standard') {
-    return style
+// 判断是否需要前缀并获取style名称
+function getStyleName (name) {
+  let vendor = getVendorName(name)
+  return !vendor ? name : vendor + name[0].toUpperCase() + name.substr(1)
+}
+
+// 判断是否需要前缀并获取css名称
+function getCssName (name) {
+  let vendor = getVendorName(name)
+  let cssName = name.replace(/[A-Z]/g, s => '-' + s.toLowerCase())
+  return !vendor ? cssName : '-' + vendor + '-' + cssName
+}
+
+// 判断是否需要前缀并获取event名称，如：transitionend、animationend等
+export function getEventName (name) {
+  let key
+
+  if (name.indexOf('transition') === 0) {
+    key = 'transition'
+  } else if (name.indexOf('animation') === 0) {
+    key = 'animation'
   }
 
-  return vendor + style.charAt(0).toUpperCase() + style.substr(1)
+  if (!key) {
+    return name
+  }
+
+  let vendor = eventVendors[getVendorName(key)]
+
+  if (!vendor) {
+    return name
+  } else {
+    let suffixName = name.substr(key.length)
+    return vendor + key[0].toUpperCase() + key.substr(1) + suffixName[0].toUpperCase() + suffixName.substr(1)
+  }
 }
 
 // transition结束事件名
-export const transitionend = transitionEnds[vendor]
+export const transitionend = getEventName('transitionend')
 
 // 缓存常用的css3属性
 export const styleNames = {
-  'transform': prefixStyle('transform'),
-  // 'transformOrigin': prefixStyle('transformOrigin'),
-  'transitionProperty': prefixStyle('transitionProperty'),
-  'transitionTimingFunction': prefixStyle('transitionTimingFunction'),
-  'transitionDuration': prefixStyle('transitionDuration'),
-  // 'transitionDelay': prefixStyle('transitionDelay'),
-  'cssTransform': vendor === 'standard' ? 'transform' : `-${vendor.toLowerCase()}-transform`
+  'transform': getStyleName('transform'),
+  // 'transformOrigin': getStyleName('transformOrigin'),
+  'transitionProperty': getStyleName('transitionProperty'),
+  'transitionTimingFunction': getStyleName('transitionTimingFunction'),
+  'transitionDuration': getStyleName('transitionDuration'),
+  // 'transitionDelay': getStyleName('transitionDelay'),
+  'cssTransform': getCssName('transform')
 }
-
-// 是否可以支持gpu渲染
-// export const hasPerspective = prefixStyle('perspective') in elementStyle
 
 // 排除需要使用浏览器默认行为的节点
 export function preventDefaultException (el, exceptions) {

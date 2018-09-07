@@ -1,66 +1,78 @@
 const style = document.createElement('div').style
-const prefixes = {
-  'webkit': 'Webkit',
-  'moz': 'Moz',
-  'o': 'O',
-  'ms': 'ms'
+const vendors = {
+  webkit: 'Webkit',
+  moz: 'Moz',
+  o: 'O',
+  ms: 'ms'
 }
-const transitions = {
-  'webkit': 'webkitTransitionEnd',
-  'moz': 'transitionend',
-  'o': 'oTransitionEnd',
-  'ms': 'MSTransitionend'
+const eventVendors = {
+  webkit: 'webkit',
+  moz: '',
+  o: 'o',
+  ms: 'MS'
 }
-const animations = {
-  'webkit': 'webkitAnimationEnd',
-  'moz': 'animationend',
-  'o': 'oAnimationEnd',
-  'ms': 'MSAnimationend'
-}
+const cache = {}
 
-const cache = {} // 缓存数据
-
-// 判断是否需要前缀并获取style名称
-export function getStyleName (name) {
-  if (name.indexOf('-') !== -1) {
-    name = name.replace(/-[a-z]/g, s => s[1].toUpperCase())
+// 根据css熟悉获取浏览器前缀
+export function getVendorName (name) {
+  if (name in style) {
+    return ''
   }
 
-  if (cache[name]) {
-    return cache[name].style
-  }
+  let upperName = name[0].toUpperCase() + name.substr(1)
 
-  let prefix = ''
-  let styleName = name
-
-  if (!(styleName in style)) {
-    let key, prefixName
-    let upperName = name[0].toUpperCase() + name.substr(1)
-
-    for (key in prefixes) {
-      prefixName = prefixes[key] + upperName
-
-      if (prefixName in style) {
-        prefix = key
-        styleName = prefixName
-        break
-      }
+  for (let key in vendors) {
+    if ((vendors[key] + upperName) in style) {
+      return key
     }
   }
 
-  cache[name] = {
-    prefix,
-    style: styleName
-  }
-
-  return styleName
+  return ''
 }
 
-getStyleName('transform')
-getStyleName('transition')
-getStyleName('animation')
+// 判断是否需要前缀并获取style名称
+export function getStyleName (name) {
+  if (cache[name]) {
+    return cache[name]
+  }
 
-export const cssTransform = !cache['transform'].prefix ? 'transform' : '-' + cache['transform'].prefix + '-transform'
+  let vendor = getVendorName(name)
+  cache[name] = !vendor ? name : vendor + name[0].toUpperCase() + name.substr(1)
 
-export const transitionend = !cache['transition'].prefix ? 'transitionend' : transitions[cache['transition'].prefix]
-export const animationend = !cache['animation'].prefix ? 'animationend' : animations[cache['animation'].prefix]
+  return cache[name]
+}
+
+// 判断是否需要前缀并获取css名称
+export function getCssName (name) {
+  let vendor = getVendorName(name)
+  let cssName = name.replace(/[A-Z]/g, s => '-' + s.toLowerCase())
+  return !vendor ? cssName : '-' + vendor + '-' + cssName
+}
+
+// 判断是否需要前缀并获取event名称，如：transitionend、animationend等
+export function getEventName (name) {
+  let key
+
+  if (name.indexOf('transition') === 0) {
+    key = 'transition'
+  } else if (name.indexOf('animation') === 0) {
+    key = 'animation'
+  }
+
+  if (!key) {
+    return name
+  }
+
+  let vendor = eventVendors[getVendorName(key)]
+
+  if (!vendor) {
+    return name
+  } else {
+    let suffixName = name.substr(key.length)
+    return vendor + key[0].toUpperCase() + key.substr(1) + suffixName[0].toUpperCase() + suffixName.substr(1)
+  }
+}
+
+export const cssTransform = getCssName('transform')
+export const transitionend = getEventName('transitionend')
+export const animationend = getEventName('animationend')
