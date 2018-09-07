@@ -1,78 +1,49 @@
-const element = document.createElement('div')
-const style = element.style
-const prefixes = {
+const style = document.createElement('div').style
+const vendors = {
   webkit: 'Webkit',
   moz: 'Moz',
   o: 'O',
   ms: 'ms'
 }
-const eventPrefixes = {
+const eventVendors = {
   webkit: 'webkit',
   moz: '',
   o: 'o',
   ms: 'MS'
 }
-const cache = {} // 缓存数据
 
-// 判断是否需要前缀并获取style名称
-export function getStyleName (name) {
-  if (name.indexOf('-') !== -1) {
-    name = name.replace(/-[a-z]/g, s => s[1].toUpperCase())
+// 根据css熟悉获取浏览器前缀
+export function getVendorName (name) {
+  if (name in style) {
+    return ''
   }
 
-  if (cache[name]) {
-    return cache[name].style
-  }
+  let upperName = name[0].toUpperCase() + name.substr(1)
 
-  let prefix = ''
-  let styleName = name
-
-  if (!(styleName in style)) {
-    let key, prefixName
-    let upperName = name[0].toUpperCase() + name.substr(1)
-
-    for (key in prefixes) {
-      prefixName = prefixes[key] + upperName
-
-      if (prefixName in style) {
-        prefix = key
-        styleName = prefixName
-        break
-      }
+  for (let key in vendors) {
+    if ((vendors[key] + upperName) in style) {
+      return key
     }
   }
 
-  cache[name] = {
-    prefix,
-    style: styleName
-  }
+  return ''
+}
 
-  return styleName
+// 判断是否需要前缀并获取style名称
+export function getStyleName (name) {
+  let vendor = getVendorName(name)
+  return !vendor ? name : vendor + name[0].toUpperCase() + name.substr(1)
 }
 
 // 判断是否需要前缀并获取css名称
 export function getCssName (name) {
-  if (name.indexOf('-') !== -1) {
-    name = name.replace(/-[a-z]/g, s => s[1].toUpperCase())
-  }
-
-  if (!cache[name]) {
-    getStyleName(name)
-  }
-
-  if (!cache[name].css) {
-    cache[name].css = (cache[name].prefix ? '-' + cache[name].prefix + '-' : '') + name.replace(/[A-Z]/g, s => '-' + s.toLowerCase())
-  }
-
-  return cache[name].css
+  let vendor = getVendorName(name)
+  let cssName = name.replace(/[A-Z]/g, s => '-' + s.toLowerCase())
+  return !vendor ? cssName : '-' + vendor + '-' + cssName
 }
 
 // 判断是否需要前缀并获取event名称，如：transitionend、animationend等
 export function getEventName (name) {
-  if (cache[name]) {
-    return cache[name].event
-  }
-
   let key
 
   if (name.indexOf('transition') === 0) {
@@ -85,18 +56,14 @@ export function getEventName (name) {
     return name
   }
 
-  if (!cache[key]) {
-    getStyleName(key)
+  let vendor = eventVendors[getVendorName(key)]
+
+  if (!vendor) {
+    return name
+  } else {
+    let suffixName = name.substr(key.length)
+    return vendor + key[0].toUpperCase() + key.substr(1) + suffixName[0].toUpperCase() + suffixName.substr(1)
   }
-
-  let prefix = eventPrefixes[cache[key].prefix]
-  let eventName = !prefix ? name : prefix + key[0].toUpperCase() + name.substr(key.length)[0].toUpperCase()
-
-  cache[name] = {
-    event: eventName
-  }
-
-  return eventName
 }
 
 // 获取当前的translate值，如果是在过渡动画中，也可以实时获取

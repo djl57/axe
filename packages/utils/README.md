@@ -136,6 +136,7 @@ A common utils of javascript.
 
 ### style
 
+* getVendorName (name)：获取css属性的浏览器前缀
 * getStyleName (name)：判断是否需要前缀并获取style名称
 * getCssName (name)：判断是否需要前缀并获取css名称
 * getEventName (name)：判断是否需要前缀并获取event名称，如transitionend、animationend等
