@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.2"></a>
+## [0.3.2](https://github.com/ansenhuang/axe/compare/@axe/animate@0.3.1...@axe/animate@0.3.2) (2018-09-07)
+
+
+### Performance Improvements
+
+* browser prefix ([e6088b2](https://github.com/ansenhuang/axe/commit/e6088b2))
+
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/ansenhuang/axe/compare/@axe/animate@0.2.2...@axe/animate@0.3.1) (2018-09-06)
 
