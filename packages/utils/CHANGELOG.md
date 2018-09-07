@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.2"></a>
+## [0.2.2](https://github.com/ansenhuang/axe/compare/@axe/utils@0.2.1...@axe/utils@0.2.2) (2018-09-07)
+
+
+### Performance Improvements
+
+* utils style ([ad6c984](https://github.com/ansenhuang/axe/commit/ad6c984))
+
+
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/ansenhuang/axe/compare/@axe/utils@0.1.0...@axe/utils@0.2.1) (2018-09-06)
 
