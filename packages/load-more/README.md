@@ -72,7 +72,7 @@ $ npm install -g fle-cli
 $ yarn global add fle-cli
 ```
 
-命令说明
+命令说明
 
 ```bash
 # 本地开发

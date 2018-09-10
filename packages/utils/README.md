@@ -117,7 +117,7 @@ A common utils of javascript.
 * throttle (fn, wait = 100, trailing)：截流，即一段时间频繁操作，只触发一次
   * fn：回调方法
   * wait：防抖时间
-  * trailing：是否进行延迟触发，默认是
+  * trailing：是否进行延迟触发，默认是
 * copy (text)：复制文本到剪贴板，该兼容性不是很好
   * text：要复制的文本
 
@@ -127,7 +127,7 @@ A common utils of javascript.
   * el：字符串或节点
   * parent：在父级节点查找
 * getElementList (els, parent = document)：获取多个节点
-* createEvent (eventName = 'click')：创建自定义事件
+* createEvent (eventName = 'click')：创建自定义事件
 * dispatchEvent (e, ev)：触发自定义事件
 * getOffsetFromDoc (el)：获取节点基于当前视窗掉偏移位置
   * 返回值：{ top, left }
@@ -148,7 +148,7 @@ A common utils of javascript.
 * getCookie (name)：获取cookie
 * setCookie (name, value, options = {})：设置cookie
   * options:
-    * expires：时间戳或者格式化时间字符串'2018-09-09 08:08'，cookie过期的日期，如果没有定义，cookie会在对话结束时过期
+    * expires：时间戳或者格式化时间字符串'2018-09-09 08:08'，cookie过期的日期，如果没有定义，cookie会在对话结束时过期
     * path: path=path (例如 '/', '/mydir') 如果没有定义，默认为当前文档位置的路径
     * domain：指定域(例如 'example.com'， '.example.com' (包括所有子域名), 'subdomain.example.com') 如果没有定义，默认为当前文档位置的路径的域名部分。
     * max-age：文档被查看后cookie过期时间，单位为秒

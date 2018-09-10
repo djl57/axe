@@ -1,7 +1,7 @@
 {
   "business": "scroller",
   "eslint": true,
-  "publicPath": "/",
+  "publicPath": "/dist/",
   "splitVendor": true,
   "splitCommon": true,
   "vendors": {},
