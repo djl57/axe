@@ -117,7 +117,7 @@ export default class Slideshow {
     this.el.addEventListener('touchstart', e => {
       clearTimeout(this.timer)
 
-      let point = e.touches[0]
+      let point = e.targetTouches[0]
 
       this.startX = this.pointX = this.speedX = point.pageX
       this.startTime = this.pointTime = this.speedTime = Date.now()
@@ -126,7 +126,7 @@ export default class Slideshow {
     this.el.addEventListener('touchmove', e => {
       this.options.preventDefault && e.preventDefault()
 
-      let point = e.touches[0]
+      let point = e.targetTouches[0]
       let x = this.translateX + this.pointX - point.pageX
 
       if (!this.options.seamless) {
