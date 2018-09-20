@@ -11,6 +11,6 @@
   "author": "ansenhuang <ancheng1992@126.com>",
   "license": "MIT",
   "peerDependencies": {
-    "@axe/utils": "^0.2.2"
+    "@axe/utils": "latest"
   }
 }
