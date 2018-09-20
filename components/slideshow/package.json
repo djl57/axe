@@ -1,6 +1,6 @@
 {
   "name": "@axe/slideshow",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A library created by fle-cli.",
   "main": "lib/index.js",
   "keywords": [
@@ -10,7 +10,6 @@
   ],
   "author": "ansenhuang <ancheng1992@126.com>",
   "license": "MIT",
-  "dependencies": {},
   "peerDependencies": {
     "@axe/utils": "^0.2.2"
   }
