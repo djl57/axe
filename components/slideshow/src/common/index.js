@@ -207,13 +207,15 @@ export default class Slideshow {
         this.currIndex = 0
         this.changeTranslate(this.translateX - this.totalWidth)
       }
-    }
 
-    this.showIndex = this.options.seamless ? this.currIndex + 1 : this.currIndex
-
-    setTimeout(() => {
+      this.showIndex = this.options.seamless ? this.currIndex + 1 : this.currIndex
+      setTimeout(() => {
+        this.changeTranslate(this.width * this.showIndex, true)
+      }, 0)
+    } else {
+      this.showIndex = this.options.seamless ? this.currIndex + 1 : this.currIndex
       this.changeTranslate(this.width * this.showIndex, true)
-    }, 0)
+    }
 
     if (n !== 0) {
       if (this.indicatorChildren) {
