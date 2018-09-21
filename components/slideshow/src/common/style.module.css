@@ -11,7 +11,7 @@
   }
 }
 
-.indicators {
+.indicator {
   position: absolute;
   left: 0;
   right: 0;
@@ -23,7 +23,7 @@
   padding: 0;
   margin: 0;
 
-  li {
+  &-item {
     float: left;
     margin: 0 8rpx 0;
     padding: 0;
@@ -33,7 +33,7 @@
     background-color: #fff;
     opacity: .3;
 
-    &.active {
+    &-active {
       opacity: 1;
     }
   }

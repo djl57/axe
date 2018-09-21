@@ -24,6 +24,11 @@ export default class Slideshow {
       limitSpeed: 0.2,
       autoplay: 3000,
       indicator: true,
+      indicatorClass: {
+        list: mcss.indicator,
+        item: mcss.indicatorItem,
+        itemActive: mcss.indicatorItemActive
+      },
       preventDefault: true,
       transition: {
         duration: 500,
@@ -93,16 +98,19 @@ export default class Slideshow {
 
   _initIndicator () {
     if (this.options.indicator) {
+      let indicatorClass = this.options.indicatorClass
+
       this.indicatorEl = document.createElement('ul')
-      this.indicatorEl.className = this.indicatorClass || mcss.indicators
+      this.indicatorEl.className = indicatorClass.list
 
       this.indicatorChildren = []
 
       for (let i = 0; i <= this.lastIndex; i++) {
         let liEl = document.createElement('li')
+        liEl.className = indicatorClass.item
 
         if (this.currIndex === i) {
-          liEl.className = this.indicatorActiveClass || mcss.active
+          liEl.className += ' ' + indicatorClass.itemActive
         }
 
         this.indicatorChildren.push(liEl)
@@ -209,8 +217,8 @@ export default class Slideshow {
 
     if (n !== 0) {
       if (this.indicatorChildren) {
-        this.indicatorChildren[prevIndex].className = ''
-        this.indicatorChildren[this.currIndex].className = this.indicatorActiveClass || mcss.active
+        this.indicatorChildren[prevIndex].className = this.options.indicatorClass.item
+        this.indicatorChildren[this.currIndex].className += ' ' + this.options.indicatorClass.itemActive
       }
 
       if (typeof this.options.onchange === 'function') {
