@@ -81,7 +81,8 @@ export default class Request {
           type: e.type,
           status: xhr.status,
           statusText: xhr.statusText,
-          response: parseJSON(xhr.responseText)
+          response: parseJSON(xhr.responseText),
+          reqInfo: opts
         }
 
         if (isFunction(opts.afterResponse)) {

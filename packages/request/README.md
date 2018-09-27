@@ -138,6 +138,7 @@ document.getElementById('file').addEventListener('change', (e) => {
 - status (number) only `200 <= n < 300` is success
 - statusText (string) code message
 - response (any) data from server, it will be return directly when success
+- reqInfo: same to request
 
 ### global
 

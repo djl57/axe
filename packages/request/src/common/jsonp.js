@@ -40,7 +40,8 @@ export default function jsonp (opts, defaults) {
         type: e.type,
         status: e.type === 'load' ? 200 : 500,
         statusText: e.type === 'load' ? 'ok' : 'fail',
-        response
+        response,
+        reqInfo: opts
       }
 
       if (isFunction(opts.afterResponse)) {
@@ -66,7 +67,8 @@ export default function jsonp (opts, defaults) {
           type: 'timeout',
           status: 500,
           statusText: 'fail',
-          response
+          response,
+          reqInfo: opts
         }
 
         if (isFunction(opts.afterResponse)) {
