@@ -127,6 +127,7 @@ document.getElementById('file').addEventListener('change', (e) => {
 - timeout (number) how much time should spend at a request, default is infinite
 - beforeRequest (function) run method before send request, it can change request options
 - afterResponse (function) run method after get response, it can change response value
+- _abort (boolean): cancel this request
 
 ### response
 

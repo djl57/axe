@@ -5,6 +5,7 @@ import './style.css'
 // request.defaults.baseURL = 'http://localhost:5000'
 // request.defaults.beforeRequest = function (req) {
 //   req.url += '/fdsa'
+//   // req._abort = true
 // }
 // request.defaults.afterResponse = function (res) {
 //   res.status = 0

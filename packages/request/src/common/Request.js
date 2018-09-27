@@ -14,6 +14,11 @@ export default class Request {
       defaults.beforeRequest(opts)
     }
 
+    // 取消请求
+    if (opts._abort) {
+      return new Promise(() => {})
+    }
+
     if (isObject(opts.inlineData)) {
       Object.keys(opts.inlineData).forEach(key => {
         opts.url = opts.url.replace(`:{${key}}`, opts.inlineData[key])
