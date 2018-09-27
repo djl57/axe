@@ -71,7 +71,18 @@ export default class Slideshow {
     let list = this.options.list
 
     if (this.options.seamless) {
-      list = [].concat([list[list.length - 1]], list, [list[0]])
+      let firstItem = list[0]
+      let lastItem = list[list.length - 1]
+
+      if (isElement(firstItem)) {
+        firstItem = firstItem.innerHTML
+      }
+
+      if (isElement(lastItem)) {
+        lastItem = lastItem.innerHTML
+      }
+
+      list = [].concat([lastItem], list, [firstItem])
     }
 
     list.forEach(item => {
@@ -211,7 +222,7 @@ export default class Slideshow {
       this.showIndex = this.options.seamless ? this.currIndex + 1 : this.currIndex
       setTimeout(() => {
         this.changeTranslate(this.width * this.showIndex, true)
-      }, 0)
+      }, 50)
     } else {
       this.showIndex = this.options.seamless ? this.currIndex + 1 : this.currIndex
       this.changeTranslate(this.width * this.showIndex, true)
