@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.5.2"></a>
+## [0.5.2](https://github.com/ansenhuang/axe/compare/@axe/request@0.5.1...@axe/request@0.5.2) (2018-09-27)
+
+
+### Performance Improvements
+
+* request ([12e1a4e](https://github.com/ansenhuang/axe/commit/12e1a4e))
+
+
+
+
 <a name="0.5.1"></a>
 ## [0.5.1](https://github.com/ansenhuang/axe/compare/@axe/request@0.4.2...@axe/request@0.5.1) (2018-09-06)
 
