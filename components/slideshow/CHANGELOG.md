@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/ansenhuang/axe/compare/@axe/slideshow@0.1.1...@axe/slideshow@0.1.2) (2018-09-27)
+
+
+### Bug Fixes
+
+* slide seamless ([7308e7d](https://github.com/ansenhuang/axe/commit/7308e7d))
+
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/ansenhuang/axe/compare/@axe/slideshow@0.1.0...@axe/slideshow@0.1.1) (2018-09-21)
 
