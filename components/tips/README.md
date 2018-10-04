@@ -4,15 +4,27 @@
 
 ## Api
 
-### tips.show(options, callback)
+### tips.show(options).then(() => {})
 
 **options**
 
 * zIndex: 层级
 * content: 文本内容
-* duration = 1500: 显示的时间，时间到后会触发callback回调
+* contentHtml: html内容
+* duration = 1500: 显示的时间
+* immediate = true: 是否立即显示（会覆盖上次还未关闭的提示），若为false则加入队列中，等待上次提示关闭再显示
 
 ### tips.hide()
+
+关闭提示
+
+### tips.hideAll()
+
+关闭所有提示，包括队列中的
+
+### export Tips(el)
+
+导出Tips，可以自行实例化一个新的提示，默认将DOM节点追加到body中
 
 ## Build Setup
 

@@ -1,12 +1,19 @@
 .tips {
   position: fixed;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 102;
+  z-index: 10002;
+  width: 100%;
+  transform: translateY(-50%);
+}
+
+.body {
+  margin: 0 auto;
+  max-width: 72%;
+  text-align: center;
 }
 
 .content {
+  display: inline-block;
   min-width: 320rpx;
   padding: 20rpx;
   word-wrap: break-word;
@@ -18,7 +25,6 @@
   background-color: rgba(0, 0, 0, .7);
   animation: __tip_bounce_enter__ .75s ease;
 }
-
 
 @keyframes __tip_bounce_enter__ {
   0% {

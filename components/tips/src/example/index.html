@@ -17,7 +17,8 @@
 </head>
 <body>
   <div id="root">
-      <button class="button" id="tips">tips</button>
+    <button class="button" id="tips">tips</button>
+    <button class="button" id="html">contentHtml</button>
   </div>
   <% for (var k = 0; k < htmlWebpackPlugin.options.js.length; k++) { %>
     <script type="text/javascript" src="<%= htmlWebpackPlugin.options.js[k] %>"></script>
