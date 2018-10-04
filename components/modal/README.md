@@ -10,7 +10,8 @@
 
 * zIndex: 层级
 * title: 标题
-* content: 内容
+* content: 文字内容
+* contentHtml: html内容
 * confirmText(确定): 确定按钮文字
 * confirmColor: 确定按钮文字颜色
 * cancelText: 取消按钮文字，若不设置则只显示确定按钮

@@ -8,7 +8,7 @@ export class Modal {
       layer: document.createElement('div'),
       body: document.createElement('div'),
       title: document.createElement('h3'),
-      content: document.createElement('p'),
+      content: document.createElement('div'),
       btnWrap: document.createElement('div'),
       confirm: document.createElement('button'),
       cancel: document.createElement('button')
@@ -101,7 +101,11 @@ export class Modal {
       els.title.style.display = 'none'
     }
 
-    els.content.textContent = options.content || ''
+    if (!options.contentHtml) {
+      els.content.textContent = options.content || ''
+    } else {
+      els.content.innerHTML = options.contentHtml
+    }
 
     els.confirm.style.color = options.confirmColor || ''
     els.confirm.textContent = options.confirmText || '确定'

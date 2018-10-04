@@ -20,3 +20,13 @@ document.getElementById('confirm').addEventListener('click', () => {
     console.info(isConfirm ? 'comfirm' : 'cancel')
   })
 }, false)
+
+document.getElementById('html').addEventListener('click', () => {
+  modal.show({
+    title: '标题',
+    contentHtml: ['<p>积分电路设计</p>', '<p>积分电路设计</p>'].join(''),
+    cancelText: '取消'
+  }).then((isConfirm) => {
+    console.info(isConfirm ? 'comfirm' : 'cancel')
+  })
+}, false)
