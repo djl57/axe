@@ -24,7 +24,9 @@ if (metaEl) {
     dpr = 1 / scale
   }
 } else {
-  dpr = window.devicePixelRatio || 1
+  const isMobile = /applewebkit.*mobile.*/.test(window.navigator.userAgent.toLowerCase()) // 是否为移动终端
+
+  dpr = isMobile ? (window.devicePixelRatio || 1) : 1
   scale = 1 / dpr
 
   const newMetaEl = document.createElement('meta')
