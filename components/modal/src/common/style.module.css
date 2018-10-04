@@ -56,7 +56,7 @@
   border-radius: 0;
   flex-grow: 1;
   font-size: 28rpx;
-  padding: 15rpx;
+  line-height: 80rpx;
   background-color: transparent;
 
   &.confirm {

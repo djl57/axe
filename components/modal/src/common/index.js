@@ -1,6 +1,6 @@
 import mcss from './style.module.css'
 
-class Modal {
+export class Modal {
   constructor (parentNode) {
     this.parentNode = parentNode || document.body
     this.els = {
@@ -17,6 +17,9 @@ class Modal {
     this._initClassName()
     this._initEventListener()
     this._initRender()
+
+    // 弹窗队列
+    this.queue = []
   }
 
   _initClassName () {
@@ -37,22 +40,34 @@ class Modal {
 
     // 阻止弹窗底部内容滚动
     els.modal.addEventListener('touchmove', e => {
-      e.preventDefault()
-    }, false)
+      let data = e.target.dataset || {}
 
+      if (typeof data.scroll === 'undefined') {
+        e.preventDefault()
+      }
+    }, {
+      passive: false,
+      capture: false
+    })
+
+    // 点击蒙层
     els.layer.addEventListener('click', () => {
+      if (!this.closeByLayer) return
+
+      this.resolve(false)
       this.hide()
-      this.callback && this.callback('close')
     }, false)
 
+    // 点击取消
     els.cancel.addEventListener('click', () => {
+      this.resolve(false)
       this.hide()
-      this.callback && this.callback('cancel')
     }, false)
 
+    // 点击确定
     els.confirm.addEventListener('click', () => {
+      this.resolve(true)
       this.hide()
-      this.callback && this.callback('confirm')
     }, false)
   }
 
@@ -72,7 +87,7 @@ class Modal {
     this.parentNode.appendChild(els.modal)
   }
 
-  show (options, callback) {
+  _open ({ options, resolve }) {
     const els = this.els
 
     if (options.zIndex) {
@@ -94,19 +109,40 @@ class Modal {
     if (options.cancelText) {
       els.cancel.style.display = ''
       els.cancel.style.color = options.cancelColor || ''
-      els.cancel.textContent = (typeof options.cancelText === 'string') ? options.cancelText : '取消'
+      els.cancel.textContent = options.cancelText
     } else {
       els.cancel.style.display = 'none'
     }
 
-    this.callback = callback
-
     // show
     els.modal.style.display = ''
+
+    this.closeByLayer = options.closeByLayer !== false ? true : false
+    this.resolve = resolve
+  }
+
+  show (options) {
+    if (typeof options === 'string') {
+      options = { content: options }
+    }
+
+    return new Promise((resolve) => {
+      let item = { options, resolve }
+
+      if (this.els.modal.style.display === 'none') {
+        this._open(item)
+      } else {
+        this.queue.push(item) // 暂存到队列中
+      }
+    })
   }
 
   hide () {
-    this.els.modal.style.display = 'none'
+    if (this.queue.length === 0) {
+      this.els.modal.style.display = 'none'
+    } else {
+      this._open(this.queue.shift())
+    }
   }
 }
 

@@ -4,26 +4,28 @@
 
 ## Api
 
-### modal.show(options, callback)
+### modal.show(options).then((isConfirm) => {})
 
 **options**
 
 * zIndex: 层级
 * title: 标题
 * content: 内容
-* confirmText: 确定按钮文字
+* confirmText(确定): 确定按钮文字
 * confirmColor: 确定按钮文字颜色
 * cancelText: 取消按钮文字，若不设置则只显示确定按钮
 * cancelColor: 取消按钮文字颜色
+* closeByLayer(true): 点击蒙层是否关闭弹窗
 
-**callback**
-
-callback(type) => type[close, confirm, cancel]
-
-type有3种类型，close为点击蒙层关闭、confirm为点击确定按钮、cancel为点击取消按钮
+*备注：若options为一个字符串，则其为content，其他字段使用默认值*
 
 ### modal.hide()
 
+关闭弹窗，若同时有多个弹窗，则后面的弹窗会保存在队列中，待前面的弹窗关闭时，队列中的弹窗自动补上
+
+### export Modal(el)
+
+导出Modal，可以自行实例化一个新的弹窗，默认将DOM节点追加到body中
 
 ## Build Setup
 
