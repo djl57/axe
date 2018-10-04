@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/ansenhuang/axe/compare/@axe/modal@0.1.1...@axe/modal@0.2.0) (2018-10-04)
+
+
+### Bug Fixes
+
+* fixed width ([fca8ec6](https://github.com/ansenhuang/axe/commit/fca8ec6))
+* modal fixed ([9a207ea](https://github.com/ansenhuang/axe/commit/9a207ea))
+
+
+### Features
+
+* modal html ([aa14f8a](https://github.com/ansenhuang/axe/commit/aa14f8a))
+
+
+### Performance Improvements
+
+* modal hideAll ([992e183](https://github.com/ansenhuang/axe/commit/992e183))
+
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/ansenhuang/axe/compare/@axe/modal@0.0.9...@axe/modal@0.1.1) (2018-09-06)
 

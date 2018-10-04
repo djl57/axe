@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/ansenhuang/axe/compare/@axe/tips@0.1.1...@axe/tips@0.2.0) (2018-10-04)
+
+
+### Bug Fixes
+
+* fixed width ([fca8ec6](https://github.com/ansenhuang/axe/commit/fca8ec6))
+
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/ansenhuang/axe/compare/@axe/tips@0.0.8...@axe/tips@0.1.1) (2018-09-06)
 
