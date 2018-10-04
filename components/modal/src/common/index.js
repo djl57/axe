@@ -148,6 +148,11 @@ export class Modal {
       this._open(this.queue.shift())
     }
   }
+
+  hideAll () {
+    this.queue = []
+    this.els.modal.style.display = 'none'
+  }
 }
 
 export default new Modal()
