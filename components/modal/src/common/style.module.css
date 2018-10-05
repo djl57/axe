@@ -21,11 +21,6 @@
 
 .body {
   width: 72%;
-  word-wrap: break-word;
-  font-size: 28rpx;
-  color: #666;
-  line-height: 1.5;
-  text-align: center;
   border-radius: 8rpx;
   background-color: #fff;
   animation: __modal_bounce_enter__ .75s ease;
@@ -35,12 +30,18 @@
   font-size: 36rpx;
   color: #333;
   font-weight: 500;
+  text-align: center;
   margin-top: 20rpx;
   margin-bottom: -10px;
 }
 
 .content {
   padding: 40rpx 20rpx;
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+  text-align: center;
+  word-wrap: break-word;
 }
 
 .btn-wrap {
@@ -54,6 +55,7 @@
   border-radius: 0;
   flex-grow: 1;
   font-size: 28rpx;
+  text-align: center;
   line-height: 80rpx;
   background-color: transparent;
 
