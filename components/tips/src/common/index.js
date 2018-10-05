@@ -5,8 +5,8 @@ export class Tips {
     this.parentNode = parentNode || document.body
     this.els = {
       tips: document.createElement('div'),
-      body: document.createElement('div'),
-      content: document.createElement('div')
+      layer: document.createElement('div'),
+      body: document.createElement('div')
     }
 
     this.queue = []
@@ -19,14 +19,14 @@ export class Tips {
     const els = this.els
 
     els.tips.className = mcss.tips
+    els.layer.className = mcss.layer
     els.body.className = mcss.body
-    els.content.className = mcss.content
   }
 
   _initRender () {
     const els = this.els
 
-    els.body.appendChild(els.content)
+    els.tips.appendChild(els.layer)
     els.tips.appendChild(els.body)
 
     els.tips.style.display = 'none'
@@ -41,24 +41,26 @@ export class Tips {
       els.tips.style.zIndex = options.zIndex
     }
 
-    if (!options.contentHtml) {
-      els.content.textContent = options.content || ''
-    } else {
-      els.content.innerHTML = options.contentHtml
-    }
+    let iconHtml = options.icon ? `<i class="${mcss.icon + ' ' + options.icon}"></i>` : ''
+    let contentHtml = options.contentHtml ? options.contentHtml : options.content
+
+    els.body.innerHTML = iconHtml + contentHtml + (iconHtml ? `<div class="${mcss.holder}"></div>` : '')
+
+    // show
+    els.tips.style.display = ''
 
     setTimeout(() => {
       resolve()
       this.hide()
     }, options.duration || 1500)
-
-    // show
-    els.tips.style.display = ''
   }
 
-  show (options) {
+  show (options, b) {
     if (typeof options === 'string') {
-      options = { content: options }
+      options = {
+        content: options,
+        duration: (typeof b === 'number') && b
+      }
     }
 
     return new Promise(resolve => {

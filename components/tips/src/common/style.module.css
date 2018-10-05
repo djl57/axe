@@ -1,20 +1,27 @@
 .tips {
   position: fixed;
-  top: 50%;
-  z-index: 10002;
+  top: 0;
+  bottom: 0;
+  z-index: 10001;
   width: 750rpx;
-  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  background-color: transparent;
 }
 
 .body {
-  margin: 0 auto;
+  min-width: 240rpx;
   max-width: 72%;
-  text-align: center;
-}
-
-.content {
-  display: inline-block;
-  min-width: 320rpx;
   padding: 20rpx;
   word-wrap: break-word;
   font-size: 28rpx;
@@ -24,6 +31,17 @@
   border-radius: 8rpx;
   background-color: rgba(0, 0, 0, .7);
   animation: __tip_bounce_enter__ .75s ease;
+}
+
+.holder {
+  height: 25rpx;
+}
+
+.icon {
+  display: block;
+  width: 76rpx;
+  height: 76rpx;
+  margin: 35rpx auto 22rpx;
 }
 
 @keyframes __tip_bounce_enter__ {
