@@ -27,8 +27,7 @@ document.getElementById('html').addEventListener('click', () => {
 
 document.getElementById('loading').addEventListener('click', () => {
   tips.show({
-    icon: 'icon icon-loading',
-    content: '加载中',
+    contentHtml: '<i class="icon icon-loading"></i><p class="icon-text">加载中</p>',
     duration: 3000
   }).then(() => {
     console.info('loading end')
@@ -37,8 +36,7 @@ document.getElementById('loading').addEventListener('click', () => {
 
 document.getElementById('success').addEventListener('click', () => {
   tips.show({
-    icon: 'icon icon-success',
-    content: '成功',
+    contentHtml: '<i class="icon icon-success"></i><p class="icon-text">成功</p>',
     duration: 3000
   }).then(() => {
     console.info('success end')
@@ -47,8 +45,7 @@ document.getElementById('success').addEventListener('click', () => {
 
 document.getElementById('error').addEventListener('click', () => {
   tips.show({
-    icon: 'icon icon-error',
-    content: '错误',
+    contentHtml: '<i class="icon icon-error"></i><p class="icon-text">错误</p>',
     duration: 3000
   }).then(() => {
     console.info('error end')
@@ -57,8 +54,7 @@ document.getElementById('error').addEventListener('click', () => {
 
 document.getElementById('info').addEventListener('click', () => {
   tips.show({
-    icon: 'icon icon-info',
-    content: '提示',
+    contentHtml: '<i class="icon icon-info"></i><p class="icon-text">提示</p>',
     duration: 3000
   }).then(() => {
     console.info('info end')
@@ -67,8 +63,7 @@ document.getElementById('info').addEventListener('click', () => {
 
 document.getElementById('question').addEventListener('click', () => {
   tips.show({
-    icon: 'icon icon-question',
-    content: '疑问',
+    contentHtml: '<i class="icon icon-question"></i><p class="icon-text">疑问</p>',
     duration: 3000
   }).then(() => {
     console.info('question end')

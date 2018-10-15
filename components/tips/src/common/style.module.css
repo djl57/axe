@@ -33,17 +33,6 @@
   animation: __tip_bounce_enter__ .75s ease;
 }
 
-.holder {
-  height: 25rpx;
-}
-
-.icon {
-  display: block;
-  width: 76rpx;
-  height: 76rpx;
-  margin: 35rpx auto 22rpx;
-}
-
 @keyframes __tip_bounce_enter__ {
   0% {
     opacity: 0;

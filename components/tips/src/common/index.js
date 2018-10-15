@@ -13,6 +13,18 @@ export class Tips {
 
     this._initClassName()
     this._initRender()
+
+    // 阻止弹窗底部内容滚动
+    this.els.tips.addEventListener('touchmove', e => {
+      let data = e.target.dataset || {}
+
+      if (typeof data.scroll === 'undefined') {
+        e.preventDefault()
+      }
+    }, {
+      passive: false,
+      capture: false
+    })
   }
 
   _initClassName () {
@@ -41,10 +53,11 @@ export class Tips {
       els.tips.style.zIndex = options.zIndex
     }
 
-    let iconHtml = options.icon ? `<i class="${mcss.icon + ' ' + options.icon}"></i>` : ''
-    let contentHtml = options.contentHtml ? options.contentHtml : options.content
-
-    els.body.innerHTML = iconHtml + contentHtml + (iconHtml ? `<div class="${mcss.holder}"></div>` : '')
+    if (!options.contentHtml) {
+      els.body.textContent = options.content || ''
+    } else {
+      els.body.innerHTML = options.contentHtml
+    }
 
     // show
     els.tips.style.display = ''
