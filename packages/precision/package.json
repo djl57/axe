@@ -1,6 +1,6 @@
 {
   "name": "@axe/precision",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A library created by fle-cli.",
   "main": "lib/index.js",
   "keywords": [
@@ -8,6 +8,5 @@
     "webpack"
   ],
   "author": "ansenhuang <ancheng1992@126.com>",
-  "license": "MIT",
-  "dependencies": {}
+  "license": "MIT"
 }
