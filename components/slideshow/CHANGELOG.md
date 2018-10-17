@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/ansenhuang/axe/compare/@axe/slideshow@0.1.2...@axe/slideshow@0.1.3) (2018-10-17)
+
+
+### Performance Improvements
+
+* * ([b11738a](https://github.com/ansenhuang/axe/commit/b11738a))
+
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/ansenhuang/axe/compare/@axe/slideshow@0.1.1...@axe/slideshow@0.1.2) (2018-09-27)
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.2"></a>
+## [0.3.2](https://github.com/ansenhuang/axe/compare/@axe/tips@0.3.1...@axe/tips@0.3.2) (2018-10-17)
+
+
+### Performance Improvements
+
+* * ([b11738a](https://github.com/ansenhuang/axe/commit/b11738a))
+
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/ansenhuang/axe/compare/@axe/tips@0.3.0...@axe/tips@0.3.1) (2018-10-15)
 
