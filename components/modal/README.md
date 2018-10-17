@@ -4,7 +4,7 @@
 
 ## Api
 
-### modal.show(options).then((isConfirm) => {})
+### modal.show(options, callback)
 
 **options**
 
@@ -19,6 +19,10 @@
 * closeByLayer(true): 点击蒙层是否关闭弹窗
 
 *备注：若options为一个字符串，则其为content，其他字段使用默认值*
+
+**callback**
+
+回调函数，若点击了确定，则参数为true，反之为false
 
 ### modal.hide()
 

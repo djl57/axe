@@ -4,7 +4,7 @@
 
 ## Api
 
-### tips.show(options).then(() => {})
+### tips.show(options, b, c)
 
 **options**
 
@@ -12,17 +12,15 @@
 * content: 文本内容
 * contentHtml: html内容
 * duration = 1500: 显示的时间
-* immediate = true: 是否立即显示（会覆盖上次还未关闭的提示），若为false则加入队列中，等待上次提示关闭再显示
 
-*备注：若options不是一个对象，则第一个参数为content，第二个参数为duration*
+*备注：*
+
+* 若options是一个对象，则第二个参数为回调函数（callback）
+* 若options是一个字符串，则第一个参数为content，第二个、第三个参数分别为duration和callback（取决于他们的类型）
 
 ### tips.hide()
 
 关闭提示
-
-### tips.hideAll()
-
-关闭所有提示，包括队列中的
 
 ### export Tips(el)
 
@@ -50,7 +48,7 @@ import tips from '@axe/tips'
 tips.show({
   contentHtml: '<i class="icon icon-loading"></i><p class="icon-text">加载中</p>',
   duration: 3000
-}).then(() => {
+}, () => {
   console.info('loading end')
 })
 ```

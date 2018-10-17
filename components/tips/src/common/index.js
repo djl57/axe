@@ -9,8 +9,6 @@ export class Tips {
       body: document.createElement('div')
     }
 
-    this.queue = []
-
     this._initClassName()
     this._initRender()
 
@@ -62,41 +60,47 @@ export class Tips {
     // show
     els.tips.style.display = ''
 
-    setTimeout(() => {
-      resolve()
+    this.resolve = resolve
+    this.timer = setTimeout(() => {
+      if (typeof resolve === 'function') {
+        resolve()
+        this.resolve = null
+      }
+
       this.hide()
     }, options.duration || 1500)
   }
 
-  show (options, b) {
-    if (typeof options === 'string') {
-      options = {
-        content: options,
-        duration: (typeof b === 'number') && b
-      }
+  show (options, b, c) {
+    if (typeof this.resolve === 'function') {
+      clearTimeout(this.timer)
+
+      this.resolve()
+      this.resolve = null
     }
 
-    return new Promise(resolve => {
-      let item = { options, resolve }
+    let resolve
 
-      if (options.immediate !== false || this.els.tips.style.display === 'none') {
-        this._open(item)
-      } else {
-        this.queue.push(item)
+    if (typeof options === 'string') {
+      options = {
+        content: options
       }
-    })
+
+      if (typeof b === 'number') {
+        options.duration = b
+        resolve = c
+      } else {
+        options.duration = c
+        resolve = b
+      }
+    } else {
+      resolve = b
+    }
+
+    this._open({ options, resolve })
   }
 
   hide () {
-    if (this.queue.length === 0) {
-      this.els.tips.style.display = 'none'
-    } else {
-      this._open(this.queue.shift())
-    }
-  }
-
-  hideAll () {
-    this.queue = []
     this.els.tips.style.display = 'none'
   }
 }

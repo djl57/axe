@@ -54,19 +54,28 @@ export class Modal {
     els.layer.addEventListener('click', () => {
       if (!this.closeByLayer) return
 
-      this.resolve(false)
+      if (typeof this.resolve === 'function') {
+        this.resolve(false)
+      }
+
       this.hide()
     }, false)
 
     // 点击取消
     els.cancel.addEventListener('click', () => {
-      this.resolve(false)
+      if (typeof this.resolve === 'function') {
+        this.resolve(false)
+      }
+
       this.hide()
     }, false)
 
     // 点击确定
     els.confirm.addEventListener('click', () => {
-      this.resolve(true)
+      if (typeof this.resolve === 'function') {
+        this.resolve(true)
+      }
+
       this.hide()
     }, false)
   }
@@ -125,20 +134,18 @@ export class Modal {
     this.resolve = resolve
   }
 
-  show (options) {
+  show (options, resolve) {
     if (typeof options === 'string') {
       options = { content: options }
     }
 
-    return new Promise((resolve) => {
-      let item = { options, resolve }
+    let item = { options, resolve }
 
-      if (this.els.modal.style.display === 'none') {
-        this._open(item)
-      } else {
-        this.queue.push(item) // 暂存到队列中
-      }
-    })
+    if (this.els.modal.style.display === 'none') {
+      this._open(item)
+    } else {
+      this.queue.push(item) // 暂存到队列中
+    }
   }
 
   hide () {
