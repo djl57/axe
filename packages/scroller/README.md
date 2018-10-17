@@ -1,5 +1,7 @@
 # 模拟滚动
 
+[![version](https://img.shields.io/npm/v/@axe/scroller.svg)](https://www.npmjs.org/package/@axe/scroller)
+
 移动端模拟滚动代替原生滚动，用于解决原生滚动不好支持的业务场景。
 
 ## 开始安装
