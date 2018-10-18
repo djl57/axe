@@ -15,6 +15,7 @@
 * limitDistince: this.width / 2, 切换索引的最小滑动距离，默认是当前宽度的一半
 * limitSpeed: 0.2, 切换索引的最小滑动速度，距离和速度满足任意一个即可以切换
 * autoplay: 3000, 设置自动轮播时间，若为0则不进行自动轮播
+* autoloop: false, 是否循环轮播，即滑动到头尾就朝反方向滑动
 * indicator: true, 是否显示索引指示器
 * indicatorClass: 自定义指示器样式
   - list: 列表样式

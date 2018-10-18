@@ -23,6 +23,7 @@ export default class Slideshow {
       limitDistince: this.width / 2,
       limitSpeed: 0.2,
       autoplay: 3000,
+      autoloop: false,
       indicator: true,
       indicatorClass: {
         list: mcss.indicator,
@@ -60,6 +61,7 @@ export default class Slideshow {
     this.speedX = 0
 
     this.timer = null
+    this.autoPositive = true
 
     this._initHtml()
     this._initIndicator()
@@ -187,7 +189,7 @@ export default class Slideshow {
   _startAutoplay () {
     if (this.options.autoplay > 0) {
       this.timer = setTimeout(() => {
-        this.changeIndex(1)
+        this.changeIndex(this.autoPositive ? 1 : -1, true)
         this._startAutoplay()
       }, this.options.autoplay)
     }
@@ -200,14 +202,22 @@ export default class Slideshow {
     this.slideEl.style[transform] = `translateX(-${x}px)`
   }
 
-  changeIndex (n) {
+  changeIndex (n, isAuto) {
     let prevIndex = this.currIndex
 
     this.currIndex += n
 
     if (this.currIndex > this.lastIndex || this.currIndex < 0) {
-      if (!this.options.seamless) {
+      if (!isAuto && !this.options.seamless) {
         this.currIndex = prevIndex
+        return
+      }
+
+      if (isAuto && this.options.autoloop) {
+        this.autoPositive = !this.autoPositive
+        this.currIndex = prevIndex + (this.currIndex < 0 ? 1 : -1)
+        this.showIndex = this.options.seamless ? this.currIndex + 1 : this.currIndex
+        this.changeTranslate(this.width * this.showIndex, true)
         return
       }
 
