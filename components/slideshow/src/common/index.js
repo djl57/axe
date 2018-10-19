@@ -77,11 +77,11 @@ export default class Slideshow {
       let lastItem = list[list.length - 1]
 
       if (isElement(firstItem)) {
-        firstItem = firstItem.innerHTML
+        firstItem = firstItem.outerHTML
       }
 
       if (isElement(lastItem)) {
-        lastItem = lastItem.innerHTML
+        lastItem = lastItem.outerHTML
       }
 
       list = [].concat([lastItem], list, [firstItem])
