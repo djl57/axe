@@ -4,6 +4,8 @@
 
 浮点精度计算处理，用于处理数字计算过程中精度丢失的问题，如：0.1+0.2=0.3，但是在js计算会丢失精度，变成0.30000000000000004
 
+![](https://raw.githubusercontent.com/ansenhuang/axe/master/packages/precision/doc/preview.png)
+
 ## API
 
 ### times(n1, n2, ...)
@@ -40,7 +42,7 @@
 
 ### checkBoundary(n)
 
-检测数字是否超出安全边界
+检测数字是否超出安全边界，返回true则表示已超过安全数
 
 ## 环境配置
 

@@ -1,31 +1,33 @@
 // 数据纠正
 export function strip (num, precision = 12) {
-  return parseFloat(num.toPrecision(precision))
+  return parseFloat((+num).toPrecision(precision))
 }
 
 // 获取小数点的长度
 export function getDecimalLength (num) {
-  let es = num.toString().split('e')
+  let es = ('' + num).split('e')
   let len = (es[0].split('.')[1] || '').length - (+es[1] || 0)
   return len > 0 ? len : 0
 }
 
 // 将浮点数转为整数
 export function float2Int (num) {
-  let numStr = num.toString()
+  let numStr = '' + num
 
   if (numStr.indexOf('e') === -1) {
     return +(numStr.replace('.', ''))
   } else {
-    return num * Math.pow(10, getDecimalLength(num))
+    return +num * Math.pow(10, getDecimalLength(num))
   }
 }
 
 // 检测是否超过安全数值
 export function checkBoundary (num) {
-  if (num > Number.MAX_SAFE_INTEGER || num < Number.MIN_SAFE_INTEGER) {
+  if (+num > Number.MAX_SAFE_INTEGER || +num < Number.MIN_SAFE_INTEGER) {
     console.warn(`${num} is beyond boundary when transfer to integer, the results may not be accurate`)
+    return true
   }
+  return false
 }
 
 // 精确乘法
