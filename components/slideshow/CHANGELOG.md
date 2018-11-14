@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.1.6"></a>
+## [0.1.6](https://github.com/ansenhuang/axe/compare/@axe/slideshow@0.1.5...@axe/slideshow@0.1.6) (2018-11-14)
+
+
+### Performance Improvements
+
+* slideshow width ([edb433f](https://github.com/ansenhuang/axe/commit/edb433f))
+
+
+
+
 <a name="0.1.5"></a>
 ## [0.1.5](https://github.com/ansenhuang/axe/compare/@axe/slideshow@0.1.4...@axe/slideshow@0.1.5) (2018-10-19)
 
