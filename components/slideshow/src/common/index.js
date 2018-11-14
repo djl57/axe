@@ -15,7 +15,7 @@ export default class Slideshow {
       return
     }
 
-    this.width = this.el.offsetWidth
+    this.width = this.options.width || this.el.offsetWidth
 
     this.options = Object.assign({
       initIndex: 0,
